@@ -1,0 +1,17 @@
+createdAt: "2019-08-16T12:50:30.715Z"
+updatedAt: "2019-08-16T13:09:28.575Z"
+type: "MARKDOWN_NOTE"
+folder: "c8d2923523c9aebed262"
+title: "Tema 1 - Instalación y primeros pasos con CentOS"
+tags: []
+content: '''
+  # Tema 1 - Instalación y primeros pasos con CentOS
+  
+  Vamos a instalar [CentOS 7](https://www.centos.org) en una máquina virtual. El software de virtualización que vamos a usar es [VirtualBox](https://www.virtualbox.com).
+  
+  En nuestra asignatura, nos vamos a centrar en el uso del CentOS sin entorno gráfico. Esto es porque normalmente los servidores son máquinas que no disponen de pantallas, y que suelen disponer de pocos perfiéricos.
+  
+  Por tanto, vamos a instalar una versión mínima de CentOS 7 para arquitecturas de 64bit, que podemos descargar desde [este enlace](http://linuxmirror.es/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso).
+'''
+isStarred: false
+isTrashed: false
