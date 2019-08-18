@@ -1,5 +1,5 @@
 createdAt: "2019-08-16T12:50:30.715Z"
-updatedAt: "2019-08-16T13:09:28.575Z"
+updatedAt: "2019-08-18T12:21:15.367Z"
 type: "MARKDOWN_NOTE"
 folder: "c8d2923523c9aebed262"
 title: "Tema 1 - Instalación y primeros pasos con CentOS"
@@ -12,6 +12,21 @@ content: '''
   En nuestra asignatura, nos vamos a centrar en el uso del CentOS sin entorno gráfico. Esto es porque normalmente los servidores son máquinas que no disponen de pantallas, y que suelen disponer de pocos perfiéricos.
   
   Por tanto, vamos a instalar una versión mínima de CentOS 7 para arquitecturas de 64bit, que podemos descargar desde [este enlace](http://linuxmirror.es/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso).
+  
+  ---
+  
+  ## Enlaces de interés
+  
+  Desde la web oficial de CentOS se recomiendan algunos [libros](https://wiki.centos.org/Books).
+  
+  En YouTube, también podemos encontrar muchos contenidos acerca de CentOS y de sistemas Linux en general. Aquí dejamos algunos:
+  
+  - [Installing Centos7 in Oracle VM VirtualBox](https://www.youtube.com/watch?v=Pcl417NR2xc)
+  - [Basic commands RHEL 7](https://www.youtube.com/watch?v=uDtXXD72T9M)
+  - [Shell scripting tutorial](https://www.youtube.com/watch?v=GtovwKDemnI)
+  - [Linux Tutorial for Beginners: Learn Red Hat Linux and CentOS](https://www.youtube.com/watch?v=D8x75-hgdeM)
+  - [Curso de CentOS 7](https://www.youtube.com/watch?v=cm7Sy_FGF00&list=PLn5IkU1ZhgiZobhGTWuX-tC5clz_rgdoh)
+  
 '''
 isStarred: false
 isTrashed: false
