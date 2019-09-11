@@ -1,5 +1,5 @@
 createdAt: "2019-08-16T11:00:40.887Z"
-updatedAt: "2019-08-16T13:06:22.509Z"
+updatedAt: "2019-09-11T20:41:19.941Z"
 type: "MARKDOWN_NOTE"
 folder: "c8d2923523c9aebed262"
 title: "Tema 0 - Introducción y conceptos básicos"
@@ -49,6 +49,9 @@ content: '''
   
   ## Máquinas virtuales
   
+  A veces los servicios que se ejecutan en un servidor son sencillos, y no tienen mucha demanda de hardware, como capacidad de proceso (CPU), o demanda de memoria (RAM) o de almacenamiento (HD). La virtualización permite ejecutar simultáneamente varios sitemas operativos independientes sobre el mismo hardware. Es decir, que en un ordenador podemos ejecutar varias máquinas virtuales, cada una con su sistema operativo.
+  
 '''
 isStarred: false
 isTrashed: false
+linesHighlighted: []

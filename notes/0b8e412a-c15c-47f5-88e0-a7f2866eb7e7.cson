@@ -1,5 +1,5 @@
 createdAt: "2019-08-16T12:50:30.715Z"
-updatedAt: "2019-08-18T12:21:15.367Z"
+updatedAt: "2019-09-11T21:50:26.256Z"
 type: "MARKDOWN_NOTE"
 folder: "c8d2923523c9aebed262"
 title: "Tema 1 - Instalación y primeros pasos con CentOS"
@@ -9,10 +9,152 @@ content: '''
   
   Vamos a instalar [CentOS 7](https://www.centos.org) en una máquina virtual. El software de virtualización que vamos a usar es [VirtualBox](https://www.virtualbox.com).
   
-  En nuestra asignatura, nos vamos a centrar en el uso del CentOS sin entorno gráfico. Esto es porque normalmente los servidores son máquinas que no disponen de pantallas, y que suelen disponer de pocos perfiéricos.
+  Nos vamos a centrar en el uso del CentOS sin entorno gráfico. Esto es porque normalmente los servidores son máquinas que no disponen de pantallas, y que suelen disponer de pocos perfiéricos.
   
   Por tanto, vamos a instalar una versión mínima de CentOS 7 para arquitecturas de 64bit, que podemos descargar desde [este enlace](http://linuxmirror.es/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso).
   
+  Realizaremos el proceso de instalación en clase.
+  
+  ## Ficheros y directorios
+  
+  ### Nuestro primer comando
+  
+  Veamos cómo ver el contenido de un directorio:
+  
+  ```bash
+  $ ls
+  
+  # Y para ver ficheros ocultos:
+  $ ls -a
+  ```
+  Veamos otro ejemplo:
+  
+  ```bash
+  $ ls -l /home/fabi
+  
+  total 24
+  drwx------@   3 fabi  staff    96B  3 jul  2018 Applications/
+  lrwxr-xr-x    1 fabi  staff    14B 24 jul  2018 Bits@ -> /Volumes/Bits/
+  drwxr-xr-x    4 fabi  staff   128B 19 ago 15:31 Boostnote/
+  drwx------+  18 fabi  staff   576B  3 sep 19:01 Desktop/
+  drwx------+  39 fabi  staff   1,2K  9 ago 21:49 Documents/
+  drwx------+ 139 fabi  staff   4,3K 10 sep 21:16 Downloads/
+  drwxr-xr-x    6 fabi  staff   192B 11 jun 11:08 GISS/
+  drwx------@  66 fabi  staff   2,1K 25 oct  2018 Library/
+  drwx------+  12 fabi  staff   384B 17 ago 20:32 Movies/
+  drwx------+   5 fabi  staff   160B 17 ago  2018 Music/
+  drwx------+  41 fabi  staff   1,3K 18 ago 23:29 Pictures/
+  drwxr-xr-x+   4 fabi  staff   128B  2 jul  2018 Public/
+  drwx------    8 fabi  staff   256B 17 ago 20:38 VirtualBox VMs/
+  drwxr-xr-x@   6 fabi  staff   192B 14 oct  2018 devtools/
+  -rw-r--r--    1 fabi  staff     0B 11 sep 22:52 esto_es_muy_dificil__vamos_a_la_cafeteria.txt
+  -rw-r--r--    1 fabi  staff   534B  7 jul  2018 lelerele
+  -rw-r--r--    1 fabi  staff   103B  7 jul  2018 lolailo
+  -rw-r--r--    1 fabi  staff    14B 14 oct  2018 p.sh
+  drwxr-xr-x    4 fabi  staff   128B 12 nov  2018 project/
+  drwxr-xr-x    3 fabi  staff    96B 12 nov  2018 target/
+  lrwxr-xr-x    1 fabi  staff    24B  9 oct  2018 workspace@ -> /Volumes/Bits/workspace/
+  
+  $
+  ```
+  
+    - Comandos y argumentos
+    - Opciones
+    - Salida
+  
+  Veamos otro comando, un tento peculiar:
+  
+  ```bash
+  $ echo $PATH
+  
+  /home/fabi/Library/Python/3.7/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/apache-maven-3.3.9/bin:/home/fabi/dev/SDKs/android-sdk-macosx/platform-tools:/home/fabi/dev/SDKs/android-sdk-macosx/tools:/Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Wireshark.app/Contents/MacOS:/opt/X11/bin:/home/fabi/bin:/Applications/apache-maven-3.6.0/bin:/opt/scala-2.12.7/bin:/opt/sbt-1.2.6/bin
+  ```
+  
+  Mmm, probemos de nuevo:
+  
+  ```bash
+  $ echo $SHELL
+  
+  /bin/bash
+  ```
+  
+  Acabamos de ver el contenido de unas `variables de entorno`.
+  
+  Veamos un comando muy útil, que nos muestra el historial de comandos:
+  
+  ```bash
+  $ history
+  
+  1 ls
+  2 ls -a
+  3 ls -l /home/fabi
+  4 echo $PATH
+  5 echo $SHELL
+  
+  $
+  ```
+  
+  ¿Porqué hemos puesto antes /home/fabi?
+  
+  ```bash
+  $ pwd
+  
+  /home/fabi
+  ```
+  
+    - Rutas absolutas y Rutas relativas
+      - ~
+      - .
+      - ..
+  
+  `Ejercicio`: Jugar con *ls* para ver qué ha en mi directorio y en mis directorios ascendentes.
+  
+  Para cambiar de directorio usamos el siguiente comando:
+  
+  ```bash
+  $ cd /etc
+  
+  $
+  
+  # Vamos a comprobarlo:
+  $ pwd
+  
+  /etc
+  ```
+  
+  Vayamos con una frase típica: "En Linux, todo son ficheros". Y además los ficheros no tienen extensión, o al menos no tienen porqué tenerla.
+  
+  Es un sistema sensible a mayúsculas y minúsculas (*case-sensitive*).
+  
+  ¡Cuidado con los espacios y las tildes en los nombres de los ficheros y directorios!
+  
+    - Comillas dobles y simples
+    - Escape de caracteres
+  
+  Pero entonces, ¿todos los ficheros son iguales? La respuesta es que no. Hay diferentes tipos de ficheros:
+  
+  ```bash
+  $ file /etc
+  
+  $ file /etc/hosts
+  
+  $ file /etc/passwd
+  ```
+  
+  Como en Linux hay muchos comandos, existen unas páginas de ayuda, llamadas **manual**:
+  
+  ```bash
+  $ man ls
+  ```
+  
+  Practiquemos un poco...
+  
+  
+  
+  
+  
+  
+  ### 
   ---
   
   ## Enlaces de interés
@@ -30,3 +172,4 @@ content: '''
 '''
 isStarred: false
 isTrashed: false
+linesHighlighted: []
