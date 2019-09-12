@@ -1,5 +1,5 @@
 createdAt: "2019-08-16T12:50:30.715Z"
-updatedAt: "2019-09-12T20:25:35.446Z"
+updatedAt: "2019-09-12T21:17:44.864Z"
 type: "MARKDOWN_NOTE"
 folder: "c8d2923523c9aebed262"
 title: "Tema 1 - Instalación y primeros pasos con CentOS"
@@ -24,7 +24,7 @@ content: '''
     - *fabi*: es el nombre del usuario
     - *localhost*: es el nombre de la máquina (o el nombre de un dominio de red).
     - *~* : es el directorio de trabajo, es decir, el directorio en el que nos encontramos.
-    - *$*:  
+    - *$*: es el final del prompt. A partir de aquí escribiremos nuestros comandos. Para el usuario `root`, el símbolo es `#` en lugar de $.
   
   ## Ficheros y directorios
   
