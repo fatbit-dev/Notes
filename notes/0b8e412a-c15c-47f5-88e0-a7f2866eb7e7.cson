@@ -1,5 +1,5 @@
 createdAt: "2019-08-16T12:50:30.715Z"
-updatedAt: "2019-09-11T21:50:26.256Z"
+updatedAt: "2019-09-12T20:25:35.446Z"
 type: "MARKDOWN_NOTE"
 folder: "c8d2923523c9aebed262"
 title: "Tema 1 - Instalación y primeros pasos con CentOS"
@@ -14,6 +14,17 @@ content: '''
   Por tanto, vamos a instalar una versión mínima de CentOS 7 para arquitecturas de 64bit, que podemos descargar desde [este enlace](http://linuxmirror.es/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso).
   
   Realizaremos el proceso de instalación en clase.
+  
+  Cuando la instalación termine, accederemos al sistema mediante nuestras credenciales de acceso (usuario y contraseña). Si las credenciales son correctas, el sistema nos proporcionará una *`shell`*, y esta *shell* nos permite ejecutar comandos (acciones), y manejar el sistema operativo. 
+  
+  Lo primero que nos muestra la *shell* es un `prompt`* desde el cual podemos ejecutar nuestros comandos. Un prompt puede tener un aspecto como este:
+  
+  `fabi@localhost ~ $ `
+  
+    - *fabi*: es el nombre del usuario
+    - *localhost*: es el nombre de la máquina (o el nombre de un dominio de red).
+    - *~* : es el directorio de trabajo, es decir, el directorio en el que nos encontramos.
+    - *$*:  
   
   ## Ficheros y directorios
   
@@ -62,6 +73,14 @@ content: '''
     - Opciones
     - Salida
   
+  En general, las opciones pueden escribirse de dos formas: una forma larga, y una forma abreviada. Por ejemplo, estos dos comandos hacen lo mismo:
+  
+  ```bash
+  $ ls -a
+  
+  $ ls --all
+  ```
+  
   Veamos otro comando, un tento peculiar:
   
   ```bash
@@ -95,6 +114,7 @@ content: '''
   ```
   
   ¿Porqué hemos puesto antes /home/fabi?
+  ¿Y cómo podemos saber en qué dirfectorio estamos ahora mismo?
   
   ```bash
   $ pwd
@@ -102,6 +122,7 @@ content: '''
   /home/fabi
   ```
   
+    - El directorio raíz `/` (*root directory*)
     - Rutas absolutas y Rutas relativas
       - ~
       - .
@@ -141,13 +162,36 @@ content: '''
   $ file /etc/passwd
   ```
   
-  Como en Linux hay muchos comandos, existen unas páginas de ayuda, llamadas **manual**:
+  `Un par de trucos`:
+  
+    - TAB Completion --> Escribir en el terminal "ls /et" y pulsar la tecla TAB (tabulador).
+    - Historial de comandos --> En el terminal, pulsar las teclas UP y DOWN, e intentar recuperar un comando anterior del historial de comandos (incluso se puede modificar).
+    - CTRL + R --> Búsqueda de comandos anteriores en el historial.
+    - CTRL + L --> Borra la pantalla (equivale al comando `clear`).
+  
+  Practiquemos un poco...
+  
+  ### Ayuda: Páginas del manual
+  
+  Como en Linux hay muchos comandos, y es difícil recordar todas las opciones y argumentos de cada uno, existen unas páginas de ayuda, llamadas **manual** del sistema:
   
   ```bash
   $ man ls
+  
+  # Para salir de una página del manual, pulsamos la tecla 'q' (quit).
   ```
   
-  Practiquemos un poco...
+  Dentro de una página del manual se pueden hacer búsquedas:
+    - /
+    - n
+  
+  También se puede buscar una palabra en todas las páginas del manual:
+  
+  ```bash
+  $ man -k inode
+  
+  # Busca en todas las páginas del manual la palabra "inode".
+  ```
   
   
   
