@@ -1,5 +1,5 @@
 createdAt: "2019-08-16T12:50:30.715Z"
-updatedAt: "2019-09-12T21:17:44.864Z"
+updatedAt: "2019-09-13T18:57:59.822Z"
 type: "MARKDOWN_NOTE"
 folder: "c8d2923523c9aebed262"
 title: "Tema 1 - Instalación y primeros pasos con CentOS"
@@ -22,7 +22,7 @@ content: '''
   `fabi@localhost ~ $ `
   
     - *fabi*: es el nombre del usuario
-    - *localhost*: es el nombre de la máquina (o el nombre de un dominio de red).
+    - *localhost*: es el nombre de la máquina.
     - *~* : es el directorio de trabajo, es decir, el directorio en el que nos encontramos.
     - *$*: es el final del prompt. A partir de aquí escribiremos nuestros comandos. Para el usuario `root`, el símbolo es `#` en lugar de $.
   
@@ -79,7 +79,13 @@ content: '''
   $ ls -a
   
   $ ls --all
+  
+  $ ls -R
+  
+  $ ls -l
   ```
+  
+  Podemos agrupar varias opciones
   
   Veamos otro comando, un tento peculiar:
   
@@ -128,7 +134,9 @@ content: '''
       - .
       - ..
   
-  `Ejercicio`: Jugar con *ls* para ver qué ha en mi directorio y en mis directorios ascendentes.
+  Como se ha podido observar, las rutas en Linux se van componiendo usando la barra '/' (*slash*). En sistemas Windows, las rutas se expresan usando la barra invertida '\\' (*backslash*). Por eso en Windows las rutas son del tipo 'C:\\Usuarios\\Jacinto Flores'.
+  
+  `Ejercicio`: Jugar con *ls* para ver qué hay en mi directorio y en mis directorios ascendentes.
   
   Para cambiar de directorio usamos el siguiente comando:
   
