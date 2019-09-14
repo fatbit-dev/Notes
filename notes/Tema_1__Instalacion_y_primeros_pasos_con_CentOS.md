@@ -18,10 +18,16 @@ Lo primero que nos muestra la *shell* es un `prompt`* desde el cual podemos ejec
     - *localhost*: es el nombre de la máquina.
     - *~* : es el directorio de trabajo, es decir, el directorio en el que nos encontramos.
     - *$*: es el final del prompt. A partir de aquí escribiremos nuestros comandos. Para el usuario `root`, el símbolo es `#` en lugar de $.
-  
+
+Si queremos terminar nuestra sesión ejecutamos:
+
+```bash
+$ exit
+```
+
 ## Ficheros y directorios
-  
-### Nuestro primer comando
+
+### Nuestros primeros comandos
 
 Veamos cómo ver el contenido de un directorio:
 
@@ -126,7 +132,7 @@ $ pwd
 - .
 - ..
 
-Como se ha podido observar, las rutas en Linux se van componiendo usando la barra '/' (*slash*). En sistemas Windows, las rutas se expresan usando la barra invertida '\\' (*backslash*). Por eso en Windows las rutas son del tipo 'C:\\Usuarios\\Jacinto Flores'.
+Como se observa, las rutas en Linux se van componiendo usando la barra '/' (*slash*). En sistemas Windows, las rutas se expresan usando la barra invertida '\\' (*backslash*). Por eso en Windows las rutas son del tipo 'C:\\Usuarios\\Jacinto Flores'.
 
 `Ejercicio`: Jugar con *ls* para ver qué hay en mi directorio y en mis directorios ascendentes.
 
@@ -160,7 +166,7 @@ $ file /etc/hosts
 $ file /etc/passwd
 ```
   
-`Un par de trucos`:
+`Algunos trucos`:
   
     - TAB Completion --> Escribir en el terminal "ls /et" y pulsar la tecla TAB (tabulador).
     - Historial de comandos --> En el terminal, pulsar las teclas UP y DOWN, e intentar recuperar un comando anterior del historial de comandos (incluso se puede modificar).
@@ -190,20 +196,14 @@ $ man -k inode
 
 # Busca en todas las páginas del manual la palabra "inode".
 ```
-  
-  
-  
-  
-  
-  
-### 
+
 ---
 
 ## Enlaces de interés
 
 Desde la web oficial de CentOS se recomiendan algunos [libros](https://wiki.centos.org/Books).
 
-En YouTube, también podemos encontrar muchos contenidos acerca de CentOS y de sistemas Linux en general. Aquí dejamos algunos:
+En [YouTube](https://youtube.com), también podemos encontrar muchos contenidos acerca de CentOS y de sistemas Linux en general. Aquí dejamos algunos:
 
 - [Installing Centos7 in Oracle VM VirtualBox](https://www.youtube.com/watch?v=Pcl417NR2xc)
 - [Basic commands RHEL 7](https://www.youtube.com/watch?v=uDtXXD72T9M)
