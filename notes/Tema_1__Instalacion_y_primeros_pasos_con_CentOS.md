@@ -65,6 +65,26 @@ drwxr-xr-x    4 fabi  staff   128B 12 nov  2018 project/
 drwxr-xr-x    3 fabi  staff    96B 12 nov  2018 target/
 lrwxr-xr-x    1 fabi  staff    24B  9 oct  2018 workspace@ -> /Volumes/Bits/workspace/
 
+___________ ___ ____  _____   ____ ____________ ______________
+     |       |    |     |       |       |              |
+	 |       |    |     |       |       |              -> Nombre
+	 |       |    |     |       |       |     
+	 |       |    |     |       |       -> Fecha de modificación
+	 |       |    |     |       |   
+	 |       |    |     |       -> Tamaño en bytes (aunque arriba se ha usado la opción -h)
+	 |       |    |     |
+	 |       |    |     -> Grupo con permisos sobre el fichero
+	 |       |    |
+	 |       |    -> Usuario propietario del fichero
+	 |       |
+	 |       -> Número de enlaces
+	 |
+	 -> Permisos del fichero:
+	   - Tipo de fichero (regular, directorio, enlace, etc).
+	   - Permisos del propietario ( r w x )
+	   - Permisos del grupo ( r - x )
+	   - Permisos para el resto de usuarios ( r - - )
+	 
 $
 ```
 
@@ -146,11 +166,11 @@ $ pwd
 
 /etc
 ```
-  
+
 Vayamos con una frase típica: "En Linux, todo son ficheros". Y además los ficheros no tienen extensión, o al menos no tienen porqué tenerla.
-  
+
 Es un sistema sensible a mayúsculas y minúsculas (*case-sensitive*).
-  
+
 ¡Cuidado con los espacios y las tildes en los nombres de los ficheros y directorios!
   
     - Comillas dobles y simples
@@ -202,6 +222,8 @@ $ man -k inode
 ## Enlaces de interés
 
 Desde la web oficial de CentOS se recomiendan algunos [libros](https://wiki.centos.org/Books).
+
+También hay muchos tutoriales, como por ejemplo [linuxcommand.org](http://linuxcommand.org)
 
 En [YouTube](https://youtube.com), también podemos encontrar muchos contenidos acerca de CentOS y de sistemas Linux en general. Aquí dejamos algunos:
 

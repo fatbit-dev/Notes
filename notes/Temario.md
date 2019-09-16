@@ -4,7 +4,7 @@
 
 1. Introducción y conceptos básicos.
 2. Instalación y primeros pasos.
-3. Comandos para manejo de ficheros. (cp, mv, mkdir, truncate, cat, rm, echo, sed, tr, grep, find, less, tail)
+3. Comandos para manejo de ficheros. (cp, mv, mkdir, truncate, cat, rm, echo, sed, tr, grep, find, less, tail, awk, wc)
 4. Permisos, usuarios y grupos. (también sudo y superusuario)
 5. Gestión de procesos (I). (ps, kill, top)
 6. Editores de texto: vim y nano.
@@ -12,7 +12,7 @@
 8. Comandos útiles y comunicación de procesos. (lsusb, lspci, dmesg, dmesg y mensaje, persoanliza prompt, pipes, e/s estandar, redirecciones)
 9. Unidades de disco. (montaje, creación, partición, formateo)
 10. Bash scripting.
-11. Networking básico. (configuración red, subred, gw, ping, nslookup, dig, wget, curl, ...)
+11. Networking básico. (configuración red, subred, gw, ping, netstat, ntop, nslookup, dig, wget, curl, ...)
 12. Servidor SSH. (usuarios y certificados)
 13. Servidor SFTP.
 
