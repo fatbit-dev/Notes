@@ -78,6 +78,15 @@ tail -f /var/log/messages
 man tail
 ```
 
+### `head` : Mostrar las primeras líneas de un fichero (cabecera)
+
+```bash
+head /etc/rsyslog.conf
+head -n 5 /etc/rsyslog.conf
+
+man head
+```
+
 ### `echo` : Imprimir en la consola y en ficheros
 
 
@@ -101,7 +110,49 @@ mkdir softlinks
 cd softlinks
 ln -s ../document.txt
 ln -s /home/fabi/document.txt ./my_document.txt
+
+man ln
 ```
+
+### *Wildcards* : trabajando con múltiples ficheros a la vez
+
+Son unos caracteres especiales que sirven para especificar grupos de ficheros a partir de sus nombres.
+
+Los **wildcards** nos permiten seleccionar nombres de fichero basado en patrones de caracteres.
+
+| Wildcard       | Significado                                        |
+| :------------- | :------------------------------------------------: |
+|  *             |  Selecciona cualquier conjunto de caracteres.      |
+|  ?             |  Selecciona un carácter cualquiera.                |
+|  [caracteres]  |  Selecciona cualquier carácter que esté incluido en un conjunto de caracteres específicos. Pueden<br>expresarse como una *clase de caracteres POSIX* |
+|  [!caracteres] |  Selecciona cualquier carácter que **NO** esté incluido en un conjunto de caracteres específicos. También pueden expresarse como una *clase de caracteres POSIX* |
+
+Estas **Clases de caracteres POSIX** son las siguientes:
+
+| Clase          | Significado                                         |
+| :------------- | :-------------------------------------------------: |
+|  [:alnum:]     |  Selecciona caracteres alfanuméricos.               |
+|  [:alpha:]     |  Selecciona caracteres alfabéticos.                 |
+|  [:digit:]     |  Selecciona caracteres numéricos.                   |
+|  [:upper:]     |  Selecciona caracteres alfabéticos en *MAYÚSCULAS*. |
+|  [:lower:]     |  Selecciona caracteres alfabéticos en *minúsculas*. |
+
+### `cp` : Copiar ficheros (y directorios)
+
+
+
+### `mv` : Mover/Renombrar ficheros y directorios
+
+
+
+### `rm` : Eliminar ficheros (y directorios)
+
+
+### `tar`: Comprimir ficheros (.tar, .tgz, .tar.gz)
+
+
+### `zip` y ùnzip`: Comprimir ficheros (.zip)
+
 
 ## Redirecciones: Entrada estándar, Salida estándar, Salida de error
 
