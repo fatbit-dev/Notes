@@ -22,7 +22,7 @@ Lo primero que nos muestra la *shell* es un `prompt`* desde el cual podemos ejec
 Si queremos terminar nuestra sesión ejecutamos:
 
 ```bash
-$ exit
+exit
 ```
 
 ## Ficheros y directorios
@@ -32,15 +32,15 @@ $ exit
 Veamos cómo ver el contenido de un directorio:
 
 ```bash
-$ ls
+ls
 
 # Y para ver ficheros ocultos:
-$ ls -a
+ls -a
 ```
 Veamos otro ejemplo:
 
 ```bash
-$ ls -l /home/fabi
+ls -l /home/fabi
 
 total 24
 drwx------@   3 fabi  staff    96B  3 jul  2018 Applications/
@@ -84,8 +84,7 @@ ___________ ___ ____  _____   ____ ____________ ______________
 	   - Permisos del propietario ( r w x )
 	   - Permisos del grupo ( r - x )
 	   - Permisos para el resto de usuarios ( r - - )
-	 
-$
+
 ```
 
 - Comandos y argumentos
@@ -95,27 +94,27 @@ $
 En general, las opciones pueden escribirse de dos formas: una forma larga, y una forma abreviada. Por ejemplo, estos dos comandos hacen lo mismo:
 
 ```bash
-$ ls -a
-  
-$ ls --all
+ls -a
 
-$ ls -R
+ls --all
 
-$ ls -l
+ls -R
+
+ls -l
 ```
 
 Usando la notación abreviada, podemos agrupar varias opciones de forma cómoda:
 
 ```bash
-$ ls -laR
+ls -laR
 
-$ ls -lah
+ls -lah
 ```
 
 Veamos otro comando, un tento peculiar:
 
 ```bash
-$ echo $PATH
+echo $PATH
 
 /home/fabi/Library/Python/3.7/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/apache-maven-3.3.9/bin:/home/fabi/dev/SDKs/android-sdk-macosx/platform-tools:/home/fabi/dev/SDKs/android-sdk-macosx/tools:/Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Wireshark.app/Contents/MacOS:/opt/X11/bin:/home/fabi/bin:/Applications/apache-maven-3.6.0/bin:/opt/scala-2.12.7/bin:/opt/sbt-1.2.6/bin
 ```
@@ -123,7 +122,7 @@ $ echo $PATH
 Mmm, probemos de nuevo:
 
 ```bash
-$ echo $SHELL
+echo $SHELL
 
 /bin/bash
 ```
@@ -133,7 +132,7 @@ Acabamos de ver el contenido de unas `variables de entorno`.
 Veamos un comando muy útil, que nos muestra el historial de comandos:
 
 ```bash
-$ history
+history
 ```
 
 ¿Porqué hemos ejecutado antes el comando 'ls -l /home/fabi'?
@@ -141,7 +140,7 @@ $ history
 ¿Y cómo podemos saber en qué dirfectorio estamos ahora mismo?
 
 ```bash
-$ pwd
+pwd
 
 /home/fabi
 ```
@@ -159,10 +158,10 @@ Como se observa, las rutas en Linux se van componiendo usando la barra '/' (*sla
 Para cambiar de directorio usamos el siguiente comando:
 
 ```bash
-$ cd /etc
+cd /etc
 
 # Vamos a comprobarlo:
-$ pwd
+pwd
 
 /etc
 ```
@@ -179,11 +178,16 @@ Es un sistema sensible a mayúsculas y minúsculas (*case-sensitive*).
 Pero entonces, ¿todos los ficheros son iguales? La respuesta es que no. Hay diferentes tipos de ficheros:
   
 ```bash
-$ file /etc
+file /etc
+file /etc/hosts
+file /bin/cp
 
-$ file /etc/hosts
+type /etc
+type ls
+type cp
+type type
 
-$ file /etc/passwd
+which cp
 ```
   
 `Algunos trucos`:
@@ -200,21 +204,46 @@ Practiquemos un poco...
 Como en Linux hay muchos comandos, y es difícil recordar todas las opciones y argumentos de cada uno, existen unas páginas de ayuda, llamadas **manual** del sistema:
 
 ```bash
-$ man ls
+man ls
 
 # Para salir de una página del manual, pulsamos la tecla 'q' (quit).
 ```
-  
+
 Dentro de una página del manual se pueden hacer búsquedas:
     - /
     - n
-  
+
 También se puede buscar una palabra en todas las páginas del manual:
 
 ```bash
-$ man -k inode
+man -k inode
 
 # Busca en todas las páginas del manual la palabra "inode".
+```
+
+Podemos buscar más información sobre todos los comandos que hemos usado hasta ahora:
+
+```bash
+man exit
+
+man ls
+
+man echo
+
+man history
+
+man pwd
+
+man cd
+
+man file
+
+man type
+
+man which
+
+# :-)
+man man 
 ```
 
 ---
