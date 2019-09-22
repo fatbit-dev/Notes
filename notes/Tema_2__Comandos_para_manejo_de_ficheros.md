@@ -284,9 +284,82 @@ man rm
 
 ### `tar`: Comprimir ficheros (.tar, .tgz, .tar.gz)
 
+```bash
+cd
+echo "Mi primer fichero" > compressed_file_1.txt
+echo "Mi segundo fichero" > compressed_file_2.txt
+echo "Mi tercer fichero" > compressed_file_3.txt
+
+# Archiva varios ficheros/directorios en un fichero .tar
+tar cvf mis_ficheros.tar compressed_file*.txt
+
+ls -l
+
+# Comprime varios ficheros/directorios en un fichero .tgz o .tar.gz
+# Usa compresión GZIP
+tar cvzf mis_ficheros_comprimidos.tgz compressed_file*.txt
+
+ls -l
+
+# Comprime un directorio en un fichero .tgz o .tar.gz
+mkdir compress
+mv compressed_file*.txt compress
+
+tar cvzf mi_directorio_comprimido.tgz compress
+
+ls -l
+
+# Comprime varios ficheros en un fichero .bz2
+# Usa compresión BZIP2
+tar cvjf mi_directorio_mas_comprimido.bz2 compress
+
+ls -l
+
+# Extraer el contenido de un fichero .tar
+tar xvf mis_ficheros.tar
+
+# Extraer el contenido de un fichero .tgz o .tar.gz (GZIP)
+tar xvzf mis_ficheros_comprimidos.tgz
+
+# Extraer el contenido de un fichero .bz2 (BZIP2)
+tar xvjf mi_directorio_mas_comprimido.bz2
+
+# Listar el contenido de un fichero
+
+tar tvf mis_ficheros.tar
+
+# Opciones comunes de tar (flags):
+#
+#  -c : Crea un nuevo fichero
+#  -v : Modo "verboso"
+#  -f : Especifica el fichero de salida
+#  -z : Comprime usando la herramienta gzip
+#  -j : Comprime usando la herramienta bzip2
+#  -x : Extrae el contenido de un fichero comprimido
+#  -t : Lista el contenido de un fichero comprimido
+
+man tar
+info tar
+```
 
 ### `zip` y ùnzip`: Comprimir ficheros (.zip)
 
+
+### `date` y `cal` : La hora y el calendario
+
+### `truncate` : Otra forma de vaciar un fichero
+
+### `sed` : Edición de textos desde el terminal
+
+### `tr` : 
+
+### `grep` : Búsqueda de textos en ficheros y a la salida de comandos
+
+### `find` : Buscando ficheros dentro de un directorio (y subdirectorios)
+
+### `awk` : Un lenguaje de programación dentro de un comando
+
+### `wc` : Calculadora en el terminal
 
 ## Redirecciones: Entrada estándar, Salida estándar, Salida de error
 
