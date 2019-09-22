@@ -89,6 +89,18 @@ man head
 
 ### `echo` : Imprimir en la consola y en ficheros
 
+```bash
+cd
+
+# Imprimir un texto en la salida estándar (típicamente la consola):
+echo "aprendemos Linux!"
+echo "saltos de línea \n\n\n"
+echo -e "saltos de línea \n\n\n Bien!"
+
+# Imprimir un texto en un fichero (sobreescribe el fichero, 
+# y lo crea si no existía):
+echo "nuevo contenido" > mi_
+```
 
 ### `ln` : Enlaces
 

@@ -172,8 +172,8 @@ Es un sistema sensible a mayúsculas y minúsculas (*case-sensitive*).
 
 ¡Cuidado con los espacios y las tildes en los nombres de los ficheros y directorios!
   
-    - Comillas dobles y simples
-    - Escape de caracteres
+  - Comillas dobles y simples
+  - Escape de caracteres
   
 Pero entonces, ¿todos los ficheros son iguales? La respuesta es que no. Hay diferentes tipos de ficheros:
   
@@ -192,10 +192,10 @@ which cp
   
 `Algunos trucos`:
   
-    - TAB Completion --> Escribir en el terminal "ls /et" y pulsar la tecla TAB (tabulador).
-    - Historial de comandos --> En el terminal, pulsar las teclas UP y DOWN, e intentar recuperar un comando anterior del historial de comandos (incluso se puede modificar).
-    - CTRL + R --> Búsqueda de comandos anteriores en el historial.
-    - CTRL + L --> Borra la pantalla (equivale al comando `clear`).
+  - TAB Completion --> Escribir en el terminal "ls /et" y pulsar la tecla TAB (tabulador).
+  - Historial de comandos --> En el terminal, pulsar las teclas UP y DOWN, e intentar recuperar un comando anterior del historial de comandos (incluso se puede modificar).
+  - CTRL + R --> Búsqueda de comandos anteriores en el historial.
+  - CTRL + L --> Borra la pantalla (equivale al comando `clear`).
   
 Practiquemos un poco...
 
