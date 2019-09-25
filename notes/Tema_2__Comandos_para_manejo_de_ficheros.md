@@ -99,7 +99,7 @@ echo -e "saltos de línea \n\n\n Bien!"
 
 # Imprimir un texto en un fichero (sobreescribe el fichero, 
 # y lo crea si no existía):
-echo "nuevo contenido" > mi_
+echo "nuevo contenido" > mi_fichero.txt
 ```
 
 ### `ln` : Enlaces
@@ -341,7 +341,11 @@ man tar
 info tar
 ```
 
-### `zip` y ùnzip`: Comprimir ficheros (.zip)
+### `zip` y `unzip`: Comprimir ficheros (.zip)
+
+```bash
+
+```
 
 
 
