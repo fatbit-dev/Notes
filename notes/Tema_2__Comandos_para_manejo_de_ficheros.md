@@ -101,7 +101,7 @@ echo -e "saltos de línea \n\n\n Bien!"
 # y lo crea si no existía):
 echo "nuevo contenido" > mi_
 ```
-### Y
+
 ### `ln` : Enlaces
 
 Son parecidos a los accesos directos de Windows.
