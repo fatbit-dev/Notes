@@ -101,7 +101,7 @@ echo -e "saltos de línea \n\n\n Bien!"
 # y lo crea si no existía):
 echo "nuevo contenido" > mi_
 ```
-
+### Y
 ### `ln` : Enlaces
 
 Son parecidos a los accesos directos de Windows.
@@ -325,7 +325,6 @@ tar xvzf mis_ficheros_comprimidos.tgz
 tar xvjf mi_directorio_mas_comprimido.bz2
 
 # Listar el contenido de un fichero
-
 tar tvf mis_ficheros.tar
 
 # Opciones comunes de tar (flags):
@@ -345,7 +344,10 @@ info tar
 ### `zip` y ùnzip`: Comprimir ficheros (.zip)
 
 
+
 ### `date` y `cal` : La hora y el calendario
+
+
 
 ### `truncate` : Otra forma de vaciar un fichero
 
