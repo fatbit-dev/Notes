@@ -341,29 +341,210 @@ man tar
 info tar
 ```
 
-### `zip` y `unzip`: Comprimir ficheros (.zip)
+### `zip`, `gzip`, `bzip2` y `tar`: Comprimir ficheros y directorios
 
 ```bash
+# Preparamos unos ficheros de prueba
+cd
+mkdir -p "$HOME/docus"
+cd "$HOME/docus"
+echo "Este es el documento 1" > doc1.txt
+echo "Este es el documento 2" > doc2.txt
+echo "Este es el documento 3" > doc3.txt
+echo "Este es el documento 4" > doc4.txt
+echo "Este es el documento 5" > doc5.txt
 
+
+# zip
+zip docus.zip doc[[:digit:]].txt
+ls -l
+
+# gzip
+gzip doc[[:digit:]].txt
+ls -l
+
+# bzip2
+bzip2 doc[[:digit:]].txt
+ls -l
+
+# El comando tar se ha visto antes, pero se deja aquí una referencia rápida.
+# tar: usando gzip
+tar zcvf docus.tgz doc[[:digit:]].txt 
+tar zcvf docus.tar.gz doc[[:digit:]].txt 
+ls -l
+
+# tar: usando bzip2
+tar jcvf docus.bz2 doc[[::digit]].txt
+ls -l
+
+# Para listar el contenido de un fichero comprimido, se usan estos comandos.
+unzip -l docus.zip
+gzip -l doc1.gz
+tar ztvf docus.tgz
+tar ztvf docus.tar.gz
+tar jtvf docus.bz2
+
+
+man zip
+man gzip
+man bzip2
+man tar
 ```
 
+### `uzip`, `gunzip`, `bunzip2` y `tar`: Comprimir ficheros y directorios
 
+```bash
+# Usamos los ficheros de prueba empleados al comprimir.
+cd "$HOME/docus"
+
+
+# unzip
+unzip docus.zip 
+ls -l
+
+# gzip
+gzip -d docus.gz
+gunzip docus.gz
+ls -l
+
+# bzip2
+bzip2 -d docus.bz2
+bunzip2 docus.bz2
+ls -l
+
+# El comando tar se ha visto antes, pero se deja aquí una referencia rápida.
+# tar: usando gunzip
+tar zxvf docus.tgz 
+tar zxvf docus.tar.gz 
+ls -l
+
+# tar: usando bzip2
+tar jxvf docus.bz2
+ls -l
+
+man unzip
+man gunzip
+man bunzip2
+man tar
+```
 
 ### `date` y `cal` : La hora y el calendario
 
+```bash
+# Mostrar la fecha y hora
+date
+date -u
+date +"%Y"
+date +"%m"
 
+date +"%d-%m-%Y"
+date +"%d-%m-%Y %H:%M:%S"
+
+# Establecer la fecha y la hora (necesita permisos de root)
+date --set 2019-10-02
+date --set 19:00:07
+date --set 2019-10-02 19:00:07
+
+# Mostrar el calendario
+cal
+cal -3m
+
+# Gestión de la fecha y hora a la CentOS 7 (RedHat)
+timedatectl
+
+## timedatectl: establecer la fecha y la hora
+timedatectl set-time 22:53:48
+timedatectl set-time "2019-10-02 19:00:07"
+timedatectl set-time "2019-10-02"
+
+## timedatectl: listar las zonas horarias
+timedatectl list-timezones
+timedatectl list-timezones | grep -i madrid
+timedatectl list-timezones | grep -i europe
+
+## timedatectl: establecer la zona horaria
+timedatectl set-timezone Europe/Madrid
+
+# Des/Activar la sincronización de la fecha y hora por NTP
+timedatectl set-ntp no
+timedatectl set-ntp yes
+
+man date
+man cal
+man timedatectl
+```
 
 ### `truncate` : Otra forma de vaciar un fichero
 
-### `sed` : Edición de textos desde el terminal
+```bash
+truncate -s 0 mi_fichero.txt
 
-### `tr` : 
+# Y hay más formas...
 
+> mi_fichero.txt
+
+echo > mi_fichero.txt
+
+true > mi_fichero.txt
+
+cp /dev/null mi_fichero.txt
+
+```
 ### `grep` : Búsqueda de textos en ficheros y a la salida de comandos
+
+```bash
+# Buscar una expresión en un fichero
+grep "fabi" /etc/group
+grep "fabi" /etc/passwd
+
+# Buscar una expresión en múltiples ficheros, de forma recursiva (-r)
+cd /etc
+grep -r "fabi" *
+
+# Buscar una expresión en un fichero mostrando los números de línea (-n)
+grep -rn "fabi" *
+cat /etc/group | grep -n "fabi"
+
+# Buscar una expresión a la salida de otro comando
+date --help
+date --help | less
+
+date --help | grep "%"
+
+# Buscar sin considerar las MASYÚSCULAS/minúsculas (-i)
+ps aux
+ps aux | grep -i "Cron"
+
+cat /etc/group | grep -ni "FABI"
+
+# Excluir una expresión en una búsqueda (-v)
+ps aux | grep -i "cron" | grep -v "grep"
+ps aux | grep -i "cron" | grep -vi "grep"
+
+# Excluir varias palabras de una búsqueda
+cat /etc/passwd
+
+grep -v -e "fabi" -e "nologin" /etc/passwd
+grep -vE "fabi|nologin" /etc/passwd
+
+history | grep "ls" | grep -v -e "-l" -e "-a" -e "~"
+history | grep "ls" | grep -vE "-l|-a|~"
+# Hay que 'escapar' el primer signo -
+history | grep "ls" | grep -vE "\-l|-a|~"
+
+```
 
 ### `find` : Buscando ficheros dentro de un directorio (y subdirectorios)
 
 ### `awk` : Un lenguaje de programación dentro de un comando
+
+
+### `sed` : Edición de textos desde el terminal
+
+
+
+### `tr` : 
+
 
 ### `wc` : Calculadora en el terminal
 
