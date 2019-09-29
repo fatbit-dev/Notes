@@ -354,17 +354,26 @@ echo "Este es el documento 3" > doc3.txt
 echo "Este es el documento 4" > doc4.txt
 echo "Este es el documento 5" > doc5.txt
 
+cat doc1.txt doc2.txt doc3.txt doc4.txt doc5.txt > big_doc.txt
+cp big_doc.txt  big_doc_to_gzip.txt
+cp big_doc.txt  big_doc_to_bzip2.txt
+
+pwd
+ls -l
 
 # zip
 zip docus.zip doc[[:digit:]].txt
 ls -l
 
 # gzip
-gzip doc[[:digit:]].txt
+# gzip doc[[:digit:]].txt
+gzip big_doc_to_gzip.txt
 ls -l
 
 # bzip2
-bzip2 doc[[:digit:]].txt
+# bzip2 doc[[:digit:]].txt
+bzip2 -k doc[[:digit:]].txt
+bzip2 big_doc_to_bzip2.txt
 ls -l
 
 # El comando tar se ha visto antes, pero se deja aquí una referencia rápida.
@@ -374,7 +383,7 @@ tar zcvf docus.tar.gz doc[[:digit:]].txt
 ls -l
 
 # tar: usando bzip2
-tar jcvf docus.bz2 doc[[::digit]].txt
+tar jcvf docus.tar.bz2 doc[[:digit:]].txt
 ls -l
 
 # Para listar el contenido de un fichero comprimido, se usan estos comandos.
@@ -382,7 +391,7 @@ unzip -l docus.zip
 gzip -l doc1.gz
 tar ztvf docus.tgz
 tar ztvf docus.tar.gz
-tar jtvf docus.bz2
+tar jtvf docus.tar.bz2
 
 
 man zip
@@ -397,19 +406,18 @@ man tar
 # Usamos los ficheros de prueba empleados al comprimir.
 cd "$HOME/docus"
 
-
 # unzip
 unzip docus.zip 
 ls -l
 
 # gzip
-gzip -d docus.gz
-gunzip docus.gz
+gzip -d big_doc_to_gzip.gz
+gunzip big_doc_to_gzip.gz
 ls -l
 
 # bzip2
-bzip2 -d docus.bz2
-bunzip2 docus.bz2
+bzip2 -d big_doc_to_bzip2.bz2
+bunzip2 big_doc_to_bzip2.bz2
 ls -l
 
 # El comando tar se ha visto antes, pero se deja aquí una referencia rápida.
@@ -490,6 +498,7 @@ true > mi_fichero.txt
 cp /dev/null mi_fichero.txt
 
 ```
+
 ### `grep` : Búsqueda de textos en ficheros y a la salida de comandos
 
 ```bash
@@ -536,17 +545,216 @@ history | grep "ls" | grep -vE "\-l|-a|~"
 
 ### `find` : Buscando ficheros dentro de un directorio (y subdirectorios)
 
-### `awk` : Un lenguaje de programación dentro de un comando
+```bash
+cd
 
+# Buscar un nombre de fichero (-name)
+find . -name "doc1.txt"
+find . -name "doc*.txt"
+find . -name "doc*.txt"
+
+# Buscar un nombre de fichero sin diferenciar entre MAYÚSCULAS/minúsculas (-iname)
+find . -iname "DOC*.txt"
+
+# Buscar todos los nombres de fichero excepto los que se indiquen (-not)
+find . -not -name "doc*.txt"
+
+# Buscar y borrar (¡CUIDADO!)
+find . -name "big_doc_to_bzip2.bz2" -delete
+
+# Buscar por tipo de fichero (-type [f d l c b])
+find / -type d
+find ~ -type d
+find ~ -type f -name "doc*"
+find ~ -type d -name "doc*"
+
+# Buscar por fecha (-atime, -mtime, -ctime)
+#
+# En Linux cada fichero posee metadatos relativos a 3 fechas:
+#
+#  - Tiempo de acceso (-atime) – Fecha de la última lectura o escritura del
+#    fichero.
+#  - Tiempo de modificación (-mtime) – Fecha de la última modificación del 
+#    fichero.
+#  - Hora de cambio (-ctime) – Fecha de la última actualización de los 
+#    metadatos del archivo (como cuando se hace touch).
+#
+# Esta opción se usa con un número, que especifica el número de días desde 
+# que se accedió, modificó o cambió el fichero. 
+
+find ~ -atime 1
+find ~ -mtime +2
+find ~ -ctime -1
+
+## Para buscar ficheros modificados hace menos de un minuto: ( -[amc]min )
+find ~ -mmin -1
+
+# Buscar por tamaño (exacto) (-size)
+find / -size 10M
+
+## Otras búsquedas por tamaño
+find ~ -size +5G
+find ~ -size -1k
+
+# Buscar por propietario o grupo (-user y -group)
+find /tmp -user fabi
+find /tmp -group fabi
+
+# Búsqueda por permisos (exacta).  
+find ~ -perm 644
+
+# Búsqueda por permisos (como mínimo 644).  
+find ~ -perm -644
+
+# Algunas otras opciones útiles
+## Buscar ficheros y directorios vacíos
+find ~ -empty
+
+## Buscar ejecutables
+find / -exec
+
+## Buscar legibles
+find / -read
+
+```
+
+### `awk` : Una herramienta avanzada para el tratamiento de textos
+
+`awk` es en realidad un lenguaje de programación interpretado. *awk* lee una
+línea de la entrada y la va procesando (procesa línea a línea). Todas las 
+instruciones que hacemos con *awk* se van aplicando secuencialmente a la
+entrada (a la línea leída).
+
+Es una herramienta muy potente, pero con cierta complejidad. Aquí sólo se 
+muestran unos pocos usos comunes.
+
+```bash
+# Mostrar el contenido de un fichero
+cd
+echo "1) John       Maths         6.54" > notes.txt
+echo "2) Paul       Physics       8.23" >> notes.txt
+echo "3) Michael    Biology       7.98" >> notes.txt
+echo "4) Steve      Physics       5.10" >> notes.txt
+echo "5) Jack       History       4.68" >> notes.txt
+echo "6) Richard    Programming   9.05" >> notes.txt
+echo "7) John       Programming   8.42 - this note should be reviewed" >> notes.txt
+
+ls -l
+cat notes.txt
+
+awk '{print}' notes.txt
+
+# Imprimir columnas (o campos)
+awk '{print $1}' notes.txt
+awk '{print $2"\t"$3}' notes.txt
+awk '{print $2"\t\t"$3}' notes.txt
+
+# Imprimir las filas que cumplan un patrón
+awk '/Phy/ {print}' notes.txt
+
+# Imprimir las columnas que cumplan un patrón
+awk '/Phy/ {print $1}' notes.txt
+awk '/Phy/ {print $2"\t\t"$3}' notes.txt
+
+# Contar e imprimir el número de filas que cumplen un patrón
+awk '/Phy/{++counter} END {print "Cuenta = ", counter}' notes.txt
+
+# Imprimir las filas que superan los 30 caracteres
+awk 'length($0) > 35' notes.txt
+
+# Especificar otro carácter como separador de campos
+echo "10;20;30;40;50;60;70" > scale.csv
+cat scale.csv | awk -F ";" '{print $1}'
+cat scale.csv | awk -F ";" '{print $1"\t"$2"\t"$7}'
+
+# Es muy útil para tratar la salida de otros comandos
+ls -la | awk '{print $5}'
+
+man awk
+info awk
+```
 
 ### `sed` : Edición de textos desde el terminal
 
+`sed` es un editor de flujos (**s**tream **ed**itor). Al igual que *awk*
+trata cada línea de su entrada. Por eso se suele usar para editar ficheros
+o leer la salida de algún comando, sustituyendo un texto (o patrón) por
+otro.
 
+```bash
+# Substitución de un patrón por otro patrón
+echo "Es un poema de Antonio" | sed 's/Antonio/Federico/'
+echo "Es un poema de Antonio" | sed 's/nton/urel/'
+
+# ¡Atención! Por defecto, sed sólo modifica la primera ocurrencia del 
+# patrón:
+echo "one two three, one two three" > example.txt
+echo "four three two one" >> example.txt
+echo "one hundred" >> example.txt
+cat example.txt
+
+cat example.txt | sed 's/one/ONE/'
+
+# Para reemplazar TODAS las ocurrencias, se usa la opción de reemplazo global:
+cat example.txt | sed 's/one/ONE/g'
+
+# Se puede especificar otro delimitador diferente a '/'
+echo 'PATH=$PATH:/usr/local/bin' > wrong_path.txt
+cat wrong_path.txt
+
+# Si la cadena a reemplazar contiene '/', tenemos que escapar cada '/'
+# para que sed no las confunda con una de las que él necesita.
+cat wrong_path.txt | sed 's/\/usr\/local\/bin/\/opt\/bin/'
+
+# Esto se puede evitar cambiando el símbolo delimitador:
+cat wrong_path.txt | sed 's_/usr/local/bin_/opt/bin_'
+cat wrong_path.txt | sed 's:/usr/local/bin:/opt/bin:'
+cat wrong_path.txt | sed 's|/usr/local/bin|/opt/bin|'
+cat wrong_path.txt | sed 's+/usr/local/bin+/opt/bin+'
+
+# sed se usa mucho para modificar ficheros ya existentes
+## Generando un nuevo fichero con los cambios:
+sed 's/\/usr\/local\/bin/\/opt\/bin/' <wrong_path.txt >right_path.txt
+cat wrong_path.txt
+cat right_path.txt
+
+## Sobreescribiendo el fichero original, pero con los nuevos cambios: (-i)
+cat wrong_path.txt
+sed -i 's/\/usr\/local\/bin/\/opt\/bin/' wrong_path.txt
+cat wrong_path.txt
+
+# Se puede usar sed para modificar varias expresiones simultáneamente:
+cat example.txt | sed -e 's/one/ONE/' -e 's/two/TwO/'
+cat example.txt | sed -e 's/one/ONE/g' -e 's/two/TwO/'
+cat example.txt | sed -e 's/one/ONE/' -e 's/two/TwO/g'
+cat example.txt | sed -e 's/one/ONE/g' -e 's/two/TwO/g'
+
+# También se pueden modificar sólo las líneas que además contengan otro
+# patrón:
+cat example.txt | sed -e '/hundred/s/one/ONE/'
+
+# Se pueden buscar patrones para reemplazar, independientemente de las
+# MAYÚSCULAS/minúsculas:
+cat example.txt | sed -e 's/oNe/ONE/I'
+
+# Por último, se pueden agrupar varias opciones a la vez:
+cat example.txt | sed -e 's/oNe/ONE/Ig'
+
+man sed
+info sed
+```
 
 ### `tr` : 
 
+### `cut` :
 
 ### `wc` : Calculadora en el terminal
 
 ## Redirecciones: Entrada estándar, Salida estándar, Salida de error
 
+## Algunos recursos útiles
+
+- [Linux Filesystem](https://www.linux.com/tutorials/linux-filesystem-explained/)
+- [Tutorial de awk](https://www.grymoire.com/Unix/Awk.html)
+- [Tutorial de sed](https://www.grymoire.com/Unix/Sed.html)
+- [Servidor TeamSpeak3](https://www.hostinger.es/tutoriales/crear-servidor-ts3-teamspeak-3)
