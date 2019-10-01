@@ -750,6 +750,30 @@ info sed
 
 ### `wc` : Calculadora en el terminal
 
+`wc`es una utilidad que permite contar el número de líneas, el número de palabras y el número de bytes de un fichero, o de las líneas que reciba por su entrada.
+
+```bash
+# Número de líneas, número de palabras, y número de bytes
+wc /etc/group
+
+# Para contar el número de líneas
+wc -l /etc/group
+
+# Para contar el número de bytes
+wc -c /etc/group
+
+# Para contar el número de caracteres (bytes)
+wc -m /etc/group
+
+# Para contar el número de palabras
+wc -w /etc/group
+
+# Se puede usar en combinación con otros comandos
+ls -1 /etc | wc -1
+
+man wc
+```
+
 ## Redirecciones: Entrada estándar, Salida estándar, Salida de error
 
 ## Algunos recursos útiles
