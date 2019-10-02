@@ -744,9 +744,45 @@ man sed
 info sed
 ```
 
-### `tr` : 
+### `tr` : Traductor (de caracteres)
 
-El comando `tr` se llama así porque es un traductor: sirve para reemplazar (o eliminar) un conjunto de caracteres por otro
+El comando `tr` es un traductor: sirve para reemplazar (o eliminar) un conjunto de caracteres por otro conjunto de caracteres.
+
+```bash
+echo "Cambiemos espacios por tabuladores" | tr [:space:] '\t'
+
+# Como se puede ver, se pueden usar comodines (wildcards)
+echo "mi nombre es Fabi" | tr [:lower:] [:upper:]
+
+# Y es útil, porque aunque se puede especificar un conjunto completo de caracteres, no siempre es elegante
+echo "mi nombre es Fabi" | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+# Se pueden usar intervalos. En este ejemplo, además, se ejecuta tr en modo interactivo
+tr a-z A-Z 
+mi nombre es Fabi
+
+# ¿Y si hay muchos espacios entre palabras?
+echo "Cambiemos  espacios   por tabuladores" | tr [:space:] '\t'
+
+# Podemos ignorar los caracteres que son iguales y van seguidos (-s)
+echo "Cambiemos  espacios   por tabuladores" | tr -s [:space:] '\t'
+echo "ssss BBB ss BBBBB sssss" | tr -s 's' 'a'
+
+# El flag -s es útil para "comprimir" los caracteres repetidos seguidos
+echo "Comprimimos        los      espacios    :)" | tr -s [:space:] ' '
+
+# En lugar del comodín [:space:] también puedo usar el carácter espacio directamente
+echo "Comprimimos        los      espacios    :)" | tr -s ' ' ' '
+
+# También permite suprimir ciertos caracteres (-d)
+echo "Borremos todas las erres" | tr -d 'r'
+
+echo "Mi DNI es 555424242A" | tr -d [:digit:]
+
+# De nuevo, se pueden usar intervalos
+echo "Mi DNI es 555424242A" | tr -d 0-9
+
+```
 
 
 
