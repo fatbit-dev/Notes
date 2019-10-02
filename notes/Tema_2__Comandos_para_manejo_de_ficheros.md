@@ -230,7 +230,7 @@ mv tipos_de_cubiertos.txt cosas_cocina
 mv recetas cosas_cocina
 
 ls -l
-ls -l cosas
+ls -l cosas_cocina
 
 # Mover varios ficheros/directorios a la vez:
 touch tipos_de_sartenes.txt
@@ -411,13 +411,13 @@ unzip docus.zip
 ls -l
 
 # gzip
-gzip -d big_doc_to_gzip.gz
-gunzip big_doc_to_gzip.gz
+gzip -d big_doc_to_gzip.txt.gz
+gunzip big_doc_to_gzip.txt.gz
 ls -l
 
 # bzip2
-bzip2 -d big_doc_to_bzip2.bz2
-bunzip2 big_doc_to_bzip2.bz2
+bzip2 -d big_doc_to_bzip2.txt.bz2
+bunzip2 big_doc_to_bzip2.txt.bz2
 ls -l
 
 # El comando tar se ha visto antes, pero se deja aquí una referencia rápida.
@@ -528,7 +528,7 @@ cat /etc/group | grep -ni "FABI"
 
 # Excluir una expresión en una búsqueda (-v)
 ps aux | grep -i "cron" | grep -v "grep"
-ps aux | grep -i "cron" | grep -vi "grep"
+ps aux | grep -i "cron" | grep -vi "Grep"
 
 # Excluir varias palabras de una búsqueda
 cat /etc/passwd
@@ -577,7 +577,7 @@ find ~ -type d -name "doc*"
 #  - Tiempo de modificación (-mtime) – Fecha de la última modificación del 
 #    fichero.
 #  - Hora de cambio (-ctime) – Fecha de la última actualización de los 
-#    metadatos del archivo (como cuando se hace touch).
+#    metadatos del fichero (como cuando se hace touch).
 #
 # Esta opción se usa con un número, que especifica el número de días desde 
 # que se accedió, modificó o cambió el fichero. 
@@ -745,6 +745,10 @@ info sed
 ```
 
 ### `tr` : 
+
+El comando `tr` se llama así porque es un traductor: sirve para reemplazar (o eliminar) un conjunto de caracteres por otro
+
+
 
 ### `cut` :
 
