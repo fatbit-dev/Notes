@@ -246,6 +246,11 @@ man which
 man man 
 ```
 
+# Conexión de red
+```bash
+dhclient <Tarj.Red (normalmente 'enp0s3')>
+```
+
 ---
 
 ## Enlaces de interés
