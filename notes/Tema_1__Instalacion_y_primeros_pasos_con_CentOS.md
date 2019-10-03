@@ -246,7 +246,7 @@ man which
 man man 
 ```
 
-# Conexión de red
+### Conectarse a una red
 ```bash
 dhclient <Tarj.Red (normalmente 'enp0s3')>
 ```
