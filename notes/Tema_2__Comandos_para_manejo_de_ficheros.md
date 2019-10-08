@@ -501,7 +501,7 @@ truncate -s 0 mi_fichero.txt
 
 > mi_fichero.txt
 
-echo > mi_fichero.txt
+echo -n > mi_fichero.txt
 
 true > mi_fichero.txt
 
@@ -515,6 +515,7 @@ cp /dev/null mi_fichero.txt
 # Buscar una expresión en un fichero
 grep "fabi" /etc/group
 grep "fabi" /etc/passwd
+grep $(whoami) /etc/passwd
 
 # Buscar una expresión en múltiples ficheros, de forma recursiva (-r)
 cd /etc
