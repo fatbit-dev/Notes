@@ -693,7 +693,7 @@ o leer la salida de algún comando, sustituyendo un texto (o patrón) por
 otro.
 
 ```bash
-# Substitución de un patrón por otro patrón
+# Sustitución de un patrón por otro patrón
 echo "Es un poema de Antonio" | sed 's/Antonio/Federico/'
 echo "Es un poema de Antonio" | sed 's/nton/urel/'
 
@@ -725,7 +725,7 @@ cat wrong_path.txt | sed 's+/usr/local/bin+/opt/bin+'
 
 # sed se usa mucho para modificar ficheros ya existentes
 ## Generando un nuevo fichero con los cambios:
-sed 's/\/usr\/local\/bin/\/opt\/bin/' <wrong_path.txt >right_path.txt
+sed 's/\/usr\/local\/bin/\/opt\/bin/' < wrong_path.txt > right_path.txt
 cat wrong_path.txt
 cat right_path.txt
 
