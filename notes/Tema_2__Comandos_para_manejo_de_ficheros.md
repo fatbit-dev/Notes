@@ -148,6 +148,16 @@ Estas **Clases de caracteres POSIX** son las siguientes:
 |  [:digit:]     |  Selecciona caracteres numéricos.                   |
 |  [:upper:]     |  Selecciona caracteres alfabéticos en *MAYÚSCULAS*. |
 |  [:lower:]     |  Selecciona caracteres alfabéticos en *minúsculas*. |
+|  [:xdigit:]    |  Selecciona dígitos hexadecimales [0-9A-Fa-f].      |
+|  [:space:]     |  Selecciona espacio, tabulador, tabulador vertical, retorno de carro, salto de línea. |
+|  [:blank:]     |  Selecciona espacio y tabulador.                    |
+|  [:print:]     |  Selecciona caracteres imprimibles.                 |
+|  [:punct:]     |  Selecciona símbolos de puntuación: ! ' # S % & ' ( ) * + , - . / : ; < = > ? @ [ / ] ^ _ { | } ~ |
+|  [:word:]      |  Selecciona cadenas de caracteres alfanuméricas, incluyendo los guiones bajos (*underscores*) |
+|  [:ascii:]     |  Selecciona cualquier caracter ASCII (rango 0-127). |
+|  [:cntrl:]     |  Selecciona caracteres de control, es decir, cualquier carácter que no pertenenzca a ninguna de las clases de caracteres POSIX que aparecen en esta tabla. |
+|  [:graph:]     |  Selecciona cualquier caracter imprimible que no pertenezca a la clase [:space:]. |
+
 
 Veamos algunos ejemplos para seleccionar nombres usando patrones de búsqueda y *wildcards*:
 
@@ -781,6 +791,21 @@ echo "Mi DNI es 555424242A" | tr -d [:digit:]
 
 # De nuevo, se pueden usar intervalos
 echo "Mi DNI es 555424242A" | tr -d 0-9
+
+# Se puede usar el complemento de un conjunto (-c)
+echo "Mi DNI es 555424242A" | tr -cd [:digit:]
+
+# Por ejemplo, se pueden eliminar todos los caracteres no imprimibles de
+# un fichero:
+echo -e "Hola,\n\n\t\t mundo"
+
+echo -e "Hola,\n\n\t\t mundo" > non_printable.txt
+cat non_printable.txt
+
+tr -cd [:print:] < non_printable.txt
+
+# Podría guardarse el fichero modificado en un nuevo fichero
+tr -cd [:print:] < non_printable.txt > printable.txt
 
 ```
 
