@@ -9,7 +9,7 @@
 5. Gestión de procesos (I). (ps, kill, top)
 6. Editores de texto: vim y nano.
 7. Gestión de paquetes. (update/upgrade, instalar, eliminar, limpieza)
-8. Comandos útiles y comunicación de procesos. (lsusb, lspci, dmesg, dmesg y mensaje, persoanliza prompt, pipes, e/s estandar, redirecciones)
+8. Comandos útiles y comunicación de procesos. (lsusb, lspci, dmesg, dmesg y mensaje, personaliza prompt, pipes, e/s estándar, redirecciones)
 9. Unidades de disco. (montaje, creación, partición, formateo)
 10. Bash scripting.
 11. Networking básico. (configuración red, subred, gw, ping, netstat, ntop, nslookup, dig, wget, curl, ...)

@@ -50,4 +50,4 @@ Entonces, ¿qué es eso de la JVM, o Java Virtual Machine?
 
 ## Máquinas virtuales
 
-A veces los servicios que se ejecutan en un servidor son sencillos, y no tienen mucha demanda de hardware, como capacidad de proceso (CPU), o demanda de memoria (RAM) o de almacenamiento (HD). La virtualización permite ejecutar simultáneamente varios sitemas operativos independientes sobre el mismo hardware. Es decir, que en un ordenador podemos ejecutar varias máquinas virtuales, cada una con su sistema operativo.
+A veces los servicios que se ejecutan en un servidor son sencillos, y no tienen mucha demanda de hardware, como capacidad de proceso (CPU), o demanda de memoria (RAM) o de almacenamiento (HD). La virtualización permite ejecutar simultáneamente varios sistemas operativos independientes sobre el mismo hardware. Es decir, que en un ordenador podemos ejecutar varias máquinas virtuales, cada una con su sistema operativo.

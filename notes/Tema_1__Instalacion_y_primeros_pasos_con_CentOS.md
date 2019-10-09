@@ -2,18 +2,18 @@
 
 Vamos a instalar [CentOS 7](https://www.centos.org) en una máquina virtual. El software de virtualización que vamos a usar es [VirtualBox](https://www.virtualbox.com).
 
-Nos vamos a centrar en el uso del CentOS sin entorno gráfico. Esto es porque normalmente los servidores son máquinas que no disponen de pantallas, y que suelen disponer de pocos perfiéricos.
+Nos vamos a centrar en el uso del CentOS sin entorno gráfico. Esto es porque normalmente los servidores son máquinas que no disponen de pantallas, y que suelen disponer de pocos periféricos.
 
 Por tanto, vamos a instalar una versión mínima de CentOS 7 para arquitecturas de 64bit, que podemos descargar desde [este enlace](http://linuxmirror.es/centos/7.6.1810/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso).
 
 Realizaremos el proceso de instalación en clase.
 
-Cuando la instalación termine, accederemos al sistema mediante nuestras credenciales de acceso (usuario y contraseña). Si las credenciales son correctas, el sistema nos proporcionará una *`shell`*, y esta *shell* nos permite ejecutar comandos (acciones), y manejar el sistema operativo. 
+Cuando la instalación termine, accederemos al sistema mediante nuestras credenciales de acceso (usuario y contraseña). Si las credenciales son correctas, el sistema nos proporcionará una *`shell`*, y esta *shell* nos permite ejecutar comandos (acciones), y manejar el sistema operativo.
 
 Lo primero que nos muestra la *shell* es un `prompt`* desde el cual podemos ejecutar nuestros comandos. Un prompt puede tener un aspecto como este:
 
 `fabi@localhost ~ $ `
-  
+
     - *fabi*: es el nombre del usuario
     - *localhost*: es el nombre de la máquina.
     - *~* : es el directorio de trabajo, es decir, el directorio en el que nos encontramos.
@@ -68,9 +68,9 @@ lrwxr-xr-x    1 fabi  staff    24B  9 oct  2018 workspace@ -> /Volumes/Bits/work
 ___________ ___ ____  _____   ____ ____________ ______________
      |       |    |     |       |       |              |
 	 |       |    |     |       |       |              -> Nombre
-	 |       |    |     |       |       |     
+	 |       |    |     |       |       |
 	 |       |    |     |       |       -> Fecha de modificación
-	 |       |    |     |       |   
+	 |       |    |     |       |
 	 |       |    |     |       -> Tamaño en bytes (aunque arriba se ha usado la opción -h)
 	 |       |    |     |
 	 |       |    |     -> Grupo con permisos sobre el fichero
@@ -111,7 +111,7 @@ ls -laR
 ls -lah
 ```
 
-Veamos otro comando, un tento peculiar:
+Veamos otro comando, un tanto peculiar:
 
 ```bash
 echo $PATH
@@ -137,7 +137,7 @@ history
 
 ¿Porqué hemos ejecutado antes el comando 'ls -l /home/fabi'?
 
-¿Y cómo podemos saber en qué dirfectorio estamos ahora mismo?
+¿Y cómo podemos saber en qué directorio estamos ahora mismo?
 
 ```bash
 pwd
@@ -171,12 +171,12 @@ Vayamos con una frase típica: "En Linux, todo son ficheros". Y además los fich
 Es un sistema sensible a mayúsculas y minúsculas (*case-sensitive*).
 
 ¡Cuidado con los espacios y las tildes en los nombres de los ficheros y directorios!
-  
+
   - Comillas dobles y simples
   - Escape de caracteres
-  
+
 Pero entonces, ¿todos los ficheros son iguales? La respuesta es que no. Hay diferentes tipos de ficheros:
-  
+
 ```bash
 file /etc
 file /etc/hosts
@@ -189,14 +189,14 @@ type type
 
 which cp
 ```
-  
+
 `Algunos trucos`:
-  
+
   - TAB Completion --> Escribir en el terminal "ls /et" y pulsar la tecla TAB (tabulador).
   - Historial de comandos --> En el terminal, pulsar las teclas UP y DOWN, e intentar recuperar un comando anterior del historial de comandos (incluso se puede modificar).
   - CTRL + R --> Búsqueda de comandos anteriores en el historial.
   - CTRL + L --> Borra la pantalla (equivale al comando `clear`).
-  
+
 Practiquemos un poco...
 
 ### Ayuda: Páginas del manual
@@ -243,7 +243,7 @@ man type
 man which
 
 # :-)
-man man 
+man man
 ```
 
 ---
