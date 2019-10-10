@@ -762,7 +762,7 @@ El comando `tr` es un traductor: sirve para reemplazar (o eliminar) un conjunto 
 ```bash
 echo "Cambiemos espacios por tabuladores" | tr [:space:] '\t'
 
-# Como se puede ver, se pueden usar comodines (wildcards)
+# Como se puede ver, se pueden usar clases de caracteres POSIX
 echo "mi nombre es Fabi" | tr [:lower:] [:upper:]
 
 # Y es útil, porque aunque se puede especificar un conjunto completo de caracteres, no siempre es elegante
@@ -808,6 +808,7 @@ tr -cd [:print:] < non_printable.txt
 # Podría guardarse el fichero modificado en un nuevo fichero
 tr -cd [:print:] < non_printable.txt > printable.txt
 
+man tr
 ```
 
 
