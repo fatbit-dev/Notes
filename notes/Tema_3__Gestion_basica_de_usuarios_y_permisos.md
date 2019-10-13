@@ -4,14 +4,12 @@ Este tema trata sobre la gestión de usuarios y grupos de usuarios en sistemas
 CentOS 7. Pero la teoría y filosofía de trabajo es aplicable a cualquier sistema
 Linux. También describe quién es el usuario *root*.
 
-## Introducción
-
 En los sistemas Linux, todo lo que un usuario puede o no puede hacer con un
 fichero está determinado por permisos y grupos. Si se dispone de los permisos 
 necesarios, o si se pertenece al grupo con permisos necesarios, se podrá
 acceder a un fichero o directorio.
 
-### Repaso rápido a los permisos de ficheros y directorios
+## Permisos de ficheros y directorios
 
 ```bash
 ls -l /etc/passwd
