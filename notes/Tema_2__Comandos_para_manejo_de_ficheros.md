@@ -937,8 +937,9 @@ bytes o caracteres.
 Los datos de entrada de un comando se pueden obtener, por ejemplo, de un 
 fichero, desde la terminal (el teclado), o desde la salida de otro comando.
 
-La salida de un comando puede dirigirse a un fichero, a la terminal (la 
-pantalla), o a la entrada de otro comando.
+La salida de un comando puede dirigirse a un fichero, a la terminal (pantalla), 
+o a la entrada de otro comando. Es decir, se pueden hacer redirecciones de la
+salida de un comando hacia otro descriptor de fichero destino.
 
 Las *shell* en Linux, manejan tres flujos de E/S (*I/O streams*):
 
@@ -948,6 +949,8 @@ Las *shell* en Linux, manejan tres flujos de E/S (*I/O streams*):
   Tiene el descriptor de fichero **1**.
 - `2 - stderr` - **Salida de error estándar**: Muestra la salida de los errores
 de los comandos. Tiene el descriptor de fichero **2**.
+
+Vamos a preparar unos ficheros para poder practicar las redirecciones:
 
 ```bash
 cd
@@ -961,8 +964,8 @@ split -b 17 text2 y; }
 ```
 ### Redireccionar la salida
 
-Como se ha visto anteriormente, existen dos modos de redireccionar la salida a
-un fichero:
+Como se ha visto anteriormente, existen dos operadores para redireccionar una 
+salida a un fichero:
 
 - **`>`**  redirecciona la salida de un descriptor de fichero hacia otro fichero.
   de salida. Crea el fichero de salida si no existe. Si ya existe, los 
@@ -973,7 +976,26 @@ un fichero:
   contenidos se anexan al fichero de salida.
 
 Con estos modos, se puede separar la salida estándar de la salida de errores de
-un comando.
+un comando. Veamos algunos ejemplos básicos:
+
+```bash
+# Ignora los errores: redirige la salida de error (stderr) a /dev/null
+ls -laR /  2>/dev/null
+
+# Ignora la salida: redirige la salida estándar (stdout) a /dev/null
+ls -laR /  1>/dev/null
+
+# Ignora la salida y los errores: primero redirige la salida estándar (stdout)
+# a /dev/null, y después redirige la salida de error (stderr) hacia donde
+# apunte la salida estándar (que se había apuntado a /dev/null)
+ls -laR / 1>/dev/null 2>&1
+
+```
+
+¿Qué es **`/dev/null`**? Es un fichero especial en Linux. Es donde se envía la
+información para que sea descartada. Representa "la nada".
+
+Sigamos con más ejemplos usando los ficheros que hemos preparado antes:
 
 ```bash
 cd ~/redir
@@ -996,7 +1018,7 @@ cat stderr.txt
 ```
 
 Se puede redirigir la salida estándar y la salida de error estándar al mismo
-destino, y para ellos se emplea el modo **`&>`** y **`&>>`**.
+destino, y para ello se emplean los operadores **`&>`** y **`&>>`**.
 
 ```bash
 ls x* z* &>stdout_and_stderr.txt
@@ -1005,22 +1027,22 @@ ls w* y* &>>stdout_and_stderr.txt
 
 El orden en el que se redireccionan las salidas es importante. Por ejemplo:
 
-```bash
-command 2>&1 >salida.txt
+```text
+ls 2>&1 >salida.txt
 ```
 
 no es lo mismo que:
 
-```bash
-command >salida.txt 2>&1
+```text
+ls >salida.txt 2>&1
 ```
 
-En el primer caso, stderr es redireccionada al sitio actual de stdout y luego 
-stdout es redireccionada a la salida .txt, pero esta segunda redirección afecta
-sólo a stdout, no a stderr. 
+En el primer caso, *stderr* es redireccionada al sitio actual de *stdout* y luego 
+*stdout* es redireccionada al fichero *salida.txt*. Pero esta segunda 
+redirección afecta sólo a *stdout*, no a *stderr*. 
 
-En el segundo caso, stderr es redireccionada al sitio actual de stdout y ésa es 
-salida.txt. Observe en el último comando que la salida estándar fue redireccionada después de que el error estándar, por lo tanto la salida del error estándar todavía va a la ventana de la terminal.
+En el segundo caso, *stderr* es redireccionada al sitio actual de *stdout* (que
+es *salida.txt*). Observe en el último comando que la salida estándar fue redireccionada después de que el error estándar, por lo tanto la salida del error estándar todavía va a la ventana de la terminal.
 
 ```bash
 # Por defecto, las salidas stdout y stderr de un comando, están apuntando a la
@@ -1063,6 +1085,8 @@ Anteriormente se han visto varios ejemplos, similares al siguiente:
 
 ```bash
 tr ' ' '\t' <text1
+
+cat <text1
 ```
 
 Algunas *shells*, como Bash, incluyen una forma de redirección de entrada
@@ -1097,10 +1121,86 @@ cat tortilla.txt
 
 ### Tuberías (pipes)
 
+Ya se han usado tuberías anteriormente. Básicamente sirven para redirigir la
+salida de un comando hacia la entrada de otro comando. Se pueden así encadenar
+comandos usando tuberías. El operador tubería es **`|`** (AltGr + 1).
+
+```bash
+ls y* x* z* u* q*
+
+ls y* x* z* u* q*  2>&1 | sort
+```
+
+Cada comando de la cadena puede tener sus opciones o argumentos. Algunos 
+comandos usan el operador **`-`** (guión) en lugar de un nombre de fichero, 
+cuando la entrada del comando debe provenir de un stdin (en lugar de hacerlo de 
+un fichero).
+
+```bash
+# Preparamos el fichero para el ejemplo
+cat text1 text2 text3 tortilla.txt > tuberias.txt
+cat tuberias.txt
+
+tar cvf tuberias.tar tuberias.txt
+bzip2 tuberias.tar
+
+# Ahora podemos ver el operador - en acción:
+ bunzip2 -c tuberías.tar.bz2 | tar -xvf -
+```
+
+En el caso de usar tuberías para encadenar varios comandos, y que algún comando 
+necesite redireccionar su entrada (con el operador **<**), se podrá esa
+redirección de la entrada en primer lugar dentro de la cadena de comandos.
+
+Esto quiere decir, que será el primer comando el que tome como entrada un
+fichero, por ejemplo. Así, el resto de comandos que estén encadenados harán
+operaciones y tratamientos sobre el fichero leído por el primer comando.
+
+### Para ampliar...
+
+Las *shells* en general, y Bash en particular, son un conjunto de herremientas
+muy completas, pero que también revisten cierta complejidad. Dominar estas
+herramientas es cuestión de práctica, estudio y uso. Si se desea ampliar lo
+expuesto en este tema, se puede buscar información acerca de los siguientes
+temas:
+
+- Uso de la opción **-exec** para el comando **find**.
+- La herramienta **xargs**.
+- La herramienta **tee**.
 
 ## Algunos recursos útiles
 
+- [Learn Linux 101](https://developer.ibm.com/tutorials/l-lpic1-map/)
+- [Linux Tutorial](https://ryanstutorials.net/linuxtutorial/)
 - [Linux Filesystem](https://www.linux.com/tutorials/linux-filesystem-explained/)
 - [Tutorial de awk](https://www.grymoire.com/Unix/Awk.html)
 - [Tutorial de sed](https://www.grymoire.com/Unix/Sed.html)
+- [Developer Technologies - IBM](https://developer.ibm.com/technologies/)
 - [Servidor TeamSpeak3](https://www.hostinger.es/tutoriales/crear-servidor-ts3-teamspeak-3)
+
+## Cómo contribuir
+
+¿Has visto alguna errata? ¿Crees que algo se podría mejorar? Si dispones de una
+cuenta en [Github](https://github.com), puedes contribuir así:
+
+1. Haz un fork desde el [Github del proyecto](https://github.com/fatbit-dev/Notes).
+2. En tu PC, clona el repo de tu cuenta de Github en un repo local (**_clone_**): 
+   `git clone https://github.com/usuario/Notes.git`
+3. Crea tu rama de trabajo en tu repo local (**_checkout -b_**): 
+   `git checkout -b feature/my-new-feature`
+4. Incorpora los cambios a tu repo local (**_add_** y **_commit_**): 
+   `git commit -am 'Add some feature'`
+5. Incorpora los cambios a tu repo en Github (**_push_**):
+   `git push origin feature/my-new-feature`
+6. Haz una **_pull request_** :D
+
+## Créditos
+
+Este documento ha sido elaborado a partir de la bibliografía recomendada para la
+asignatura, y también a partir de múltiples fuentes y publicaciones, tanto 
+online como en papel.
+
+Autor(es):
+
+- [Juan Fabián](mailto:juan.fabian@u-tad.com) <juan.fabian@u-tad.com>
+
