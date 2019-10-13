@@ -22,6 +22,7 @@ mkdir -p projects/games/super_pang
 mkdir -p projects/games/counter_strike
 ls -laR projects
 
+
 man mkdir
 ```
 
@@ -31,6 +32,7 @@ man mkdir
 cd ~
 rmdir projects/games
 rmdir projects/games/counter_strike
+
 
 man rmdir
 ```
@@ -42,6 +44,7 @@ cd ~
 touch projects/description.txt
 touch projects/Description.txt
 
+
 man touch
 ```
 
@@ -49,6 +52,9 @@ man touch
 
 ```bash
 cat /etc/profile
+
+
+man cat
 ```
 
 ### `less` : Mostrar el contenido de un fichero, con vitaminas
@@ -65,6 +71,7 @@ less /etc/profile
 #   n
 # q
 
+
 man less
 ```
 
@@ -75,6 +82,7 @@ tail /etc/rsyslog.conf
 tail -n 5 /etc/rsyslog.conf
 tail -f /var/log/messages
 
+
 man tail
 ```
 
@@ -83,6 +91,7 @@ man tail
 ```bash
 head /etc/rsyslog.conf
 head -n 5 /etc/rsyslog.conf
+
 
 man head
 ```
@@ -100,6 +109,13 @@ echo -e "saltos de línea \n\n\n Bien!"
 # Imprimir un texto en un fichero (sobreescribe el fichero, 
 # y lo crea si no existía):
 echo "nuevo contenido" > mi_fichero.txt
+
+# Por defecto, echo incluye un carácter de final de línea, que en Linux es '\n'.
+# Se puede omitir la inserción de un carácter '\n' al final de la líne (-n)
+echo -n "El prompt aparecerá justo a la derecha de este texto"
+
+
+man echo
 ```
 
 ### `ln` : Enlaces
@@ -122,6 +138,7 @@ mkdir softlinks
 cd softlinks
 ln -s ../document.txt
 ln -s /home/fabi/document.txt ./my_document.txt
+
 
 man ln
 ```
@@ -217,6 +234,7 @@ mkdir documentos_de_texto
 
 cp *.txt documentos_de_texto
 
+
 man cp
 ```
 
@@ -254,6 +272,7 @@ mv tipos_de_sartenes.txt tipos_de_cazuelas.txt tipos_de_vajilla.txt cosas_cocina
 ls -l
 ls -l cosas
 
+
 man mv
 ```
 
@@ -288,6 +307,7 @@ ls -l juan
 ls -l
 
 # ¡CUIDADO! Cuando borramos algo con rm, se borra para siempre.
+
 
 man rm
 ```
@@ -346,6 +366,7 @@ tar tvf mis_ficheros.tar
 #  -j : Comprime usando la herramienta bzip2
 #  -x : Extrae el contenido de un fichero comprimido
 #  -t : Lista el contenido de un fichero comprimido
+
 
 man tar
 info tar
@@ -440,6 +461,7 @@ ls -l
 tar jxvf docus.bz2
 ls -l
 
+
 man unzip
 man gunzip
 man bunzip2
@@ -487,6 +509,7 @@ timedatectl set-timezone Europe/Madrid
 timedatectl set-ntp no
 timedatectl set-ntp yes
 
+
 man date
 man cal
 man timedatectl
@@ -507,6 +530,8 @@ true > mi_fichero.txt
 
 cp /dev/null mi_fichero.txt
 
+
+man truncate
 ```
 
 ### `grep` : Búsqueda de textos en ficheros y a la salida de comandos
@@ -552,6 +577,18 @@ history | grep "ls" | grep -vE "-l|-a|~"
 # Hay que 'escapar' el primer signo -
 history | grep "ls" | grep -vE "\-l|-a|~"
 
+#---
+
+cat /etc/passwd | grep "fabi"
+
+# Buscar líneas que empiecen con un patrón (^)
+cat /etc/passwd | grep "^fabi"
+
+# Buscar líneas que terminen con un patrón ($)
+cat /etc/passwd | grep "fabi$"
+
+
+man grep
 ```
 
 ### `find` : Buscando ficheros dentro de un directorio (y subdirectorios)
@@ -627,6 +664,8 @@ find / -exec
 ## Buscar legibles
 find / -read
 
+
+man find
 ```
 
 ### `awk` : Una herramienta avanzada para el tratamiento de textos
@@ -680,6 +719,7 @@ cat scale.csv | awk -F ";" '{print $1"\t"$2"\t"$7}'
 
 # Es muy útil para tratar la salida de otros comandos
 ls -la | awk '{print $5}'
+
 
 man awk
 info awk
@@ -751,13 +791,15 @@ cat example.txt | sed -e 's/oNe/ONE/I'
 # Por último, se pueden agrupar varias opciones a la vez:
 cat example.txt | sed -e 's/oNe/ONE/Ig'
 
+
 man sed
 info sed
 ```
 
 ### `tr` : Traductor (de caracteres)
 
-El comando `tr` es un traductor: sirve para reemplazar (o eliminar) un conjunto de caracteres por otro conjunto de caracteres.
+El comando `tr` es un traductor: sirve para reemplazar (o eliminar) un conjunto 
+de caracteres por otro conjunto de caracteres.
 
 ```bash
 echo "Cambiemos espacios por tabuladores" | tr [:space:] '\t'
@@ -765,7 +807,8 @@ echo "Cambiemos espacios por tabuladores" | tr [:space:] '\t'
 # Como se puede ver, se pueden usar clases de caracteres POSIX
 echo "mi nombre es Fabi" | tr [:lower:] [:upper:]
 
-# Y es útil, porque aunque se puede especificar un conjunto completo de caracteres, no siempre es elegante
+# Y es útil, porque aunque se puede especificar un conjunto completo de caracteres, 
+# no siempre es elegante
 echo "mi nombre es Fabi" | tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ
 
 # Se pueden usar intervalos. En este ejemplo, además, se ejecuta tr en modo interactivo
@@ -808,16 +851,59 @@ tr -cd [:print:] < non_printable.txt
 # Podría guardarse el fichero modificado en un nuevo fichero
 tr -cd [:print:] < non_printable.txt > printable.txt
 
+
 man tr
 ```
 
+### `cut` : Cortar textos
+
+El comando `cut` permite seleccionar y cortar campos de cada línea de un fichero 
+o de su entrada estándar. Para diferenciar un campo de otro, usa delimitadores.
+
+```bash
+cd
+echo "Lee y aprende, aprende y haz, haz y evoluciona." > meme.txt
+echo "Learn and code, code and share, share and evolve." >> meme.txt
+
+# Selecciona unos caracteres a partir de su posición en la línea (-c)
+cut -c 1-3 meme.txt
+cut -c 7-14 meme.txt
+
+# Selecciona campos separados por un delimitador (-d y -f)
+cut -d "," -f 1,2 meme.txt 
+cut -d "," -f 1,3 meme.txt 
+cut -d "," -f 1-3 meme.txt 
+
+cut -d " " -f 1,2 meme.txt 
+cut -d " " -f 1,3 meme.txt 
+cut -d " " -f 1-3 meme.txt 
+
+# ¡Cuidado con los límites de los campos!
+cut -d "," -f 1,4 meme.txt 
+cut -d "," -f 1,5 meme.txt 
+
+# Ejemplo: ver la memoria RAM disponible
+free
+free | grep Mem
+free | grep Mem | tr -s ' ' ','
+free | grep Mem | tr -s ' ' ',' | cut -d "," -f 2
+# Otra forma: usando sed con una Expresión Regular
+free | grep Mem | sed 's/\s\+/,/g'
+free | grep Mem | sed 's/\s\+/,/g' | cut -d , -f2 
+
+# Para especificar bytes en lugar de caracteres (útil con ficheros binarios),
+# se puede usar la opción para especificar el número de bytes (-b).
 
 
-### `cut` :
+man cut
+info cut
+```
 
 ### `wc` : Calculadora en el terminal
 
-`wc`es una utilidad que permite contar el número de líneas, el número de palabras y el número de bytes de un fichero, o de las líneas que reciba por su entrada.
+`wc`es una utilidad que permite contar el número de líneas, el número de 
+palabras y el número de bytes de un fichero, o de las líneas que reciba 
+por su entrada.
 
 ```bash
 # Número de líneas, número de palabras, y número de bytes
@@ -838,10 +924,179 @@ wc -w /etc/group
 # Se puede usar en combinación con otros comandos
 ls -1 /etc | wc -1
 
+
 man wc
 ```
 
 ## Redirecciones: Entrada estándar, Salida estándar, Salida de error
+
+Una *shell* como Bash, ejecuta comandos y programas que toman unos datos de
+entrada y producen unos datos de salida. Normalmente estos datos de E/S son
+bytes o caracteres. 
+
+Los datos de entrada de un comando se pueden obtener, por ejemplo, de un 
+fichero, desde la terminal (el teclado), o desde la salida de otro comando.
+
+La salida de un comando puede dirigirse a un fichero, a la terminal (la 
+pantalla), o a la entrada de otro comando.
+
+Las *shell* en Linux, manejan tres flujos de E/S (*I/O streams*):
+
+- `0 - stdin ` - **Entrada estándar**: Proporciona la entrada a los comandos.
+  Tiene el descriptor de fichero **0**.
+- `1 - stdout` - **Salida estándar**: Muestra la salida de los comandos.
+  Tiene el descriptor de fichero **1**.
+- `2 - stderr` - **Salida de error estándar**: Muestra la salida de los errores
+de los comandos. Tiene el descriptor de fichero **2**.
+
+```bash
+cd
+mkdir -p redir && cd redir && {
+echo -e "1 Programación\n2 Sistemas Operativos\n3 Estadística" > text1
+echo -e "9\tredes\n3\testadística\n10\tprogramación" > text2
+echo "Nos comemos una tortilla. " !#:* !#:1->text3
+
+split -l 2 text1
+split -b 17 text2 y; }
+```
+### Redireccionar la salida
+
+Como se ha visto anteriormente, existen dos modos de redireccionar la salida a
+un fichero:
+
+- **`>`**  redirecciona la salida de un descriptor de fichero hacia otro fichero.
+  de salida. Crea el fichero de salida si no existe. Si ya existe, los 
+  contenidos del fichero de salida son sobreescritos, generalmente sin avisar.
+
+- **`>>`**  redirecciona la salida de descriptor de fichero hacia otro fichero.
+  de salida. Crea el fichero de salida si no existe. Si ya existe, los 
+  contenidos se anexan al fichero de salida.
+
+Con estos modos, se puede separar la salida estándar de la salida de errores de
+un comando.
+
+```bash
+cd ~/redir
+
+ls x* z*
+ls x* z* 1>stdout.txt 2>stderr.txt
+
+cat stdout.txt
+cat stderr.txt
+
+# Si se omite el descriptor de fichero, se toma la salida estándar por defecto
+# (descriptor de fichero 1)
+ls x* z* >stdout.txt 2>stderr.txt
+
+ls w* y*
+ls w* y* >>stdout.txt 2>>stderr.txt
+
+cat stdout.txt
+cat stderr.txt
+```
+
+Se puede redirigir la salida estándar y la salida de error estándar al mismo
+destino, y para ellos se emplea el modo **`&>`** y **`&>>`**.
+
+```bash
+ls x* z* &>stdout_and_stderr.txt
+ls w* y* &>>stdout_and_stderr.txt
+``` 
+
+El orden en el que se redireccionan las salidas es importante. Por ejemplo:
+
+```bash
+command 2>&1 >salida.txt
+```
+
+no es lo mismo que:
+
+```bash
+command >salida.txt 2>&1
+```
+
+En el primer caso, stderr es redireccionada al sitio actual de stdout y luego 
+stdout es redireccionada a la salida .txt, pero esta segunda redirección afecta
+sólo a stdout, no a stderr. 
+
+En el segundo caso, stderr es redireccionada al sitio actual de stdout y ésa es 
+salida.txt. Observe en el último comando que la salida estándar fue redireccionada después de que el error estándar, por lo tanto la salida del error estándar todavía va a la ventana de la terminal.
+
+```bash
+# Por defecto, las salidas stdout y stderr de un comando, están apuntando a la
+# shell (que normalmente muestra su salida por pantalla). 
+#                   
+#                   +----------+   (stdout)
+#                   |          |----> 1 (terminal, pantalla)
+#            0 >----|    ls    |
+#         (stdin)   |          |----> 2 (terminal, pantalla)
+#                   +----------+   (stderr)
+#
+
+# Redirige stdout y stderr hacia el fichero salida.txt
+ls x* z* &>salida.txt
+cat salida.txt
+
+# Redirige stdout al fichero salida.txt, y después redirige stderr hacia donde
+# apunte stdout (que es salida.txt)
+ls x* z* >salida.txt 2>&1
+cat salida.txt
+
+# Redirige stderr a donde apunte stdout (terminal, pantalla). Después redirige
+# stdout hacia el fichero salida.txt. ¡Pero stderr se había quedad apuntando
+# al terminal (pantalla)!
+ls x* z* 2>&1 >salida.txt    # stderr no va hacia salida.txt
+cat salida.txt
+
+# Ahora podemos ejecutar los siguientes comandos para ver la diferencia
+find / -user fabi | grep -vi denegado
+find / -user fabi 2>&1 | grep -vi denegado
+
+```
+
+### Redireccionar la entrada
+
+Se puede redireccionar la entrada estándar (stdin) de un comando utilizando el
+operador **`<`**. 
+
+Anteriormente se han visto varios ejemplos, similares al siguiente:
+
+```bash
+tr ' ' '\t' <text1
+```
+
+Algunas *shells*, como Bash, incluyen una forma de redirección de entrada
+llamada `here-document`, y que es habitualmente usada en scripts. 
+
+Los *here-documents* también se usan con el operador **`<<`**.
+
+A continuación se muestran algunos ejemplos de *here-documents*:
+
+```bash
+# Usamos un here-document para simular un fichero como entrada para el comando
+# 'sort'. El here-document está delimitado por el identificador END.
+sort -k2 <<END
+1 física
+2 programación
+3 estadística
+END
+
+# Es común crear el contenido de un fichero así:
+cat <<TORT >tortilla.txt
+patatas
+huevo
+CEBOLLA
+sal
+aceite
+
+y amor :)
+TORT
+
+cat tortilla.txt
+```
+
+### Tuberías (pipes)
+
 
 ## Algunos recursos útiles
 
