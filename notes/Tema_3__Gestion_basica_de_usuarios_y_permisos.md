@@ -326,9 +326,30 @@ No obstante, un usuario puede modificar su contraseña mediante el comando
 ```bash
 passwd
 
+# Para cambiar la contraseña de un usuario en particular, se ejecuta:
+passwd fabi
+
 
 man passwd
 man shadow
+```
+
+### Añadir usuarios
+
+```bash
+
+```
+
+### Eliminar usuarios
+
+### Añadir un usuario a un grupo
+
+Normalmente, sólo un usuario con privilegios puede añadir un otro usuario a uno 
+o más grupos:
+
+```bash
+su -
+usermod -aG ungrupo,otrogrupo fabi
 ```
 
 ## El usuario root
@@ -359,6 +380,56 @@ También se usa *su* para convertirnos en otro usuario existente en el sistema:
 su - juanjo
 ```
 
+### El comando sudo
+
+Permite ejecutar comandos con permisos de *root* o super usuario. En CentOS 7, 
+para que un usuario pueda ejecutar comandos con *sudo*, debe pertenecer al grupo
+*wheel*.
+
+Sólo un usuario con privilegios puede añadir a otro usuario al grupo de *sudoers*.
+Para gestionar los usuarios que pueden usar *sudo*, se usa el comando *visudo*.
+Este comando abre un editor (*vi*) para editar el fichero */etc/sudoers*.
+
+```bash
+su -
+
+# Ya como root, ejecutamos:
+visudo
+
+```
+
+Al usar *visudo*, se debe buscar una línea similar a la siguiente:
+
+```text
+%wheel        ALL=(ALL)       ALL
+```
+
+Si la línea estuviese comentada (comienza por #), habrá que descomentarla.
+
+Una vez hecho esto, se añade al usuario al grupo *wheel*:
+
+```bash
+usermod -aG wheel fabi
+```
+
+Para que los cambios tengan efecto, se debe salir de la sesión y volver a
+entrar, o también se puede abrir una nueva *shell* con el usuario:
+
+```bash
+su - fabi
+
+# Ya como el usuario fabi, se puede probar:
+sudo ls -laR /
+```
+
+### Otra forma alternativa de añadir un usuario a /etc/sudoers
+
+En lugar de añadir el usuario al grupo *wheel* también se puede añadir el usuario
+usando visudo, e insertando una línea similar a esta:
+
+```text
+fabi        ALL=(ALL)        ALL
+```
 
 
 ## Algunos recursos útiles
