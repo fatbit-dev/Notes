@@ -7,7 +7,7 @@ Linux. También describe quién es el usuario *root*.
 ## Introducción
 
 En los sistemas Linux, todo lo que un usuario puede o no puede hacer con un
-fichero está determinado por permisos y grupos. Si se dispone de los permisos 
+fichero está determinado por permisos y grupos. Si se dispone de los permisos
 necesarios, o si se pertenece al grupo con permisos necesarios, se podrá
 acceder a un fichero o directorio.
 
@@ -44,14 +44,14 @@ __________     ____  _____                      ______
 
 ```
 
-Un fichero pertenece a un **usuario** y a un **grupo**. Los usuarios y los 
+Un fichero pertenece a un **usuario** y a un **grupo**. Los usuarios y los
 grupos tienen asociados un identificador numérico, llamados *Id. de usuario*
 (**UID**) e *Id. de grupo* (**GID**).
 
-Los usuarios del sistema están definidos en los ficheros `/etc/passwd` y 
+Los usuarios del sistema están definidos en los ficheros `/etc/passwd` y
 `/etc/shadow`.
 
-Los grupos están definidos en los ficheros `/etc/group` y 
+Los grupos están definidos en los ficheros `/etc/group` y
 `/etc/gshadow`.
 
 ```bash
@@ -63,14 +63,14 @@ vboxsf:x:990:fabi
 
 ```
 
-En el ejemplo anterior, puedo ver que el usuario *fabi* tiene *UID = 1000* y 
+En el ejemplo anterior, puedo ver que el usuario *fabi* tiene *UID = 1000* y
 *GID = 1000*. El usuario *vboxsf* tiene *UID = 990* y *GID = 990*.
 
 ### Usuarios: /etc/passwd y /etc/shadow
 
-Cuando se crea un usuario en el sistema, se alamcena la siguiente información
-en el fichero `/etc/passwd`. Esta información son 7 campos, separados por 
-caracteres (`:`). 
+Cuando se crea un usuario en el sistema, se almacena la siguiente información
+en el fichero `/etc/passwd`. Esta información son 7 campos, separados por
+caracteres (`:`).
 
 ```bash
 username:x:UID:GID:comment:home_directory:login_shell
@@ -91,7 +91,7 @@ Los campos son:
 6. Directorio *home* (ruta absoluta): normalmente */home/$USER*.
 7. *Shell* del usuario cuando hace *login*: por ejemplo, */bin/bash*.
 
-Normalmente, el fichero */etc/passwd* puede ser leido por todos los usuarios, 
+Normalmente, el fichero */etc/passwd* puede ser leido por todos los usuarios,
 pero sólo el usuario *root* puede modificar su contenido.
 
 Si el usuario como contraseña posee una **x**, quiere decir que su contraseña
