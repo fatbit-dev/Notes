@@ -75,16 +75,16 @@ Otro ejemplo:
 A modo de recordatorio, la siguiente tabla muestra la equivalencia entre valores
 expresados en base 2 (binarios) y valores expresados en base 8 (octal):
 
-| Octal  | Binario   |
-| :----- | :-------: |
-|  0     |  0 0 0    |
-|  1     |  0 0 1    |
-|  2     |  0 1 0    |
-|  3     |  0 1 1    |
-|  4     |  1 0 0    |
-|  5     |  1 0 1    |
-|  6     |  1 1 0    |
-|  7     |  1 1 1    |
+| Octal  | Binario   | Permisos   |
+| :----- | :-------: | :--------: |
+|  0     |  0 0 0    |  - - -     |
+|  1     |  0 0 1    |  - - x     |
+|  2     |  0 1 0    |  - w -     |
+|  3     |  0 1 1    |  - w x     |
+|  4     |  1 0 0    |  r - -     |
+|  5     |  1 0 1    |  r - x     |
+|  6     |  1 1 0    |  r w -     |
+|  7     |  1 1 1    |  r w x     |
 
 Hay una pequeña diferencia entre el significado de los permisos para ficheros y
 directorios:
@@ -243,6 +243,8 @@ pwd
 cat permisos.txt
 # Este es un fichero para jugar con chmod
 
+
+man chmod
 ```
 
 ### Propietarios de un fichero o un directorio
@@ -254,8 +256,7 @@ grupos tienen asociados un identificador numérico, llamados *Id. de usuario*
 Los usuarios del sistema están definidos en los ficheros `/etc/passwd` y 
 `/etc/shadow`.
 
-Los grupos están definidos en los ficheros `/etc/group` y 
-`/etc/gshadow`.
+Los grupos están definidos en los ficheros `/etc/group` y `/etc/gshadow`.
 
 ```bash
 cat /etc/group | grep fabi
@@ -271,7 +272,20 @@ En el ejemplo anterior, se puede ver que el usuario *fabi* tiene *UID = 1000* y
 
 También se puede ver que el usuario *fabi* pertenece al grupo *vboxsf*.
 
-## Usuarios: /etc/passwd y /etc/shadow
+### Cambiar el propietario de un fichero o directorio
+
+```bash
+su -
+
+# Cambia el usuario y el grupo de un fichero o directorio
+chown fabi:developers /home/fabi/license.txt
+chown fabi:developers /home/fabi/projects/
+
+# Cambia el usuario y el grupo de un directorio y todo su contenido
+chown -R fabi:developers /home/fabi/projects
+```
+
+## Usuarios
 
 Antes de nada, como usuario de un sistema Linux: ¿quién soy yo? ¿a qué grupos
 pertenezco? Ambas preguntas se responden con estos comandos:
@@ -286,9 +300,17 @@ groups
 # Obteniendo toda la información a la vez
 id
 
+id -u
+
+id -n
+
+id -g
+
 
 man id
 ```
+
+### /etc/passwd y /etc/shadow
 
 Cuando se crea un usuario en el sistema, se alamcena la siguiente información
 en el fichero `/etc/passwd`. Esta información son 7 campos, separados por 
@@ -305,7 +327,7 @@ fabi:x:1000:1000:Fabi:/home/fabi:/bin/bash
 Los campos son:
 
 1. Id. de usuario (se almacena en las variables $USER o $LOGNAME de la *shell*.)
-2. Contraseña cifrada (o una x que indica que se usa */etc/shadow*)
+2. Contraseña cifrada (o una x que indica que se usa `/etc/shadow`)
 3. UID (código numérico del usuario)
 4. GID (código numérico del grupo) - Aunque un usuario puede pertenecer a más de
    un grupo.
@@ -316,14 +338,16 @@ Los campos son:
 Normalmente, el fichero */etc/passwd* puede ser leido por todos los usuarios, 
 pero sólo el usuario *root* puede modificar su contenido.
 
-Si el usuario como contraseña posee una **x**, quiere decir que su contraseña
-cifrada se encuentra almacenada en el fichero `/etc/shadow`. Este fichero sólo
-puede ser leído y modificado por *root*.
+Si el usuario tiene una **x**, quiere decir que su contraseña cifrada se 
+encuentra almacenada en el fichero */etc/shadow*. Este fichero sólo puede ser 
+leído y modificado por *root*.
 
-No obstante, un usuario puede modificar su contraseña mediante el comando
-**passwd**:
+### passwd
+
+Un usuario puede modificar su contraseña usando el comando `passwd`:
 
 ```bash
+su -
 passwd
 
 # Para cambiar la contraseña de un usuario en particular, se ejecuta:
@@ -336,11 +360,58 @@ man shadow
 
 ### Añadir usuarios
 
-```bash
+Al añadir un usuario se crea su directorio personal en */home*. Por ejemplo, para
+la usuaria *peppa*, se creará el directorio */home/peppa*. Dentro de */home/peppa*,
+se copia una plantilla (que se encuentra en */etc/skel*).
 
+Tras crear al usuario, hay que asignarle una constraseña.
+
+```bash
+sudo adduser peppa
+sudo passwd peppa
+```
+
+Algunas de las opciones más comunes al usar estos programas son:
+
+```bash
+# Crea un usuario y establece el grupo inicial al que pertenece. (-g)
+# Por ejemplo, para un grupo llamado developers se haría:
+sudo adduser -g developers peppa
+
+# Para añadir más grupos se usa el flag (-G)
+sudo adduser -G grupo1,grupo2 peppa
+
+# Para no crear un directorio de usuario en /home (-M)
+sudo adduser -M peppa
+
+# Para crear una cuenta de sistema (tampoco crea nada en /home) (-r, --system)
+sudo adduser -r peppa
+
+
+# Se puede forzar la acción de cambio de contraseña (-f)
+sudo passwd -f peppa
+
+# Se puede borrar la contraseña de un usuario
+sudo passwd -d peppa
+
+
+man adduser
+man passwd
 ```
 
 ### Eliminar usuarios
+
+```bash
+# Elimina un usuario, pero conserva sus ficheros en /home/peppa
+sudo userdel peppa
+
+# Elimina un usuario, y elimina además el directorio /home/peppa. También se
+# elimina al usuario de los grupos a los que pertenecía.
+sudo userdel -r peppa
+
+
+man userdel
+```
 
 ### Añadir un usuario a un grupo
 
@@ -349,7 +420,80 @@ o más grupos:
 
 ```bash
 su -
+
+# Añade un usuario a dos grupos con _usermod_
 usermod -aG ungrupo,otrogrupo fabi
+
+# También se puede usar el comando _gpasswd_
+gpasswd -a fabi ungrupo
+
+
+man usermod
+man gpasswd
+```
+
+## Grupos: /etc/gpasswd y /etc/gshadow
+
+Un grupo es un conjunto de usuarios que comparten los mismos permisos.
+
+Hay dos tipos de grupos:
+
+- Primario
+- Secundarios
+
+En Linux, la información relativa a los grupos está en los ficheros 
+`/etc/group` y `/etc/gshadow`.
+
+### /etc/group
+
+Cada grupo está definido en una línea del fichero */etc/group*. Cada línea consta
+de 4 campos (separados por `:`)
+
+```bash
+cat /etc/group | grep fabi
+
+# El usuario fabi aparece en dos líneas:
+fabi:x:1000:fabi
+ 1   2   3   4
+
+```
+
+1. Nombre del grupo.
+2. Contraseña cifrada (**x** indica que la contraseña se guarda en /etc/gpaswd).
+3. GID.
+4. Lista de miembros (separados por `,`).
+
+### Añadir grupos
+
+```bash
+groupadd developers
+
+
+man groupadd
+```
+
+### Modificar grupos
+
+```bash
+# Se puede modificar el GID
+groupmod -g 1003 developers
+
+# Se puede modificar el nombre
+groupmod -n desarrolladores developers
+
+
+man groupmod
+```
+
+### Eliminar grupos
+
+Un grupo no se podrá eliminar si tiene algún miembro.
+
+```bash
+groupdel developers
+
+
+man groupdel
 ```
 
 ## El usuario root
@@ -430,6 +574,15 @@ usando visudo, e insertando una línea similar a esta:
 ```text
 fabi        ALL=(ALL)        ALL
 ```
+
+## Para ampliar
+
+El tema de gestión de usuarios da para varias asignaturas, pero tras esta
+primera introducción, se puede buscar información acerca de **suid**, **sgid**
+**sticky bit**, **ficheros inmutables**.
+
+Mucha de la configuración relativa a usuarios y grupos se guarda en el fichero
+`/etc/login.defs` :)
 
 
 ## Algunos recursos útiles
