@@ -23,17 +23,17 @@ top
 
 # El resultado será algo similar a esto (hemos numerado las líneas):
 
-1. top - 03:10:18 up  7:52,  3 users,  load average: 0,01, 0,27, 0,42
-2. Tasks: 141 total,   3 running,  89 sleeping,   0 stopped,   0 zombie
-3. %Cpu(s):  0,3 us,  0,0 sy,  0,0 ni, 99,7 id,  0,0 wa,  0,0 hi,  0,0 si,  0,0 st
-4. KiB Mem :  2038132 total,   339236 free,  1340556 used,   358340 buff/cache
-5. KiB Swap:   839676 total,   555004 free,   284672 used.   518248 avail Mem
-
-6. PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND
-7. 2980 fabi      20   0 2079052 123280  52368 S  0,7  6,0   2:24.41 Web Content
-8.  2369 root      20   0  485972  76288  13420 S  0,3  3,7  11:53.41 X
-9.  2730 fabi      20   0 8778044 277452  77788 S  0,3 13,6  10:47.08 firefox
-10. 7884 fabi      20   0  162020   4560   3892 R  0,3  0,2   0:00.36 top
+# 1.  top - 03:10:18 up  7:52,  3 users,  load average: 0,01, 0,27, 0,42
+# 2.  Tasks: 141 total,   3 running,  89 sleeping,   0 stopped,   0 zombie
+# 3.  %Cpu(s):  0,3 us,  0,0 sy,  0,0 ni, 99,7 id,  0,0 wa,  0,0 hi,  0,0 si,  0,0 st
+# 4.  KiB Mem :  2038132 total,   339236 free,  1340556 used,   358340 buff/cache
+# 5.  KiB Swap:   839676 total,   555004 free,   284672 used.   518248 avail Mem
+# 
+# 6.  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND
+# 7.  2980 fabi      20   0 2079052 123280  52368 S  0,7  6,0   2:24.41 Web Content
+# 8.  2369 root      20   0  485972  76288  13420 S  0,3  3,7  11:53.41 X
+# 9.  2730 fabi      20   0 8778044 277452  77788 S  0,3 13,6  10:47.08 firefox
+# 10. 7884 fabi      20   0  162020   4560   3892 R  0,3  0,2   0:00.36 top
 
 
 man top
@@ -49,14 +49,95 @@ Veamos qué información ofrece *top*:
     - Carga media durante los últimos 5 minutos.
     - Carga media durante los últimos 15 minutos.
 
-    Line 2 Tasks is just another name for processes. It's typical to have quite a few processes running on your system at any given time. Most of them will be system processes. Many of them will typically be sleeping. This is ok. It just means they are waiting until a particular event occurs, which they will then act upon.
-    Line 3 This is a breakdown of working memory (RAM). Don't worry if a large amount of your memory is used. Linux keeps recently used programs in memory to speed up performance if they are run again. If another process needs that memory, they can easily be cleared to accommodate this.
-    Line 4 This is a breakdown of Virtual memory on your system. If a large amount of this is in use, you may want to consider increasing it's size. For most people with most modern systems having gigabytes of RAM you shouldn't experience any issues here.
-    Lines 6 - 10 Finally is a listing of the most resource intensive processes on the system (in order of resource usage). This list will update in real time and so is interesting to watch to get an idea of what is happening on your system. The two important columns to consider are memory and CPU usage. If either of these is high for a particular process over a period of time, it may be worth looking into why this is so.The USER column shows who owns the process and the PID column identifies a process's Process ID which is a unique identifier for that process.
+2. La segunda línea muestra el número de procesos en ejecución y su estado. La mayoría serán procesos del sistema, que normalmente estarán en estado durmiente (*sleeping*). Esto quiere decir que son procesos que están esperando algún evento ante el cual reaccionar.
+
+3. La tercera línea ofrece información sobre la CPU (en porcentajes):
+  1. CPU usada por procesos del usuario.
+  2. CPU usada por procesos del sistema.
+  3. CPU usada por procesos que tienen un _**nice**ness_ definido.
+  4. CPU libre.
+  5. CPU esperando por alguna operación de E/S.
+  6. CPU usada por interrupiones hardware.
+  7. CPU usada por interrupiones software.
+  8. *Steal time* (CPUs virtuales)
+
+4. La cuarta línea ofrece un resumen sobre la RAM.
+
+5. La quinta línea ofrece un resumen sobre la memoria virtual del sistema.
+
+6. Las líneas 6 a 10 muestran los procesos que consumen más recursos. Esta información se actualiza constantemente, y ofrece una idea de qué procesos cargan el sistema. Normalmente se vigilan la memoria RAM y la CPU que están consumiendo los procesos. También aparece el usuario que ha ejecutado el proceso, y un *PID*, o identificador de proceso.
+
+  1. *PID* del proceso.
+  2. Usuario que ejecuta el proceso.
+  3. Prioridad.
+  4. Valor de *nice*.
+  5. Memoria virtual usada por el proceso (*swap*).
+  6. Memoria física usada por el proceso.
+  7. Memoria compartida usada por el proceso.
+  8. Estado actual de los procesos en ejecución.
+  9. % CPU usada por el proceso.
+  10. % RAM usada por el proceso.
+  11. Tiempo que lleva el proceso en ejecución.
+  12. Nombre del proceso.
+
+Se pueden ordenar los resultados de *top* pulsando *`Shift + F`*. 
+
+## ps
+
+El comando `ps` muestra toda la información sobre los procesos en ejecución.
+
+Es habitual usarlo junto a *grep* para obtener información sobre un proceso en particular.
+
+```bash
+ps aux
+
+ps faux
+
+ps aux | grep cron
 
 
+man ps
+```
+
+## kill y killall
+
+El comando `kill` sirve para enviar señales (*signals*) a un proceso (*PID*). Por ejemplo, la señales para eliminar procesos son muy habituales.
+
+```bash
+# Envía la señal 1 (SIGTERM) a cron (ordena a cron que se cierre ordenadamente)
+kill 1568
+
+# Envía la señal 9 (SIGKILL) a cron (fuerza el cierre de cron)
+kill -9 1568
 
 
+man kill
+```
+
+También se pueden enviar señales por el nombre del programa (sin conocer su *PID*).
+
+```bash
+killall cron
+
+killall -9 cron
+
+
+man killall
+```
+
+## Otras terminales (Ctrl + Alt + Fx)
+
+A veces un proceso puede dejar congelado un terminal. Podemos entonces acceder al sistema mediante otro terminal, para poder finalizar los procesos que estén congelados.
+
+Para ello pulsamos la combinación de teclas `Ctrl + Alt + Fx`, por ejemplo _**Ctrl + Alt + F2**_.
+
+## Procesos que se ejecutan en primer plano y en segundo plano
+
+### fg
+
+### bg
+
+### Ctrl + Z
 
 ## Para ampliar
 
