@@ -133,11 +133,75 @@ Para ello pulsamos la combinación de teclas `Ctrl + Alt + Fx`, por ejemplo _**C
 
 ## Procesos que se ejecutan en primer plano y en segundo plano
 
+Normalmente los comandos que se introducen en el terminal sirven para ejecutar programas en `primer plano` (*foreground*). Cuando un programa se ejecuta en primer plano, su salida se visualiza por el terminal (que normalmente lo muestra por pantalla). El programa nos devuelve el control cuando se termina su ejecución, y volvemos a ver el *prompt*.
+
+No obstante, hay comandos que se ejecutan en segundo plano (*background*), y que no suelen mostrar su salida por el terminal. Por ejemplo, muchos procesos del sistema se ejecuten en segundo plano, y su salida se envía hacia algún fichero de *log* (bitácora).
+
+En cualquier caso, se pueden ejecutar comandos en primer y segundo plano:
+
+```bash
+
+
+
+
+```
+
+### Matar un proceso en primer plano (Ctrl + C)
+
+Antes se ha visto cómo se puede usar el comando *kill* para terminar un proceso. Si ese proceso se ha lanzado mediante un comando en la terminal, puede ser detenido pulsando `Ctrl + C`. Esto enviará la señal *SIGTERM* al programa en cuestión.
+
 ### fg
 
 ### bg
 
 ### Ctrl + Z
+
+## Ejecutar varios procesos (&&, ||, ;)
+
+### Operador ;
+
+Para ejecutar un comando tras otro se usa el separador de comandos `;`.
+
+```bash
+echo "Emepzamos..." ; sleep 5 ; echo "...han pasado 5 segundos"
+```
+
+En el ejemplo anterior, se ejecutarán todos los comandos (dos *echo* y un *sleep*) uno tras otro y en orden.
+
+### Operador &&
+
+Sirve para ejecutar un comando y, si se ejecutó SIN errores, entonces se ejecuta el segundo comando.
+
+```bash
+cd
+pwd
+echo "Emepzamos..." && sleep 5 && echo "...han pasado 5 segundos"
+
+mkdir /etc/nosepuede && cd /etc/nosepuede && echo "Estoy en $(pwd)"
+pwd
+
+mkdir ~/sisepuede && cd ~/sisepuede && echo "Estoy en $(pwd)"
+pwd
+
+cd
+rmdir ~/sisepuede
+```
+
+### Operador ||
+
+Sirve para ejecutar un comando y, si se ejecutó CON errores, entonces se ejecuta el segundo comando.
+
+```bash
+cd
+pwd
+echo "Emepzamos..." || sleep 5 || echo "...han pasado 5 segundos"
+
+mkdir /etc/nosepuede || echo "No se ha podido crear /etc/nosepuede :("
+pwd
+
+mkdir ~/sisepuede || echo "No se ha podido crear ~/sisepuede..."
+pwd
+```
 
 ## Para ampliar
 
@@ -145,5 +209,5 @@ Este
 
 ## Algunos recursos útiles
 
-- [Permissions - Ryans Tutorials](https://ryanstutorials.net/linuxtutorial/permissions.php)
-- [Permissions - IBM Developer](https://developer.ibm.com/tutorials/l-lpic1-104-5/)
+- []()
+- []()
