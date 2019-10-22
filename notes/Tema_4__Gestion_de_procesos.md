@@ -178,6 +178,17 @@ killall -9 cron
 man killall
 ```
 
+## free
+
+Aunque ya se había mencionado, el comando `free` muestra información sobre la memoria total del sistema, la memoria libre (que puede ser usada por los nuevos programas que se ejecuten), o la memoria ocupada por procesos.
+
+```bash
+free
+
+
+man free
+```
+
 ## Otras terminales (Ctrl + Alt + Fx)
 
 A veces un proceso puede dejar congelado un terminal. Podemos entonces acceder al sistema mediante otro terminal, para poder finalizar los procesos que estén congelados.
@@ -332,6 +343,8 @@ Este tema es sólo una introducción a la gestión de procesos en Linux. Para am
 - `trap`
 - `stty`
 - `nice`
+- `nohup`
+- `pgrep`
 
 ## Algunos recursos útiles
 
