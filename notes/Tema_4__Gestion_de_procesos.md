@@ -101,7 +101,19 @@ man ps
 
 ## kill y killall
 
-El comando `kill` sirve para enviar señales (*signals*) a un proceso (*PID*). Por ejemplo, la señales para eliminar procesos son muy habituales.
+El comando `kill` sirve para enviar señales (*signals*) a un proceso (*PID*). Por ejemplo, la señales para eliminar procesos son muy habituales. La siguiente tabla muestra algunas de las señales más comunes:
+
+
+| Nombre    | Número   | Descripción   |
+| :-------- | :------: | :-----------: |
+|  SIGHUP   |  1       |  Notifica a un proceso cuyo padre ha terminado su ejecución (muchas veces, el padre es un terminal |
+|  SIGINT   |  2       |  Notifica a un proceso cuando el usuario envía una señal de interrupción (Ctrl + C) |
+|  SIGQUIT  |  3       |  Notifica a un proceso cuando el usuario envía una señal de terminación (Ctrl + D) |
+|  SIGFPE   |  8       |  Notifica a un proceso cuando se intenta realizar una operación matemática ilegal |
+|  SIGKILL  |  9       |  Si un proceso recibe esta señal, debe terminar su ejecución inmediatamente, sin hacer ninguna limpieza |
+|  SIGALRM  |  14      |  Señal de alarma de reloj (usada con temporizadores) |
+|  SIGTERM  |  15      |  Señal de terminación de software (es la señal que kill envía por defecto) |
+ 	 		
 
 ```bash
 # Envía la señal 1 (SIGTERM) a cron (ordena a cron que se cierre ordenadamente)
