@@ -2,21 +2,15 @@
 
 Este tema trata sobre la gestión de procesos en ejecución.
 
-Cuando se ejecuta un programa en Linux, se crea al menos un proceso con todo
-el contexto de ejecución para ese programa. Normalmente los sistemas Linux son
-muy estables, pero alguna vez ocurrirá algo inesperado, un programa se quedará
-colgado, o querremos hacer algún ajuste: en ese momento habrá que lidiar con
-procesos.
+Cuando se ejecuta un programa en Linux, se crea al menos un proceso con todo el contexto de ejecución para ese programa. Normalmente los sistemas Linux son muy estables, pero alguna vez ocurrirá algo inesperado, un programa se quedará colgado, o querremos hacer algún ajuste: en ese momento habrá que lidiar con procesos.
 
-Un proceso puede ejecutarse en primer plano (*foreground*) o en segundo plano
-(*background*). Hay procesos que están diseñados para ejecutarse en *background*,
-y se les suele llamar **demonios**.
+Un proceso puede ejecutarse en primer plano (*foreground*) o en segundo plano (*background*). Hay procesos que están diseñados para ejecutarse en *background*, y se les suele llamar **demonios**.
+
+En cuanto a la nomenclatura, es común usar el término **tarea** (*task*) para referirse a un *proceso*.
 
 ## top
 
-Para ver la tabla de procesos, se usa el comando `top` (*table of processes*).
-*top* nos proporciona un vistazo de tiempo real de todos los procesos que se 
-ejecutan en el sistema.
+Para ver la tabla de procesos, se usa el comando `top` (*table of processes*). *top* proporciona un vistazo en tiempo real de todos los procesos que se ejecutan en el sistema.
 
 ```bash
 top
@@ -67,7 +61,7 @@ Veamos qué información ofrece *top*:
 
 6. Las líneas 6 a 10 muestran los procesos que consumen más recursos. Esta información se actualiza constantemente, y ofrece una idea de qué procesos cargan el sistema. Normalmente se vigilan la memoria RAM y la CPU que están consumiendo los procesos. También aparece el usuario que ha ejecutado el proceso, y un *PID*, o identificador de proceso.
 
-  1. *PID* del proceso.
+  1. *PID* del proceso. Cada proceso tiene un *PID* único.
   2. Usuario que ejecuta el proceso.
   3. Prioridad.
   4. Valor de *nice*.
@@ -89,15 +83,58 @@ El comando `ps` muestra toda la información sobre los procesos en ejecución.
 Es habitual usarlo junto a *grep* para obtener información sobre un proceso en particular.
 
 ```bash
+# a: muestra los procesos para todos los usuarios
+# u: muestra información adicional
+# x: muestra información sobre procesos sin terminal (típicamente demonios)
 ps aux
 
+# f: muestra información sobre los procesos y sus sub-procesos
 ps faux
 
+# e: muestra información extendida
+ps e
+
+# T: muestra los procesos lanzados desde este terminal
+ps T
+
+# Es común usar ps junto a grep, para filtrar los resultados
 ps aux | grep cron
 
 
 man ps
 ```
+
+A continuación se detalla brevemente alguno de los campos útiles de la salida de *ps*:
+
+| Campo     | Significado   |
+| :-------- | :-----------: |
+|  PID      |  El Id. del proceso  |
+|  TTY      |  El terminal desde el que fue lanzado el proceso  |
+|  STAT     |  El estado del proceso  |
+|  TIME     |  El tiempo de CPU consumido por el proceso  |
+|  COMMAND  |  El comando que fue ejecutado (y que generó al proceso)  |
+
+En cuando al campo *STAT*, los valores más comunes son:
+
+| Valor   | Significado   |
+| :------ | :-----------: |
+|  D      |  Dormido, ininterrumpible. El proceso está en estado de espera (normalmente espera alguna operación de E/S), y no puede ser interrumpido (*dormant*) |
+|  I      |  En espera (o *idle*). El proceso está en ejecución, pero está esperando su turno (para que sea ejecutado por el planificador de la CPU o *scheduler*)  |
+|  R      |  En ejecución (*running*)  |
+|  S      |  Dormido, pero puede ser interrumpido (*sleeping*)  |
+|  T      |  Detenido, debido a una señal de control  |
+|  Z      |  Proceso *zombie*. El proceso ha terminaod, pero no ha sido "limpiado" por su proceso padre   |
+    
+Por último, los valores del campo *STAT* suelen tener además por algún indicador extra:
+
+| Indicador   | Significado   |
+| :---------- | :-----------: |
+|  <          |  Tarea de alta prioridad (relacionado con *nice*) |
+|  N          |  Tarea de baja prioridad (también relacionado con *nice*) |
+|  L          |  El proceso tiene páginas reservadas en memoria (típicamente usadas por procesos *real-time* |
+|  s          |  El proceso es *líder de sesión*, es decir, es padre de otros procesos (un ejemplo de esto es una *shell*) |
+|  l          |  El proceso tiene varios hilos (*multi-thread*) |
+|  +          |  El proceso se ejecuta en primer plano (*foreground*) |
 
 ## kill y killall
 
@@ -107,26 +144,30 @@ El comando `kill` sirve para enviar señales (*signals*) a un proceso (*PID*). P
 | Nombre    | Número   | Descripción   |
 | :-------- | :------: | :-----------: |
 |  SIGHUP   |  1       |  Notifica a un proceso cuyo padre ha terminado su ejecución (muchas veces, el padre es un terminal |
-|  SIGINT   |  2       |  Notifica a un proceso cuando el usuario envía una señal de interrupción (Ctrl + C) |
-|  SIGQUIT  |  3       |  Notifica a un proceso cuando el usuario envía una señal de terminación (Ctrl + D) |
+|  SIGINT   |  2       |  Notifica a un proceso cuando el usuario envía una señal de interrupción (*Ctrl + C*) |
+|  SIGQUIT  |  3       |  Notifica a un proceso cuando el usuario envía una señal de terminación (*Ctrl + D*) |
 |  SIGFPE   |  8       |  Notifica a un proceso cuando se intenta realizar una operación matemática ilegal |
 |  SIGKILL  |  9       |  Si un proceso recibe esta señal, debe terminar su ejecución inmediatamente, sin hacer ninguna limpieza |
 |  SIGALRM  |  14      |  Señal de alarma de reloj (usada con temporizadores) |
 |  SIGTERM  |  15      |  Señal de terminación de software (es la señal que kill envía por defecto) |
+|  SIGSTOP  |  20      |  Notifica a un proceso para que detenga su ejecución y se mueva al segundo plano (*Ctrl + Z*) |
  	 		
 
 ```bash
-# Envía la señal 1 (SIGTERM) a cron (ordena a cron que se cierre ordenadamente)
+# Envía la señal 15 (SIGTERM) a cron (ordena a cron que se cierre ordenadamente)
 kill 1568
 
 # Envía la señal 9 (SIGKILL) a cron (fuerza el cierre de cron)
 kill -9 1568
 
+# Se pueden ver todas las señales disponibles:
+kill -l
+
 
 man kill
 ```
 
-También se pueden enviar señales por el nombre del programa (sin conocer su *PID*).
+También se pueden enviar señales por el nombre del programa (sin conocer su *PID*). Esto se consigue con el comando `killall`.
 
 ```bash
 killall cron
@@ -141,7 +182,7 @@ man killall
 
 A veces un proceso puede dejar congelado un terminal. Podemos entonces acceder al sistema mediante otro terminal, para poder finalizar los procesos que estén congelados.
 
-Para ello pulsamos la combinación de teclas `Ctrl + Alt + Fx`, por ejemplo _**Ctrl + Alt + F2**_.
+Para ello pulsamos la combinación de teclas `Ctrl + Alt + Fx`, por ejemplo _**Ctrl + Alt + F2**_. Normalmente esto abrirá otro terminal desde el cual podemos terminar los procesos lanzados desde el terminal principal.
 
 ## Procesos que se ejecutan en primer plano y en segundo plano
 
@@ -149,12 +190,16 @@ Normalmente los comandos que se introducen en el terminal sirven para ejecutar p
 
 No obstante, hay comandos que se ejecutan en segundo plano (*background*), y que no suelen mostrar su salida por el terminal. Por ejemplo, muchos procesos del sistema se ejecuten en segundo plano, y su salida se envía hacia algún fichero de *log* (bitácora).
 
-En cualquier caso, se pueden ejecutar comandos en primer y segundo plano:
+Para lanzar procesos en segundo plano, se usa el operador `&` (*ampersand*), que se escribe al final del comando
+
+En cualquier caso, se pueden ejecutar comandos en primer y segundo plano como se muestra a continuación:
 
 ```bash
+# Proceso en primer plano
+sleep 10
 
-
-
+# Proceso en segundo plano
+sleep 10 &
 
 ```
 
@@ -162,11 +207,75 @@ En cualquier caso, se pueden ejecutar comandos en primer y segundo plano:
 
 Antes se ha visto cómo se puede usar el comando *kill* para terminar un proceso. Si ese proceso se ha lanzado mediante un comando en la terminal, puede ser detenido pulsando `Ctrl + C`. Esto enviará la señal *SIGTERM* al programa en cuestión.
 
-### fg
+### Ctrl + Z
+
+Cuando se ejecuta un proceso, éste puede ser detenido (*stopped*) por el usuario pulsando la combinación de teclas `Ctrl + Z`. Al hacer esto, el proceso se detiene y se mueve a segundo plano.
+
+```bash
+sleep 15 &
+
+sleep 10
+# Pulsar Ctrl + Z
+
+jobs
+
+```
 
 ### bg
 
-### Ctrl + Z
+El comando `bg` sirve para continuar con la ejecución de un proceso que estaba detenido en segundo plano. Se puede usar especificando un número de *job* (que no es lo mismo que el *PID*).
+
+Cuando se ejecuta *bg* sin un número de *job*, se continua con la ejecución del *job* por defecto (1). Conviene resaltar que cuando un proceso de mueve a segundo plano, ya no acepta entradas desde el terminal, por lo que si se pulsa *Ctrl + C* o *Ctrl + Z* no se enviará ninguna señal al proceso.
+
+Además, si un proceso se mueve del primer al segundo plano, el proceso seguirá mostrando su salida por el terminal, lo cual es un poco lioso, ya que cuesta más escribir en el terminal sin confundirse.
+
+```bash
+sleep 10
+# Pulsar Ctrl + Z
+
+bg
+
+# Otro ejemplo:
+ping www.debian.org
+# Pulsar Ctrl + Z
+
+# La salida de ping sigue mostrándose por el terminal, y será más costoso escribir nuevos comandos.
+# Si se pulsa Ctrl + C, no se podrá terminar el comando ping.
+
+man bg
+```
+
+### fg
+
+El comando `fg` sirve para traer un proceso desde el segundo plano al primer plano. Al igual que ocurría con *bg*, el comando *fg* puede ser invoacdo con o sin un número de *job*.
+
+```bash
+ping www.debian.org
+# Pulsar Ctrl + Z
+
+# La salida de ping sigue mostrándose por el terminal, y será más costoso escribir nuevos comandos.
+# Si se pulsa Ctrl + C, no se podrá terminar el comando ping.
+
+# Pero ahora se mueve el proceso desde el segundo plano al primer plano, y se continúa con su ejecución:
+fg
+
+# A partir de este momento, se puede detener el comando ping usando Ctrl + C.
+
+
+man fg
+```
+
+### Breve nota sobre kill
+
+Aunque antes se ha usado *kill* usando un *PID*, también se puede enviar una señal a un proceso usando su número de *job*. Para ello, se emplea un *%* antes del número de *job*.
+
+```bash
+sleep 10
+# Pulsar Ctrl + Z
+
+kill %1
+
+```
 
 ## Ejecutar varios procesos (&&, ||, ;)
 
@@ -217,7 +326,12 @@ pwd
 
 ## Para ampliar
 
-Este
+Este tema es sólo una introducción a la gestión de procesos en Linux. Para ampliar, se puede buscar información sobre:
+
+- `jobs`
+- `trap`
+- `stty`
+- `nice`
 
 ## Algunos recursos útiles
 
