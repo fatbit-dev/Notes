@@ -1,6 +1,6 @@
 # Tema 5 - Editores de texto (vim y nano)
 
-En este tema se ven muy brevemente los editores de texto `vim` y `nano`. Se han elegido estos dos porque son muy comunes, y suelen venir preinstalados en las distribuciones más populares (por ejemplo, *nano* es el editor por defecto en distribuciones Debian o derivadas).
+En este tema se ven muy brevemente los editores de texto `vim` y `nano`. Se han elegido estos dos porque son muy comunes, y suelen venir preinstalados en las distribuciones más populares (por ejemplo, *nano* es el editor por defecto en distribuciones Debian o derivadas). La idea de este tema es tener unas nociones básicas que nos permitan editar nuestros propios *scripts*.
 
 Para instalar los editores hay que ejecutar:
 
@@ -81,12 +81,22 @@ Algunas de las operaciones básicas que se pueden hacer desde el modo de comando
 
 ### .vimrc
 
+El fichero `$HOME/.vimrc` almacena la configuración de *vim* para un usuario en particular. En este fichero se puede, por ejemplo, activar el resaltado de código, especificar a cuántos espacios se traduce un tabulador, mostrar los números de línea, etc.
+
+Se deja aquí un ejemplo básico de fichero *.vimrc*:
+
+```text
+syntax on
+set tabstop=2
+set hlsearch
+set ruler
+set mouse=nc
+set pastetoggle=<F2>
+set foldmethod=marker
+```
 
 ## Para ampliar
 
 Nano es un editor sencillo, y vim es mucho más complejo, y dado que este tema es sólo una pincelada de ambas herramientas, se recomienda buscar información sobre ellos para sacarles todo el partido.
 
-## Algunos recursos útiles
-
-- []()
-- []()
+Opcionalmente, se puede investigar acerca de los (numerosísimos) *plugins* que existen para *vim*, o también buscar más información sobre cómo configurar el fichero *.vimrc*.
