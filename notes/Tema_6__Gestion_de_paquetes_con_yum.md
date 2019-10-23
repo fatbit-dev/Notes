@@ -286,6 +286,8 @@ Para verificar la instalación, podemos preguntarle a Git su versión:
 git --version
 ```
 
+### Configurar git
+
 Una vez instalado *git*, se puede configurar un usuario (esta información aparecerá en un *repo* de *git* cuando se hagan *commits*:
 
 ```bash
@@ -304,6 +306,14 @@ git config --list"
 ```
 
 La información anterior se guarda en el fichero *`$HOME/.gitconfig`*.
+
+## Listar los paquetes que contiene un repositorio en particular
+
+Para ver los paquetes de software que proporciona un repositorio, se puede ejecutar un comando similar a este (que muestra los paquetes del repositorio *EPEL*):
+
+```bash
+yum list available --disablerepo=* --enablerepo=epel
+```
 
 ## Algunos recursos útiles
 
