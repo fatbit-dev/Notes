@@ -314,6 +314,15 @@ Para ver los paquetes de software que proporciona un repositorio, se puede ejecu
 ```bash
 yum list available --disablerepo=* --enablerepo=epel
 ```
+## Instalar paquetes desde un repositorio en particular
+
+Puede ocurrir que varios repositorios ofrezcan los mismos paquetes software, quizá con versiones diferentes. Se puede elgir instalar un paquete desde un repositorio en particular, ignorando los paquetes que ofrezcan el resto de repositorios.
+
+El siguiente ejemplo muestra cómo instalar el software *`nagios`* desde el repositorio *EPEL*: 
+
+```bash
+sudo yum --enablerepo=epel install nagios
+```
 
 ## Algunos recursos útiles
 
