@@ -192,7 +192,7 @@ gpgcheck=1
 Una vez guardado el fichero *.repo* se pueden listar los repositorios.
 
 ```bash
-yum repolits
+yum repolist
 ```
 Se debe obtener un listado similar al siguiente:
 
@@ -222,6 +222,14 @@ A continuación se instalaría el paquete deseado, que está en el nuevo reposit
 yum install nombre_paquete
 ```
 
+## Activar repositorios adicionales de CentOS
+
+Para CentOS 7 se recomienda habilitar los repositorios **opcional**, **extra** y **HA**, ya que a veces contienen software más actualizado que los repositorios base (y soluciona algunos problemas de dependencias de paquetes):
+
+```bash
+subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"  --enable "rhel-ha-for-rhel-*-server-rpms
+```
+
 ## Repositorio adicional para Linux Empresarial (EPEL)
 
 EPEL (*Extra Packages for Enterprise Linux*) es un Grupo de Interés Especial (*SIG*) de la distribución *Fedora*, que crea, mantiene y gestiona un conjunto de paquetes para sistemas operativos Linux derivados de RedHat.  
@@ -230,25 +238,11 @@ La lista de los paquetes EPEL disponibles para CentOS 7, para arquitecturas x86_
 
 [https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/a/](https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/a/)
 
-Desde el siguiente enlace se descarga el fichero .rpm para CentOS 7 "*epel-release-latest-7*"
-
-[https://fedoraproject.org/wiki/EPEL?rd=EPEL/en](https://fedoraproject.org/wiki/EPEL?rd=EPEL/en)
-
-Para instalar (activar) este repositorio usando el fichero .rmp, se ejecuta el siguiente comando:
+Como este *repo* es tan popular, la forma de instalarlo y activarlo está simplificada con respecto a lo comentado anteriormente. Para instalar (activar) este repositorio y dejarlo configurado en el sistema, se puede ejecutar el siguiente comando:
 
 ```bash
 yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 ```
-
-El paquete se incluye en el repositorio CentOS Extras, y se habilita por defecto 
-
-Para CentOS 7 se recomienda habilitar los repositorios **opcional**, **extra** y **HA**, ya que a veces contienen software más actualizado que los repositorios base (y soluciona algunos problemas de dependencias de paquetes):
-
-```bash
-subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"  --enable "rhel-ha-for-rhel-*-server-rpms
-```
-
-Como usar estos paquetes. EPEL tiene un paquetel "epel-release" que incluye las llaves gpg para el firmado de paquetes e información del repositorio. Una vez instalado se pueden usar herramientas de linux, como yum para instalar paquetes y sus dependencias.
 
 ## Repositorio adicional para instalar una versión moderna de git (Wandisco Git repositry)
 
@@ -310,7 +304,6 @@ git config --list"
 ```
 
 La información anterior se guarda en el fichero *`$HOME/.gitconfig`*.
-
 
 ## Algunos recursos útiles
 
