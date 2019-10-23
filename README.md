@@ -1,18 +1,14 @@
 # Notes
 
-Este repositorio contiene algunas guías y apuntes para un curso básico (101) de
-Sistemas Operativos y Redes de ordenadores.
+Este repositorio contiene algunas guías y apuntes para un curso básico (101) de Sistemas Operativos y Redes de ordenadores.
 
-Se trata de un curso práctico, y aquí sólo hay una guía sobre los contenidos a
-desarrollar durante la práctica en el aula.
+Se trata de un curso práctico, y aquí sólo hay una guía sobre los contenidos a desarrollar durante la práctica en el aula.
 
-El repositorio contiene esencialmente ficheros en formato *Markdown* con el
-contenido de los temas a tratar.
+El repositorio contiene esencialmente ficheros en formato *Markdown* con el contenido de los temas a tratar.
 
 ## Cómo contribuir
 
-¿Has visto alguna errata? ¿Crees que algo se podría mejorar? Si dispones de una
-cuenta en [Github](https://github.com), puedes contribuir así:
+¿Has visto alguna errata? ¿Crees que algo se podría mejorar? Si dispones de una cuenta en [Github](https://github.com), puedes contribuir así:
 
 1. Haz un fork desde el [Github del proyecto](https://github.com/fatbit-dev/Notes).
 2. En tu PC, clona el repo de tu cuenta de Github en un repo local (**_clone_**): 
@@ -27,9 +23,7 @@ cuenta en [Github](https://github.com), puedes contribuir así:
 
 ## Créditos
 
-Los documentos de este repositorio han sido elaborados a partir de la bibliografía recomendada para la
-asignatura, y también a partir de múltiples fuentes y publicaciones, tanto 
-online como en papel.
+Los documentos de este repositorio han sido elaborados a partir de la bibliografía recomendada para la asignatura, y también a partir de múltiples fuentes y publicaciones, tanto online como en papel.
 
 ### Autor(es)
 

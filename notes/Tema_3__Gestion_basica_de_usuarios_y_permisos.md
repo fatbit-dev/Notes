@@ -584,7 +584,6 @@ primera introducción, se puede buscar información acerca de **suid**, **sgid**
 Mucha de la configuración relativa a usuarios y grupos se guarda en el fichero
 `/etc/login.defs` :)
 
-
 ## Algunos recursos útiles
 
 - [Permissions - Ryans Tutorials](https://ryanstutorials.net/linuxtutorial/permissions.php)

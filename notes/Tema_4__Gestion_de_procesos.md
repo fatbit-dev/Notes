@@ -345,8 +345,3 @@ Este tema es sólo una introducción a la gestión de procesos en Linux. Para am
 - `nice`
 - `nohup`
 - `pgrep`
-
-## Algunos recursos útiles
-
-- []()
-- []()
