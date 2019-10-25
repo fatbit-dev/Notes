@@ -238,7 +238,7 @@ ls
 # ls: no se puede abrir el directorio .: Permiso denegado
 
 pwd
-/#home/fabi/permisos
+#/home/fabi/permisos
 
 cat permisos.txt
 # Este es un fichero para jugar con chmod
@@ -583,6 +583,8 @@ primera introducción, se puede buscar información acerca de **suid**, **sgid**
 
 Mucha de la configuración relativa a usuarios y grupos se guarda en el fichero
 `/etc/login.defs` :)
+
+- `umask`
 
 ## Algunos recursos útiles
 
