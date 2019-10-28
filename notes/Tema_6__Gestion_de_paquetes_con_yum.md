@@ -100,7 +100,7 @@ yum update_to xx.yy.zz gfortan
 
 Para obtener paquetes con yum el comando es *`yum info ´nombre de paquete´`*. 
 
-Si no se especific ningún paquete, *yum* entiende que se quiere información sobre el sistema entero. Para obtener información de paquetes no es necesario ser superusuario.
+Si no se especifica ningún paquete, *yum* entiende que se quiere información sobre el sistema entero. Para obtener información de paquetes no es necesario ser superusuario.
  
 ```bash
 yum info gfortran
@@ -109,7 +109,7 @@ yum info gfortran
 
 ## Comprobar actualizaciones (yum check-update)
 
-Es posible consultar si un paquete, o el sistema entero, tiene todas las actualizaciones instaladas, o bien si hay paquetes con actualizaciones. Los valores posibles que devuelve *yum check-update* son:
+Es posible consultar si un paquete, o el sistema entero, tiene todas las actualizaciones instaladas, o bien si hay paquetes con actualizaciones. Los valores posibles que devuelve *`yum check-update`* son:
 
 - **100**: Significa que hay paquetes disponibles para una actualización. También se presenta una lista de paquetes con actualizaciones pendientes. 
 - **0**: No hay actualizaciones disponibles.
@@ -128,12 +128,13 @@ Se puede buscar un término entre el nombre o la descripción de todos los paque
 
 ```bash
 yum search pyqt
+yum search xfce
 
 ```
 
 ## Haciendo limpieza (yum clean)
 
-Los gestores de paquetes suelen utilizar cachés para almacenar información sobre los paquetes. Estas cachés ocupan espacio en disco, y pueden ser vaciadas para liberar espacio. El comando para limpiar todas estas cachés y metadatos es *`yum clean all`*.
+Los gestores de paquetes suelen utilizar cachés para almacenar información sobre los paquetes. Estas cachés se almacenan en disco, y pueden ser vaciadas para liberar espacio. El comando para limpiar todas estas cachés y metadatos es *`yum clean all`*.
 
 ```bash
 yum clean
@@ -155,7 +156,7 @@ YUM, al igual que APT, trabaja con **repositorios**, que son conjuntos de paquet
 
 **Localización de los paquetes**
 
-Ejecutando *ls -la /etc* podemos ver los directorios *`/etc/yum.repos.d/`*, *`/etc/yum/`* y el fichero informativo *`yum.conf/`*. Todos estos ficheros y directorios guardan información y configuración de yum.
+Ejecutando *ls -la /etc* podemos ver los directorios *`/etc/yum.repos.d/`*, *`/etc/yum/`* y el fichero informativo *`yum.conf/`*, que guardan información y configuración de *yum*.
 
 La información de los paquetes instalados se guarda, por defecto, en el directorio *`/etc/yum.repos.d/`* que contiene varios ficheros que contienen información sobre repositorios (*\*.repo*). La información de los *repos* se dividen en tres secciones: paquetes normales (CentOS-Base.repo), paquetes de desarrollo (CentOS-Debuginfo.repo) y paquetes en código fuente (CentOS-Sources.repo). El *repo* especifica en que *mirrors* (o réplicas) están las últimas versiones de los paquetes.
 
@@ -210,12 +211,6 @@ Loading mirror speeds from cached hostfile
  
 ```
 
-Cuando se activa un nuevo repositorio, conviene actualizar la información de *yum*:
-
-```bash
-yum check-update
-```
-
 A continuación se instalaría el paquete deseado, que está en el nuevo repositorio:
 
 ```bash
@@ -227,7 +222,7 @@ yum install nombre_paquete
 Para CentOS 7 se recomienda habilitar los repositorios **opcional**, **extra** y **HA**, ya que a veces contienen software más actualizado que los repositorios base (y soluciona algunos problemas de dependencias de paquetes):
 
 ```bash
-subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"  --enable "rhel-ha-for-rhel-*-server-rpms
+subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"  --enable "rhel-ha-for-rhel-*-server-rpms"
 ```
 
 ## Repositorio adicional para Linux Empresarial (EPEL)
@@ -248,7 +243,7 @@ yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.r
 
 Actualmente, los repositorios de CentOS 7 proporcionan una versión muy antigua de *git*, la 1.8.3.
 
-La forma más facil de instalar una versión de *git* moderna (como la 2.18), es instalarlo con *yum* desde los repositorios *Wandisco*.
+La forma más facil de instalar una versión de *git* moderna (como la 2.18), es instalarlo con *yum* desde algún *repo* como *Wandisco*.
 
 En primer lugar hay que activar el repositorio *Wandisco Git*. Para esto hay que crear el fichero *`wandisco-git.repo`* en el directorio *`/etc/yum.repos.d`*.
 
