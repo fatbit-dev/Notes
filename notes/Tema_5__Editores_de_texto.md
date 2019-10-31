@@ -76,6 +76,7 @@ Algunas de las operaciones básicas que se pueden hacer desde el modo de comando
 - **Y**: Copia la línea actual en el portapapeles.
 - **/**: Se usa la barra */* seguida de un término de búsqueda, para buscarlo en el fichero.
 - **n**: Mientras se está en una búsqueda, se desplaza a la siguiente ocurrencia del término de búsuqeda en el fichero.
+- **N**: Mientras se está en una búsqueda, se desplaza a la anterior ocurrencia del término de búsuqeda en el fichero.
 - **:%s/uno/otro/g**: Reemplaza el texto *uno* por el texto *otro* en todo el fichero.
 - **u**: Deshace la última edición.
 

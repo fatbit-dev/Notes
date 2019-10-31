@@ -123,7 +123,7 @@ En cuando al campo *STAT*, los valores más comunes son:
 |  R      |  En ejecución (*running*)  |
 |  S      |  Dormido, pero puede ser interrumpido (*sleeping*)  |
 |  T      |  Detenido, debido a una señal de control  |
-|  Z      |  Proceso *zombie*. El proceso ha terminaod, pero no ha sido "limpiado" por su proceso padre   |
+|  Z      |  Proceso *zombie*. El proceso ha terminado, pero no ha sido "limpiado" por su proceso padre   |
     
 Por último, los valores del campo *STAT* suelen tener además por algún indicador extra:
 
@@ -288,7 +288,7 @@ kill %1
 
 ```
 
-## Ejecutar varios procesos (&&, ||, ;)
+## Ejecutar varios procesos ( &&, ||, ; )
 
 ### Operador ;
 
