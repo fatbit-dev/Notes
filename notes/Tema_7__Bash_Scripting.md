@@ -235,6 +235,16 @@ export var1
 
 ```
 
+Además de exportar una variable, también puede eliminarse (su contenido pasa a estar indefinido, *null*). Para ello se usa el comando `unset`.
+
+```bash
+export myVar='Andrómeda'
+echo "myVar = $myVar"
+unset myVar
+echo "myVar = $myVar"
+
+```
+
 ### Longitud de una variable
 
 ```bash
