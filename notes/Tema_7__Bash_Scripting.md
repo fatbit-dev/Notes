@@ -44,7 +44,7 @@ Conviene especificar siempre el *shebang* para cada script, y siempre debe estar
 
 ## Variables
 
-Además de las variables de entorno, se pueden definir y usar variables internas en un *script*.
+Además de las variables de entorno, se pueden definir y usar variables internas en un *script* (variables de *shell*).
 
 ```bash
 # Crea la variable MSG y le asigna un valor (signo = sin espacios)
@@ -137,9 +137,9 @@ echo "FIRST_ARG = ${FIRST_ARG}"
 echo
 ```
 
-### Substitución de comandos (commnad-substitution)
+### Sustitución de comandos (commnad-substitution)
 
-Sirve para ejecutar un comando *in-situ* y utilizar su salida. Para realizar una sustitución de coandos, se usa la construcción **$( )**.
+Sirve para ejecutar un comando *in-situ* y utilizar su salida. Para realizar una sustitución de comandos, se usa la construcción **$( )**.
 
 ```bash
 echo "Estamos a $( date )."
@@ -151,7 +151,7 @@ ls -la ${CURR_DIR}
 
 ### Exportar variables (visibilidad, ámbito o scope)
 
-Una variable declarada dentro de un *script* sólo es visible por ese *script*. Si se desea que los hijos de ese *script* tengan acceso a las variables, hay que exportarlas.
+Una variable declarada dentro de un *script* sólo es visible por ese *script*: es una **variable de _shell_**. Si se desea que los hijos de ese *script* tengan acceso a las variables, hay que exportarlas. Cuando se exporta una variable de *shell*, se convierte en una **variable de entorno**, que es visible desde los procesos hijos.
 
 Por ejemplo, un *script* (*s1.sh*) llama a otro *script* (*s2.sh*), y se desea que una variable declarada dentro de *sh1.sh* sea visible desde *sh2.sh*: hay que **exportar** la variable desde *sh1.sh*.
 
@@ -362,7 +362,7 @@ echo "Esta es la línea $LINENO del script."
 |  %        |  Resto o Módulo                      |
 |  ++       |  Pre/Post-incremento (incrementa 1)  |
 |  --       |  Pre/Post-decremento (decrementa 1)  |
-|  **       |  Exponenciación                      |
+|  **       |  Potencia                            |
 
 A continuación se realiza un ejemplo con expansión, por considerarse una buena práctica. Se describen varias operaciones matemáticas sencillas. Para usar la sustitución, se rodea la expresión matemática con dobles paréntesis, precedidos del símbolo *$*: **\$(( ))**.
 
@@ -496,26 +496,34 @@ echo "El resultado de 'test \$num -eq 1' es: $?"
 man test
 ```
 
+`IMPORTANTE`: cuando se usan variables con *test*, deben inicializarse primero. Si se usa *test* con una variable sin inicializar, se puede producir un error.
+
 Todas la operaciones que puede hacer *test*, se pueden usar en estructuras de control (como *if*, o como los bucles). Para ello se suele usar la notación `[ ]` o `[[ ]]`, que se mostrará más adelante.
 
 En la página del manual de *test* se especifican todas los posibles operadores que acepta *test*. Se muestran a continuación algunos de los más comunes:
 
-| Operador               | Operación (Compara ...)                |
-| :--------------------- | :---------------------------------------: |
-|  ! EXPRESION           |  la EXPRESION es falsa.     |
-|  -n STRING             |  la longitud de STRING es mayor que 0.    |
-|  -z STRING             |  la longitud de STRING es 0 (está vacío). |
-|  STRING1 = STRING2     |  el contenido de STRING1 es igual al de STRING2.    |
-|  STRING1 != STRING2    |  el contenido de STRING1 es distinto al de STRING2. |
-|  INTEGER1 -eq INTEGER2 |  INTEGER1 es igual a INTEGER2 (valor numérico).   |
-|  INTEGER1 -gt INTEGER2 |  INTEGER1 es mayor que INTEGER2 (valor numérico). |
-|  INTEGER1 -lt INTEGER2 |  INTEGER1 es menor que INTEGER2 (valor numérico). |
-|  -e /path/to/file      |  existe '/path/to/file'.                       |
-|  -d /path/to/file      |  existe '/path/to/file' y es un directorio.    |
-|  -r /path/to/file      |  existe '/path/to/file' y puede ser leído.     |
-|  -w /path/to/file      |  existe '/path/to/file' y puede ser escrito.   |
-|  -x /path/to/file      |  existe '/path/to/file' y puede ser ejecutado. |
+| Operador               | Operación (Compara ...)                                     |
+| :--------------------- | :---------------------------------------------------------: |
+|  ! EXPRESION           |  la EXPRESION es falsa (NOT).                               |
+|  -n STRING             |  la longitud de STRING es mayor que 0.                      |
+|  -z STRING             |  la longitud de STRING es 0 (está vacío).                   |
+|  STRING1 = STRING2     |  el contenido de STRING1 es igual al de STRING2.            |
+|  STRING1 != STRING2    |  el contenido de STRING1 es distinto al de STRING2.         |
+|  INTEGER1 -eq INTEGER2 |  INTEGER1 es igual a INTEGER2 (valor numérico).             |
+|  INTEGER1 -ne INTEGER2 |  INTEGER1 es distinto a INTEGER2 (valor numérico).          |
+|  INTEGER1 -gt INTEGER2 |  INTEGER1 es mayor que INTEGER2 (valor numérico).           |
+|  INTEGER1 -gt INTEGER2 |  INTEGER1 es mayor o igual que INTEGER2 (valor numérico).   |
+|  INTEGER1 -lt INTEGER2 |  INTEGER1 es menor que INTEGER2 (valor numérico).           |
+|  INTEGER1 -le INTEGER2 |  INTEGER1 es menor o igual que INTEGER2 (valor numérico).   |
+|  -e /path/to/file      |  existe '/path/to/file'.                                    |
+|  -f /path/to/file      |  existe '/path/to/file' y es un fichero regular.            |
+|  -d /path/to/file      |  existe '/path/to/file' y es un directorio.                 |
+|  -h /path/to/file      |  existe '/path/to/file' y es un enlace simbólico.           |
+|  -r /path/to/file      |  existe '/path/to/file' y puede ser leído.                  |
+|  -w /path/to/file      |  existe '/path/to/file' y puede ser escrito.                |
+|  -x /path/to/file      |  existe '/path/to/file' y puede ser ejecutado.              |
 |  -s /path/to/file      |  existe '/path/to/file' y no está vacío (tamaño > 0 bytes). |
+|  -O /path/to/file      |  existe '/path/to/file' y soy su propietario.               |
 
 ### -eq vs. =
 
@@ -533,9 +541,22 @@ echo "El resultado de 'test 007 -eq 7' es: $?"
 Como puede apreciarse, *=* realiza una comparación de *strings*, mientras que *-eq* realiza una comparación numérica.
 
 
-## IF (bifurcación condicional)
+## IF
 
-En los siguientes ejemplos se muestra la estructura `if`, que utiliza el comando `test` con su notación `[ ]`.
+Se usa una estructura `if` para evaluar una expresión booleana.
+
+También se utiliza para evaluar la salida de un comando.
+
+```bash
+if grep -s "pull request" ./README.md; then
+	echo ">>> grep OK"
+else
+	echo "<<< grep KO"
+fi
+
+```
+
+Los siguientes ejemplos muestran cómo usar el comando `test` (`[ ]`) con una estructura *if*.
 
 ```bash
 num=5
@@ -551,7 +572,94 @@ fi
 
 ```
 
-Nótese en el espaciado de las anteriores líneas. Por una parte, hay un espacio entre la palabra *if* o *elif* y el correspondiente corchete de apertura *[*. Además, hay espacios entre los corchetes (*[ ]*) y su contenido (por ejemplo *$num -gt 10*). También se han indentado los bloques de código del *if* y del *else*, para una mayor claridad. 
+El ejemplo anterior también destaca la importancia del espaciado. Por una parte, hay un espacio entre la palabra *if* o *elif* y el correspondiente corchete de apertura *[*. También hay espacios entre los corchetes (*[ ]*) y su contenido (por ejemplo *$num -gt 10*). 
+
+Además, para una mayor claridad, se han indentado los bloques de código del *if* y del *else*. 
+
+## Operaciones booleanas
+
+Son aplicables a todas las estructuras de control. Los siguientes ejemplos muestran su uso con *if*, pero son extrapolables a cualquier estructura de control.
+
+```bash
+num=12
+
+if [ $num -gt 10 ] && [ $num -le 20 ]
+then
+	echo "El número $num es mayor que 10, y menor o igual que 20 :)"
+else
+	echo "Vaya, el número $num es menor o igual que 10, o mayor que 20 :("
+fi
+
+nombre='Perry'
+apellido='Meison'
+
+if [ "$nombre" = 'Perry' ] || [ "$apellido" = 'Foster' ]
+then
+	echo 'O bien el nombre es Perry, o bien el apellido es Foster'
+else
+	echo 'Ni el nombre es Perry, ni el apellido es Foster'
+fi
+
+```
+
+## CASE
+
+La estructura `case` se usa para comparar una variable con una serie de patrones. Su comportamiento también puede realizarse con *if*, pero a veces un *case* es más elegante. Veamos un ejemplo típico:
+
+```bash
+cd
+cat <<'CASE' >case.sh
+#!/bin/bash
+
+# File: case.sh
+
+case "$1" in
+	'start')
+		echo 'start...'
+		;;
+	'stop')
+		echo 'stop...'
+		;;
+	'restart')
+		echo 'restart...'
+		;;
+	*)
+		echo 'huh?'
+	;;
+esac
+
+CASE
+
+chmod a+x case.sh
+./case.sh
+
+```
+
+El contenido del fichero `case.h` es:
+
+```bash
+#!/bin/bash
+
+# File: case.sh
+
+case "$1" in
+	'start')
+		echo 'start...'
+		;;
+	'stop')
+		echo 'stop...'
+		;;
+	'restart')
+		echo 'restart...'
+		;;
+	*)
+		echo 'huh?'
+	;;
+esac
+
+```
 
 ## Algunos recursos útiles
 
+- [Operadores de comparación](https://www.tldp.org/LDP/abs/html/comparison-ops.html)
+- [Operadores aritméticos](https://www.tldp.org/LDP/abs/html/ops.html)
