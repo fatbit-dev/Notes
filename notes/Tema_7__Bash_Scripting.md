@@ -477,8 +477,81 @@ echo "5 ** 7 = ${a}"
 
 ```
 
+## Expresiones booleanas (test)
+
+Para evaluar expresiones booleanas en *Bash*, se usa el comando `test`. El comando *test* compara dos expresiones mediante un operador.
+
+```bash
+
+# Comprueba si la variable $num es igual a 1
+num=1
+test $num -eq 1
+echo "El resultado de 'test \$num -eq 1' es: $?"
+
+num=2
+test $num -eq 1
+echo "El resultado de 'test \$num -eq 1' es: $?"
 
 
+man test
+```
+
+Todas la operaciones que puede hacer *test*, se pueden usar en estructuras de control (como *if*, o como los bucles). Para ello se suele usar la notación `[ ]` o `[[ ]]`, que se mostrará más adelante.
+
+En la página del manual de *test* se especifican todas los posibles operadores que acepta *test*. Se muestran a continuación algunos de los más comunes:
+
+| Operador               | Operación (Compara ...)                |
+| :--------------------- | :---------------------------------------: |
+|  ! EXPRESION           |  la EXPRESION es falsa.     |
+|  -n STRING             |  la longitud de STRING es mayor que 0.    |
+|  -z STRING             |  la longitud de STRING es 0 (está vacío). |
+|  STRING1 = STRING2     |  el contenido de STRING1 es igual al de STRING2.    |
+|  STRING1 != STRING2    |  el contenido de STRING1 es distinto al de STRING2. |
+|  INTEGER1 -eq INTEGER2 |  INTEGER1 es igual a INTEGER2 (valor numérico).   |
+|  INTEGER1 -gt INTEGER2 |  INTEGER1 es mayor que INTEGER2 (valor numérico). |
+|  INTEGER1 -lt INTEGER2 |  INTEGER1 es menor que INTEGER2 (valor numérico). |
+|  -e /path/to/file      |  existe '/path/to/file'.                       |
+|  -d /path/to/file      |  existe '/path/to/file' y es un directorio.    |
+|  -r /path/to/file      |  existe '/path/to/file' y puede ser leído.     |
+|  -w /path/to/file      |  existe '/path/to/file' y puede ser escrito.   |
+|  -x /path/to/file      |  existe '/path/to/file' y puede ser ejecutado. |
+|  -s /path/to/file      |  existe '/path/to/file' y no está vacío (tamaño > 0 bytes). |
+
+### -eq vs. =
+
+Conviene destacar que *-eq* se comporta de forma diferente a *=*, como muestra el siguiente ejemplo:
+
+```bash
+test 007 -eq 7
+echo "El resultado de 'test 007 -eq 7' es: $?"
+
+test 007 = 7
+echo "El resultado de 'test 007 -eq 7' es: $?"
+
+```
+
+Como puede apreciarse, *=* realiza una comparación de *strings*, mientras que *-eq* realiza una comparación numérica.
+
+
+## IF (bifurcación condicional)
+
+En los siguientes ejemplos se muestra la estructura `if`, que utiliza el comando `test` con su notación `[ ]`.
+
+```bash
+num=5
+
+if [ $num -gt 20 ]
+then
+	echo "Wow, el número $num es mayor que 20!! :D"
+elif [ $num -gt 10 ]
+	echo "Bien, el número $num es mayor que 10 :)"
+else
+	echo "Vaya, el número $num es menor o igual que 10 :("
+fi
+
+```
+
+Nótese en el espaciado de las anteriores líneas. Por una parte, hay un espacio entre la palabra *if* o *elif* y el correspondiente corchete de apertura *[*. Además, hay espacios entre los corchetes (*[ ]*) y su contenido (por ejemplo *$num -gt 10*). También se han indentado los bloques de código del *if* y del *else*, para una mayor claridad. 
 
 ## Algunos recursos útiles
 
