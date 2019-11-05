@@ -540,8 +540,9 @@ echo "El resultado de 'test 007 -eq 7' es: $?"
 
 Como puede apreciarse, *=* realiza una comparación de *strings*, mientras que *-eq* realiza una comparación numérica.
 
+## Estructuras condicionales
 
-## IF
+### IF
 
 Se usa una estructura `if` para evaluar una expresión booleana.
 
@@ -576,11 +577,12 @@ El ejemplo anterior también destaca la importancia del espaciado. Por una parte
 
 Además, para una mayor claridad, se han indentado los bloques de código del *if* y del *else*. 
 
-## Operaciones booleanas
+### Operaciones booleanas
 
 Son aplicables a todas las estructuras de control. Los siguientes ejemplos muestran su uso con *if*, pero son extrapolables a cualquier estructura de control.
 
 ```bash
+# AND: &&
 num=12
 
 if [ $num -gt 10 ] && [ $num -le 20 ]
@@ -590,6 +592,7 @@ else
 	echo "Vaya, el número $num es menor o igual que 10, o mayor que 20 :("
 fi
 
+# OR: ||
 nombre='Perry'
 apellido='Meison'
 
@@ -600,9 +603,46 @@ else
 	echo 'Ni el nombre es Perry, ni el apellido es Foster'
 fi
 
+# NOT: !
+file='/etc/tortilla'
+
+if [ ! -f "$file" ]
+then
+	echo "Vale, el fichero '$file' no existe..."
+else
+	echo "¡Suerte! Existe el fichero '$file'."
+fi
+
 ```
 
-## CASE
+Existe una forma alternativa de referirse a los operadores *&&* (AND) y *||* (OR).
+
+```bash
+# AND: -a
+num=12
+
+if [ $num -gt 10 -a $num -le 20 ]
+then
+	echo "El número $num es mayor que 10, y menor o igual que 20 :)"
+else
+	echo "Vaya, el número $num es menor o igual que 10, o mayor que 20 :("
+fi
+
+# OR: -o
+nombre='Perry'
+apellido='Meison'
+
+if [ "$nombre" = 'Perry' -o "$apellido" = 'Foster' ]
+then
+	echo 'O bien el nombre es Perry, o bien el apellido es Foster'
+else
+	echo 'Ni el nombre es Perry, ni el apellido es Foster'
+fi
+
+```
+
+
+### CASE
 
 La estructura `case` se usa para comparar una variable con una serie de patrones. Su comportamiento también puede realizarse con *if*, pero a veces un *case* es más elegante. Veamos un ejemplo típico:
 
@@ -659,7 +699,62 @@ esac
 
 ```
 
+## Bucles
+
+
+The until loop is almost equal to the while loop, except that the code is executed while the control expression evaluates to false.
+
+If you suspect that while an
+
+### FOR
+
+El bucle `for` es un poco diferente a otros lenguajes. En *Bash* se usa para iterar sobre un conjunto de *strings*. Es decir, itera sobre cada palabra de una frase.
+
+```bash
+# Itera sobre los nombres de fichero recogidos con 'ls'
+for i in $( ls ~ ); do
+	echo "Item: $i"
+done
+
+# Itera sobre los números 1 al 10
+for i in `seq 1 10`;
+do
+	echo "Num: $i"
+done
+
+```
+
+### DO..WHILE
+
+El bucle `while` ejecuta un bloque de código mientras se cumpla una condición (expresión de control). Termina su ejecución cuando la condición deja de ser cierta (o cuando se ejecuta *break*).
+
+```bash
+COUNTER=0
+while [ $COUNTER -lt 10 ]; do
+	echo "El contador es: $COUNTER"
+	(( COUNTER++ )) 
+done
+```
+
+### UNTIL
+
+El bucle `until` es muy similar al bucle *while*, pero *until* se ejecuta mientras la condición es falsa, y termina su ejecución cuando la condición se vuelve verdadera.
+
+```bash
+COUNTER=20
+until [ $COUNTER -lt 10 ]; do
+	echo "La variable COUNTER = $COUNTER"
+	let COUNTER-=1
+done
+
+```
+
+### BREAK
+
+### CONTINUE
+
 ## Algunos recursos útiles
 
+- [Bash conditional expressions](https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html)
 - [Operadores de comparación](https://www.tldp.org/LDP/abs/html/comparison-ops.html)
 - [Operadores aritméticos](https://www.tldp.org/LDP/abs/html/ops.html)
