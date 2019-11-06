@@ -867,7 +867,7 @@ chmod a+x read_user.sh
 El contenido del fichero *read_user.sh* sería:
 
 ```bash
-cat <<'LOGIN' >read_user.sh
+cat <<'READUSER' >read_user.sh
 #!/bin/bash
 
 # File: read_user.sh
@@ -875,14 +875,32 @@ cat <<'LOGIN' >read_user.sh
 echo "Hola, quién eres?"
 read NOMBRE
 echo "Encantada de conocerte, $NOMBRE"
-LOGIN
+READUSER
 
 chmod a+x login.sh
 ./login.sh
 
 ```
 
-*read* tiene algunas opciones interesantes, como **-p** o **-s**
+*read* tiene algunas opciones interesantes, como **-p** o **-s**:
+
+```bash
+cat <<'LOGIN' >login.sh
+#!/bin/bash
+
+# File: login.sh
+
+read -p 'Username: ' LOGIN_USERNAME
+read -sp 'Password: ' LOGIN_PASSWORD
+echo
+echo "Gracias $LOGIN_USERNAME, ahora puedes acceder al sistema"
+echo "Aunque no hayas visto la contraseña, está aquí: $LOGIN_PASSWORD"
+
+LOGIN
+
+```
+
+El contenido de login.sh es:
 
 ```bash
 #!/bin/bash
@@ -893,14 +911,25 @@ read -p 'Username: ' LOGIN_USERNAME
 read -sp 'Password: ' LOGIN_PASSWORD
 echo
 echo "Gracias $LOGIN_USERNAME, ahora puedes acceder al sistema"
-echo "Aunque no hayas visto la contraseña, está almacenara: $LOGIN_PASSWORD"
+echo "Aunque no hayas visto la contraseña, está aquí: $LOGIN_PASSWORD"
+
 ```
 
-El contenido de login.sh es:
+Con *read* se pueden leer varias variables a la vez:
 
 ```bash
+#!/bin/bash
 
+# File: quiz.sh
+
+echo 'Dime tres planetas: '
+read planet1 planet2 planet3
+echo "Primero visitaremos ${planet1}, para enterarnos de qué va esto."
+echo "Si necesitamos seguridad, podemos pasar por ${planet2}."
+echo "Nos reuniremos con el resto del equipo en ${planet3}."
 ```
+
+
 
 
 En la página de manual de *read* se pueden ver todas las posibilidades que ofrece.
