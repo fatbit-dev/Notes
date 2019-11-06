@@ -641,7 +641,6 @@ fi
 
 ```
 
-
 ### CASE
 
 La estructura `case` se usa para comparar una variable con una serie de patrones. Su comportamiento también puede realizarse con *if*, pero a veces un *case* es más elegante. Veamos un ejemplo típico:
@@ -716,12 +715,58 @@ for i in $( ls ~ ); do
 	echo "Item: $i"
 done
 
+# Itera sobre el conjunto de números dado
+for i in 1 2 3 4 5
+do
+	echo "Item: $i"
+done
+
 # Itera sobre los números 1 al 10
+for i in $( seq 1 10 );
+do
+	echo "Num: $i"
+done
+
+# Aunque se prefiere la notación $(), la sustitución de comandos también puede
+# emplear las comillas invertidas ( ` ` ) (back-ticks)
 for i in `seq 1 10`;
 do
 	echo "Num: $i"
 done
 
+# También se puede iterar sobre elementos de distinto tipo:
+for i in tortilla 7 * 8 cebolla 
+do
+	echo "Item: $i"
+done
+
+# Como se acaba de ver en el bloque de código anterior, un bucle for es muy
+# apropiado para recorrer el contenido de un directorio
+for i in * 
+do
+	echo "Item: $i"
+done
+
+for i in /etc/* 
+do
+	echo "Item: $i"
+done
+
+# Podemos probar más cosas:
+for i in tortilla 7 "*" 8 cebolla 
+do
+	echo "Item: $i"
+done
+
+for i in tortilla 7 \* 8 cebolla 
+do
+	echo "Item: $i"
+done
+
+for i in tortilla 7 8 "cows are going mad"
+do
+	echo "Item: $i"
+done
 ```
 
 ### DO..WHILE
@@ -752,6 +797,74 @@ done
 ### BREAK
 
 ### CONTINUE
+
+## Puntos de entrada para un script
+
+### read
+
+Se usa `read` cuando se quiere que el usuario introduzca algún valor, típicamente por teclado.
+
+```bash
+cd
+cat <<'READUSER' >read_user.sh
+#!/bin/bash
+
+# File: read_user.sh
+
+echo "Hola, quién eres?"
+read NOMBRE
+echo "Encantada de conocerte, $NOMBRE"
+READUSER
+
+chmod a+x read_user.sh
+./read_user.sh
+
+```
+
+El contenido del fichero *read_user.sh* sería:
+
+```bash
+cat <<'LOGIN' >read_user.sh
+#!/bin/bash
+
+# File: read_user.sh
+
+echo "Hola, quién eres?"
+read NOMBRE
+echo "Encantada de conocerte, $NOMBRE"
+LOGIN
+
+chmod a+x login.sh
+./login.sh
+
+```
+
+*read* tiene algunas opciones interesantes, como **-p** o **-s**
+
+```bash
+#!/bin/bash
+
+# File: login.sh
+
+read -p 'Username: ' LOGIN_USERNAME
+read -sp 'Password: ' LOGIN_PASSWORD
+echo
+echo "Gracias $LOGIN_USERNAME, ahora puedes acceder al sistema"
+echo "Aunque no hayas visto la contraseña, está almacenara: $LOGIN_PASSWORD"
+```
+
+El contenido de login.sh es:
+
+```bash
+
+```
+
+
+En la página de manual de *read* se pueden ver todas las posibilidades que ofrece.
+
+```bash
+man read
+```
 
 ## Algunos recursos útiles
 
