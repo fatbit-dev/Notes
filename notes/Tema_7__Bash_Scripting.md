@@ -512,7 +512,7 @@ En la página del manual de *test* se especifican todas los posibles operadores 
 |  INTEGER1 -eq INTEGER2 |  INTEGER1 es igual a INTEGER2 (valor numérico).             |
 |  INTEGER1 -ne INTEGER2 |  INTEGER1 es distinto a INTEGER2 (valor numérico).          |
 |  INTEGER1 -gt INTEGER2 |  INTEGER1 es mayor que INTEGER2 (valor numérico).           |
-|  INTEGER1 -gt INTEGER2 |  INTEGER1 es mayor o igual que INTEGER2 (valor numérico).   |
+|  INTEGER1 -ge INTEGER2 |  INTEGER1 es mayor o igual que INTEGER2 (valor numérico).   |
 |  INTEGER1 -lt INTEGER2 |  INTEGER1 es menor que INTEGER2 (valor numérico).           |
 |  INTEGER1 -le INTEGER2 |  INTEGER1 es menor o igual que INTEGER2 (valor numérico).   |
 |  -e /path/to/file      |  existe '/path/to/file'.                                    |
@@ -566,6 +566,7 @@ if [ $num -gt 20 ]
 then
 	echo "Wow, el número $num es mayor que 20!! :D"
 elif [ $num -gt 10 ]
+then
 	echo "Bien, el número $num es mayor que 10 :)"
 else
 	echo "Vaya, el número $num es menor o igual que 10 :("
@@ -576,6 +577,21 @@ fi
 El ejemplo anterior también destaca la importancia del espaciado. Por una parte, hay un espacio entre la palabra *if* o *elif* y el correspondiente corchete de apertura *[*. También hay espacios entre los corchetes (*[ ]*) y su contenido (por ejemplo *$num -gt 10*). 
 
 Además, para una mayor claridad, se han indentado los bloques de código del *if* y del *else*. 
+
+En lugar de poner *if* y *then* en líneas distintas, se pueden poner en la misma línea usando un ';'
+
+```bash
+num=5
+
+if [ $num -gt 20 ]; then
+	echo "Wow, el número $num es mayor que 20!! :D"
+elif [ $num -gt 10 ]; then
+	echo "Bien, el número $num es mayor que 10 :)"
+else
+	echo "Vaya, el número $num es menor o igual que 10 :("
+fi
+
+```
 
 ### Operaciones booleanas
 
@@ -700,11 +716,6 @@ esac
 
 ## Bucles
 
-
-The until loop is almost equal to the while loop, except that the code is executed while the control expression evaluates to false.
-
-If you suspect that while an
-
 ### FOR
 
 El bucle `for` es un poco diferente a otros lenguajes. En *Bash* se usa para iterar sobre un conjunto de *strings*. Es decir, itera sobre cada palabra de una frase.
@@ -767,6 +778,38 @@ for i in tortilla 7 8 "cows are going mad"
 do
 	echo "Item: $i"
 done
+
+for d in poc dev qa pre prod; do
+	local today="$( date '+%d-%m-%Y' )"
+	local now="$( date '+%T' )"
+	cat <<CONFIG >config-${d}.json
+{
+	"deployment": {
+		"environment": "${d}",
+		"date": "${today}",
+		"hour": "${now}",
+		"team": "DataEngineering",
+		"servers": {
+			"bastion": {
+				"ip": "192.168.1.100",
+				"port": 22333
+			},
+			"front": {
+				"ip": "${d}.web-guay.com",
+				"port": 443
+			},
+			"db": {
+				"ip": "192.168.10.80",
+				"port": 3306
+			}
+		}
+	}
+}
+CONFIG
+
+done
+
+
 ```
 
 ### DO..WHILE
