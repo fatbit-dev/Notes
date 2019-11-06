@@ -812,7 +812,7 @@ done
 
 ```
 
-### DO..WHILE
+### WHILE
 
 El bucle `while` ejecuta un bloque de código mientras se cumpla una condición (expresión de control). Termina su ejecución cuando la condición deja de ser cierta (o cuando se ejecuta *break*).
 
@@ -920,7 +920,7 @@ Con *read* se pueden leer varias variables a la vez:
 ```bash
 #!/bin/bash
 
-# File: quiz.sh
+# File: planets.sh
 
 echo 'Dime tres planetas: '
 read planet1 planet2 planet3
@@ -928,9 +928,6 @@ echo "Primero visitaremos ${planet1}, para enterarnos de qué va esto."
 echo "Si necesitamos seguridad, podemos pasar por ${planet2}."
 echo "Nos reuniremos con el resto del equipo en ${planet3}."
 ```
-
-
-
 
 En la página de manual de *read* se pueden ver todas las posibilidades que ofrece.
 
