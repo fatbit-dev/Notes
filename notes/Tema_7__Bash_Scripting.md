@@ -809,7 +809,6 @@ CONFIG
 
 done
 
-
 ```
 
 ### WHILE
@@ -843,7 +842,7 @@ done
 
 ## Puntos de entrada para un script
 
-### read
+### Comando read
 
 Se usa `read` cuando se quiere que el usuario introduzca algún valor, típicamente por teclado.
 
@@ -929,11 +928,43 @@ echo "Si necesitamos seguridad, podemos pasar por ${planet2}."
 echo "Nos reuniremos con el resto del equipo en ${planet3}."
 ```
 
+La siguiente tabla muestra algunas de la opciones más comunes de *read*:
+
+| Opción                 | Descripción                                                 |
+| :--------------------- | :---------------------------------------------------------: |
+|  -a ARR_NAME           |  Las palabras son asignadas en orden a los índices del *array* ARR_NAME (ojo, sobreescribe ARR_NAME). |
+|  -d DELIM              |  Se usa el carácter DELIM para finalizar la operación de *read* (por defecto *read* termina cuando se pulsa *ENTER*, es decir, con */n*). |
+|  -n NUMCHARS           |  El comando *read* finaliza después de haber leído NUMCHARS caracteres. |
+|  -p PROMPT             |  Muestra el mensaje PROMPT delante de la entrada de texto. |
+|  -s                    |  Modo silencioso: no se muestra el texto que se escribe (útil con contraseñas). |
+|  -t TIMEOUT            |  Hace que *read* termine y devuelva un error, si no se completa la entrada antes de TIMEOUT segundos. |
+|  -u FD                 |  Lee desde el descriptor de fichero FD. |
+
 En la página de manual de *read* se pueden ver todas las posibilidades que ofrece.
 
 ```bash
 man read
 ```
+
+### Leer desde STDIN
+
+Cuando un *script* lee desde *STDIN*, se permite que otros comandos puedan enviarle su salida (usando un *pipe* o '|').
+
+Como ya se ha explicado, *Bash* usa unos (descriptores) ficheros especiales. Cada proceso tiene sus ficheros *STDIN*, *STDOUT* y *STDERR*, y pueden ser relacionados con los ficheros *STDIN*, *STDOUT* y *STDERR* de otro proceso. Esto ocurre cuando usamos un *pipe* (|) o una redirección. Así, cada proceso tiene su propio conjunto de ficheros especiales:
+
+- STDIN  - /proc/<PID>/fd/0
+- STDOUT - /proc/<PID>/fd/1
+- STDERR - /proc/<PID>/fd/2
+
+Para simplificar el acceso a estos ficheros dede los procesos, cada proceso puede usar estos atajos:
+
+- STDIN  - /dev/stdin  o /proc/self/fd/0
+- STDOUT - /dev/stdout o /proc/self/fd/1
+- STDERR - /dev/stderr o /proc/self/fd/2
+
+Así que si un *script* necesita leer datos a través de un *pipe*, todo lo que debe hacer es leer el fichero correspondiente. Aunque estos ficheros son algo especiales, se comportan como cualquier otro fichero en Linux.
+
+
 
 ## Algunos recursos útiles
 
