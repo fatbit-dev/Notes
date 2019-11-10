@@ -745,6 +745,18 @@ do
 	echo "Num: $i"
 done
 
+# Itera sobre un RANGO
+for i in {1..5}
+do
+	echo "Num: $i"
+done
+
+# Itera sobre un RANGO, con un PASO
+for i in {1..10..2}
+do
+	echo "Num: $i"
+done
+
 # También se puede iterar sobre elementos de distinto tipo:
 for i in tortilla 7 * 8 cebolla 
 do
@@ -788,19 +800,22 @@ for d in poc dev qa pre prod; do
 		"environment": "${d}",
 		"date": "${today}",
 		"hour": "${now}",
-		"team": "DataEngineering",
+		"team": "Data Engineering",
 		"servers": {
 			"bastion": {
 				"ip": "192.168.1.100",
-				"port": 22333
+				"port": 22333,
+				"proto": "ssh"
 			},
 			"front": {
 				"ip": "${d}.web-guay.com",
-				"port": 443
+				"port": 443,
+				"proto": "https"
 			},
 			"db": {
 				"ip": "192.168.10.80",
-				"port": 3306
+				"port": 3306,
+				"proto": "mariadb"
 			}
 		}
 	}
@@ -808,6 +823,8 @@ for d in poc dev qa pre prod; do
 CONFIG
 
 done
+
+ls -l
 
 ```
 
@@ -821,6 +838,145 @@ while [ $COUNTER -lt 10 ]; do
 	echo "El contador es: $COUNTER"
 	(( COUNTER++ )) 
 done
+```
+
+Se puede hacer un *while* infinito de varias formas. A continuación se muestra una típica:
+
+
+```bash
+cat <<'INF' >infinite_while.sh
+#!/bin/sh
+
+# File: infinite_while.sh
+
+while :
+do
+	echo 'Dime algo, o pulsa CTRL + C para salir:'
+	read STR
+	echo ">>> $STR"
+done
+
+INF
+
+chmod a+x infinite_while.sh
+./infinite_while.sh
+
+```
+
+El contenido de *infinite_while.sh* es:
+
+```bash
+#!/bin/sh
+
+# File: infinite_while.sh
+
+while :
+do
+	echo 'Dime algo, o pulsa CTRL + C para salir:'
+	read STR
+	echo ">>> $STR"
+done
+
+```
+
+También es común usar un bucle *while* para leer (y procesar) cada línea de un fichero. Para ello también se usa *read* y redirecciones:
+
+```bash
+cat <<'RECORDSCOUNT' >records_count.sh
+#!/bin/sh
+
+# File: records_count.sh
+
+cat <<'RECORDS' >records.csv
+His Hero is Gone;1996;Fifteen Counts of Arson;Prank Records
+His Hero is Gone;1997;Monuments to Thieves;Prank Records
+His Hero is Gone;1998;The Plot Sickens;The Great American Steak Religion
+Tragedy;2000;Tragedy;Tragedy Records
+Tragedy;2001;Tragedy;Skuld Releases
+Tragedy;2002;Can We Call This Life?;Tragedy Records
+Tragedy;2002;Vengeance:Tragedy Records
+Tragedy;2003;Vengeance:Skuld Releases
+Tragedy;2003;Split 7" with Totalitär;Armageddon Label
+Tragedy;2004;UK 2004 Tour EP;Tragedy Records
+Tragedy;2006;Nerve Damage;Tragedy Records
+Tragedy;2012;Darker Days Ahead;Tragedy Records
+Tragedy;2018;Fury;Tragedy Records
+RECORDS
+
+HHIG=0
+TGDY=0
+while read f; do
+	band="$( echo "${f}" | cut -d';' -f1 )"
+	case ${band} in
+		'His Hero is Gone')
+			(( HHIG++ ))
+			echo '>>> HHIG + 1'
+		;;
+		'Tragedy')
+			(( TGDY++ ))
+			echo '>>> TGDY + 1'
+		;;
+		*)
+			echo '>>> Banda desconocida... ($f)'
+		;;
+	esac
+done < records.csv
+
+echo ">>> Total HHIG = ${HHIG}"
+echo ">>> Total TGDY = ${TGDY}"
+
+RECORDSCOUNT
+
+chmod a+x records_count.sh
+./records_count.sh
+
+```
+
+El contenido de *records_count.sh* sería:
+
+```bash
+#!/bin/sh
+
+# File: records_count.sh
+
+cat <<'RECORDS' >records.csv
+His Hero is Gone;1996;Fifteen Counts of Arson;Prank Records
+His Hero is Gone;1997;Monuments to Thieves;Prank Records
+His Hero is Gone;1998;The Plot Sickens;The Great American Steak Religion
+Tragedy;2000;Tragedy;Tragedy Records
+Tragedy;2001;Tragedy;Skuld Releases
+Tragedy;2002;Can We Call This Life?;Tragedy Records
+Tragedy;2002;Vengeance:Tragedy Records
+Tragedy;2003;Vengeance:Skuld Releases
+Tragedy;2003;Split 7" with Totalitär;Armageddon Label
+Tragedy;2004;UK 2004 Tour EP;Tragedy Records
+Tragedy;2006;Nerve Damage;Tragedy Records
+Tragedy;2012;Darker Days Ahead;Tragedy Records
+Tragedy;2018;Fury;Tragedy Records
+RECORDS
+
+HHIG=0
+TGDY=0
+while read f; do
+	band="$( echo "${f}" | cut -d';' -f1 )"
+	case ${band} in
+		'His Hero is Gone')
+			(( HHIG++ ))
+			echo '>>> HHIG + 1'
+		;;
+		'Tragedy')
+			(( TGDY++ ))
+			echo '>>> TGDY + 1'
+		;;
+		*)
+			echo '>>> Banda desconocida... ($f)'
+		;;
+	esac
+done < records.csv
+
+echo ">>> Total HHIG = ${HHIG}"
+echo ">>> Total TGDY = ${TGDY}"
+
 ```
 
 ### UNTIL
@@ -841,6 +997,11 @@ done
 ### CONTINUE
 
 ## Puntos de entrada para un script
+
+Además de los argumentos de entrada ya vistos anteriormente, un *script* puede tomar su entrada de otras fuentes:
+
+- El usuario introduce datos manualmente al *script* (desde la línea de comandos).
+- La salida de otro comando o programa se usa como entrada al *script*.
 
 ### Comando read
 
@@ -866,7 +1027,6 @@ chmod a+x read_user.sh
 El contenido del fichero *read_user.sh* sería:
 
 ```bash
-cat <<'READUSER' >read_user.sh
 #!/bin/bash
 
 # File: read_user.sh
@@ -874,11 +1034,6 @@ cat <<'READUSER' >read_user.sh
 echo "Hola, quién eres?"
 read NOMBRE
 echo "Encantada de conocerte, $NOMBRE"
-READUSER
-
-chmod a+x login.sh
-./login.sh
-
 ```
 
 *read* tiene algunas opciones interesantes, como **-p** o **-s**:
@@ -946,6 +1101,46 @@ En la página de manual de *read* se pueden ver todas las posibilidades que ofre
 man read
 ```
 
+También se puede usar en bucles, para hacer programas con *prompt*:
+
+```bash
+cat <<'REPL' >repl.sh
+#!/bin/sh
+
+# File: repl.sh
+
+STR='vamos'
+while [ "$STR" != 'q' ]; do
+	echo 'Dime algo, o tecela q para salir:'
+	read STR
+	echo ">>> $STR"
+done
+
+REPL
+
+chmod a+x repl.sh
+./repl.sh
+
+```
+
+El contenido de *repl.sh* es:
+
+```bash
+#!/bin/sh
+
+# File: repl.sh
+
+STR='vamos'
+while [ "$STR" != 'q' ]; do
+	echo 'Dime algo, o tecela q para salir:'
+	read STR
+	echo ">>> $STR"
+done
+
+```
+
+S
+
 ### Leer desde STDIN
 
 Cuando un *script* lee desde *STDIN*, se permite que otros comandos puedan enviarle su salida (usando un *pipe* o '|').
@@ -964,6 +1159,38 @@ Para simplificar el acceso a estos ficheros dede los procesos, cada proceso pued
 
 Así que si un *script* necesita leer datos a través de un *pipe*, todo lo que debe hacer es leer el fichero correspondiente. Aunque estos ficheros son algo especiales, se comportan como cualquier otro fichero en Linux.
 
+```bash
+#!/bin/bash
+
+cat <<'RECORDS' >records.csv
+His Hero is Gone;1996;Fifteen Counts of Arson;Prank Records
+His Hero is Gone;1997;Monuments to Thieves;Prank Records
+His Hero is Gone;1998;The Plot Sickens;The Great American Steak Religion
+Tragedy;2000;Tragedy;Tragedy Records
+Tragedy;2001;Tragedy;Skuld Releases
+Tragedy;2002;Can We Call This Life?;Tragedy Records
+Tragedy;2002;Vengeance:Tragedy Records
+Tragedy;2003;Vengeance:Skuld Releases
+Tragedy;2003;Split 7" with Totalitär;Armageddon Label
+Tragedy;2004;UK 2004 Tour EP;Tragedy Records
+Tragedy;2006;Nerve Damage;Tragedy Records
+Tragedy;2012;Darker Days Ahead;Tragedy Records
+Tragedy;2018;Fury;Tragedy Records
+RECORDS
+
+cat <<'CSV' >filter_csv.sh
+#!/bin/bash
+
+# File: filter_csv.sh
+echo '>>> Discos:'
+echo
+cat /dev/stdin | cut -d';' -f 2,3 | sort
+CSV
+
+chmod a+x filter_csv.sh
+cat records.csv | ./filter_csv.sh
+
+```
 
 
 ## Algunos recursos útiles
