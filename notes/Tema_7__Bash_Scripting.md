@@ -994,11 +994,39 @@ done
 
 ### BREAK
 
+Como en otros lenguajes, en *Bash* la sentencia `break` interrumpe la ejecución de un bucle, ya sea *for*, *while* o *until*
+
+```bash
+for i in {1..10..2}
+do
+	if [ ${i} -gt 5 ]; then
+		break
+	fi
+	echo "Num: ${i}"
+done
+
+echo 'Hecho!'
+```
+
 ### CONTINUE
 
-## Puntos de entrada para un script
+*Bash* también incorpora una sentencia *continue*, que dentro de un bucle, deja de ejecutar la iteración actual y pasa a la siguiente iteración.
 
-Además de los argumentos de entrada ya vistos anteriormente, un *script* puede tomar su entrada de otras fuentes:
+```bash
+for i in {1..10..2}
+do
+	if [ ${i} -eq 5 ]; then
+		continue
+	fi
+	echo "Num: ${i}"
+done
+
+echo 'Hecho!'
+```
+
+## Entrada a un script
+
+Además de los argumentos de entrada ya vistos anteriormente, o de las señales que se le pueden enviar (*signals*), un *script* puede tomar su entrada de otras fuentes:
 
 - El usuario introduce datos manualmente al *script* (desde la línea de comandos).
 - La salida de otro comando o programa se usa como entrada al *script*.
@@ -1037,24 +1065,6 @@ echo "Encantada de conocerte, $NOMBRE"
 ```
 
 *read* tiene algunas opciones interesantes, como **-p** o **-s**:
-
-```bash
-cat <<'LOGIN' >login.sh
-#!/bin/bash
-
-# File: login.sh
-
-read -p 'Username: ' LOGIN_USERNAME
-read -sp 'Password: ' LOGIN_PASSWORD
-echo
-echo "Gracias $LOGIN_USERNAME, ahora puedes acceder al sistema"
-echo "Aunque no hayas visto la contraseña, está aquí: $LOGIN_PASSWORD"
-
-LOGIN
-
-```
-
-El contenido de login.sh es:
 
 ```bash
 #!/bin/bash
@@ -1104,28 +1114,6 @@ man read
 También se puede usar en bucles, para hacer programas con *prompt*:
 
 ```bash
-cat <<'REPL' >repl.sh
-#!/bin/sh
-
-# File: repl.sh
-
-STR='vamos'
-while [ "$STR" != 'q' ]; do
-	echo 'Dime algo, o tecela q para salir:'
-	read STR
-	echo ">>> $STR"
-done
-
-REPL
-
-chmod a+x repl.sh
-./repl.sh
-
-```
-
-El contenido de *repl.sh* es:
-
-```bash
 #!/bin/sh
 
 # File: repl.sh
@@ -1138,8 +1126,6 @@ while [ "$STR" != 'q' ]; do
 done
 
 ```
-
-S
 
 ### Leer desde STDIN
 
@@ -1191,6 +1177,108 @@ chmod a+x filter_csv.sh
 cat records.csv | ./filter_csv.sh
 
 ```
+
+## Funciones
+
+Como en otros lenguajes de programación, en *Bash* se pueden declarar funciones para agrupar bloques de código. Veamos un ejemplo sencillo:
+
+```bash
+#!/bin/bash
+
+saluda() {
+	echo "Hola, terrícola"
+}
+
+saluda
+
+```
+
+### Valor de retorno de una función
+
+Como el resto de comandos en *Bash*, una función devuelve un número entero indicando el estado de salida. Típicamente un valor de retorno de 0 implica una ejecución correcta. Un valor mayor que 0, implica que hubo errores durante la ejecución.
+
+Para devolver un valor se usa la sentencia `return`.
+
+```bash
+#!/bin/bash
+
+saluda() {
+	echo "Hola, terrícola"
+	return 42
+}
+
+saluda
+echo ">>> saluda() ha devuelto: $?"
+
+saluda_mas() {
+	echo "Hola terrícola, es un placer recibirte a bordo de nuestra nave"
+}
+
+saluda_mas
+echo ">>> saluda2() ha devuelto: $?"
+
+```
+
+En realidad, aunque una función sólo devuelva un entero, puede producir salidas de varias formas:
+
+- Puede modificar variables.
+- Puede invocar el comando *exit* para terminar el *script*.
+- Hacer *echo* de algún texto, que puede ser almacenado usando sustitución de comandos: `miVar=$( miFuncion )`
+
+`VARIABLES`: Como se puede ver en los ejemplos siguientes, cuando se declara una variable en un script, puede ser modificada dentro de una función.
+
+```bash
+#!/bin/bash
+
+# Define osname()
+function osname() {
+	local os="$( uname -s )"
+	local ver="$( uname -r )"
+	echo "${os} ${ver}"
+	return 17
+}
+
+# Invoca a osname()
+osname
+echo ">>> osname() ha devuelto: $?"
+
+n=$( osname )
+echo ">>> n = ${n}"
+
+saluda() {
+	echo "Hola, terrícola"
+}
+
+saluda
+echo ">>> saluda() ha devuelto: $?"
+
+s=$( saluda )
+echo ">>> s = ${s}"
+
+
+# Ámbito de variables
+
+let num=10
+echo -e ">>> num = ${num}\t\t[1]"
+
+function varDemo() {
+	let num=42
+	echo "varDemo(): num = ${num}\t[2]"
+}
+
+echo -e ">>> num = ${num}\t\t[3]"
+
+varDemo
+echo ">>> varDemo() ha devuelto: $?"
+echo -e ">>> num = ${num}\t\t[4]"
+
+v=$( varDemo )
+echo ">>> v = ${v}"
+
+
+
+```
+
 
 
 ## Algunos recursos útiles
