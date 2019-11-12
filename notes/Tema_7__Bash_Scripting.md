@@ -512,7 +512,7 @@ En la página del manual de *test* se especifican todas los posibles operadores 
 |  INTEGER1 -eq INTEGER2 |  INTEGER1 es igual a INTEGER2 (valor numérico).             |
 |  INTEGER1 -ne INTEGER2 |  INTEGER1 es distinto a INTEGER2 (valor numérico).          |
 |  INTEGER1 -gt INTEGER2 |  INTEGER1 es mayor que INTEGER2 (valor numérico).           |
-|  INTEGER1 -gt INTEGER2 |  INTEGER1 es mayor o igual que INTEGER2 (valor numérico).   |
+|  INTEGER1 -ge INTEGER2 |  INTEGER1 es mayor o igual que INTEGER2 (valor numérico).   |
 |  INTEGER1 -lt INTEGER2 |  INTEGER1 es menor que INTEGER2 (valor numérico).           |
 |  INTEGER1 -le INTEGER2 |  INTEGER1 es menor o igual que INTEGER2 (valor numérico).   |
 |  -e /path/to/file      |  existe '/path/to/file'.                                    |
@@ -566,6 +566,7 @@ if [ $num -gt 20 ]
 then
 	echo "Wow, el número $num es mayor que 20!! :D"
 elif [ $num -gt 10 ]
+then
 	echo "Bien, el número $num es mayor que 10 :)"
 else
 	echo "Vaya, el número $num es menor o igual que 10 :("
@@ -576,6 +577,21 @@ fi
 El ejemplo anterior también destaca la importancia del espaciado. Por una parte, hay un espacio entre la palabra *if* o *elif* y el correspondiente corchete de apertura *[*. También hay espacios entre los corchetes (*[ ]*) y su contenido (por ejemplo *$num -gt 10*). 
 
 Además, para una mayor claridad, se han indentado los bloques de código del *if* y del *else*. 
+
+En lugar de poner *if* y *then* en líneas distintas, se pueden poner en la misma línea usando un ';'
+
+```bash
+num=5
+
+if [ $num -gt 20 ]; then
+	echo "Wow, el número $num es mayor que 20!! :D"
+elif [ $num -gt 10 ]; then
+	echo "Bien, el número $num es mayor que 10 :)"
+else
+	echo "Vaya, el número $num es menor o igual que 10 :("
+fi
+
+```
 
 ### Operaciones booleanas
 
@@ -641,7 +657,6 @@ fi
 
 ```
 
-
 ### CASE
 
 La estructura `case` se usa para comparar una variable con una serie de patrones. Su comportamiento también puede realizarse con *if*, pero a veces un *case* es más elegante. Veamos un ejemplo típico:
@@ -701,11 +716,6 @@ esac
 
 ## Bucles
 
-
-The until loop is almost equal to the while loop, except that the code is executed while the control expression evaluates to false.
-
-If you suspect that while an
-
 ### FOR
 
 El bucle `for` es un poco diferente a otros lenguajes. En *Bash* se usa para iterar sobre un conjunto de *strings*. Es decir, itera sobre cada palabra de una frase.
@@ -716,15 +726,109 @@ for i in $( ls ~ ); do
 	echo "Item: $i"
 done
 
+# Itera sobre el conjunto de números dado
+for i in 1 2 3 4 5
+do
+	echo "Item: $i"
+done
+
 # Itera sobre los números 1 al 10
+for i in $( seq 1 10 );
+do
+	echo "Num: $i"
+done
+
+# Aunque se prefiere la notación $(), la sustitución de comandos también puede
+# emplear las comillas invertidas ( ` ` ) (back-ticks)
 for i in `seq 1 10`;
 do
 	echo "Num: $i"
 done
 
+# Itera sobre un RANGO
+for i in {1..5}
+do
+	echo "Num: $i"
+done
+
+# Itera sobre un RANGO, con un PASO
+for i in {1..10..2}
+do
+	echo "Num: $i"
+done
+
+# También se puede iterar sobre elementos de distinto tipo:
+for i in tortilla 7 * 8 cebolla 
+do
+	echo "Item: $i"
+done
+
+# Como se acaba de ver en el bloque de código anterior, un bucle for es muy
+# apropiado para recorrer el contenido de un directorio
+for i in * 
+do
+	echo "Item: $i"
+done
+
+for i in /etc/* 
+do
+	echo "Item: $i"
+done
+
+# Podemos probar más cosas:
+for i in tortilla 7 "*" 8 cebolla 
+do
+	echo "Item: $i"
+done
+
+for i in tortilla 7 \* 8 cebolla 
+do
+	echo "Item: $i"
+done
+
+for i in tortilla 7 8 "cows are going mad"
+do
+	echo "Item: $i"
+done
+
+for d in poc dev qa pre prod; do
+	local today="$( date '+%d-%m-%Y' )"
+	local now="$( date '+%T' )"
+	cat <<CONFIG >config-${d}.json
+{
+	"deployment": {
+		"environment": "${d}",
+		"date": "${today}",
+		"hour": "${now}",
+		"team": "Data Engineering",
+		"servers": {
+			"bastion": {
+				"ip": "192.168.1.100",
+				"port": 22333,
+				"proto": "ssh"
+			},
+			"front": {
+				"ip": "${d}.web-guay.com",
+				"port": 443,
+				"proto": "https"
+			},
+			"db": {
+				"ip": "192.168.10.80",
+				"port": 3306,
+				"proto": "mariadb"
+			}
+		}
+	}
+}
+CONFIG
+
+done
+
+ls -l
+
 ```
 
-### DO..WHILE
+### WHILE
 
 El bucle `while` ejecuta un bloque de código mientras se cumpla una condición (expresión de control). Termina su ejecución cuando la condición deja de ser cierta (o cuando se ejecuta *break*).
 
@@ -734,6 +838,145 @@ while [ $COUNTER -lt 10 ]; do
 	echo "El contador es: $COUNTER"
 	(( COUNTER++ )) 
 done
+```
+
+Se puede hacer un *while* infinito de varias formas. A continuación se muestra una típica:
+
+
+```bash
+cat <<'INF' >infinite_while.sh
+#!/bin/sh
+
+# File: infinite_while.sh
+
+while :
+do
+	echo 'Dime algo, o pulsa CTRL + C para salir:'
+	read STR
+	echo ">>> $STR"
+done
+
+INF
+
+chmod a+x infinite_while.sh
+./infinite_while.sh
+
+```
+
+El contenido de *infinite_while.sh* es:
+
+```bash
+#!/bin/sh
+
+# File: infinite_while.sh
+
+while :
+do
+	echo 'Dime algo, o pulsa CTRL + C para salir:'
+	read STR
+	echo ">>> $STR"
+done
+
+```
+
+También es común usar un bucle *while* para leer (y procesar) cada línea de un fichero. Para ello también se usa *read* y redirecciones:
+
+```bash
+cat <<'RECORDSCOUNT' >records_count.sh
+#!/bin/sh
+
+# File: records_count.sh
+
+cat <<'RECORDS' >records.csv
+His Hero is Gone;1996;Fifteen Counts of Arson;Prank Records
+His Hero is Gone;1997;Monuments to Thieves;Prank Records
+His Hero is Gone;1998;The Plot Sickens;The Great American Steak Religion
+Tragedy;2000;Tragedy;Tragedy Records
+Tragedy;2001;Tragedy;Skuld Releases
+Tragedy;2002;Can We Call This Life?;Tragedy Records
+Tragedy;2002;Vengeance:Tragedy Records
+Tragedy;2003;Vengeance:Skuld Releases
+Tragedy;2003;Split 7" with Totalitär;Armageddon Label
+Tragedy;2004;UK 2004 Tour EP;Tragedy Records
+Tragedy;2006;Nerve Damage;Tragedy Records
+Tragedy;2012;Darker Days Ahead;Tragedy Records
+Tragedy;2018;Fury;Tragedy Records
+RECORDS
+
+HHIG=0
+TGDY=0
+while read f; do
+	band="$( echo "${f}" | cut -d';' -f1 )"
+	case ${band} in
+		'His Hero is Gone')
+			(( HHIG++ ))
+			echo '>>> HHIG + 1'
+		;;
+		'Tragedy')
+			(( TGDY++ ))
+			echo '>>> TGDY + 1'
+		;;
+		*)
+			echo '>>> Banda desconocida... ($f)'
+		;;
+	esac
+done < records.csv
+
+echo ">>> Total HHIG = ${HHIG}"
+echo ">>> Total TGDY = ${TGDY}"
+
+RECORDSCOUNT
+
+chmod a+x records_count.sh
+./records_count.sh
+
+```
+
+El contenido de *records_count.sh* sería:
+
+```bash
+#!/bin/sh
+
+# File: records_count.sh
+
+cat <<'RECORDS' >records.csv
+His Hero is Gone;1996;Fifteen Counts of Arson;Prank Records
+His Hero is Gone;1997;Monuments to Thieves;Prank Records
+His Hero is Gone;1998;The Plot Sickens;The Great American Steak Religion
+Tragedy;2000;Tragedy;Tragedy Records
+Tragedy;2001;Tragedy;Skuld Releases
+Tragedy;2002;Can We Call This Life?;Tragedy Records
+Tragedy;2002;Vengeance:Tragedy Records
+Tragedy;2003;Vengeance:Skuld Releases
+Tragedy;2003;Split 7" with Totalitär;Armageddon Label
+Tragedy;2004;UK 2004 Tour EP;Tragedy Records
+Tragedy;2006;Nerve Damage;Tragedy Records
+Tragedy;2012;Darker Days Ahead;Tragedy Records
+Tragedy;2018;Fury;Tragedy Records
+RECORDS
+
+HHIG=0
+TGDY=0
+while read f; do
+	band="$( echo "${f}" | cut -d';' -f1 )"
+	case ${band} in
+		'His Hero is Gone')
+			(( HHIG++ ))
+			echo '>>> HHIG + 1'
+		;;
+		'Tragedy')
+			(( TGDY++ ))
+			echo '>>> TGDY + 1'
+		;;
+		*)
+			echo '>>> Banda desconocida... ($f)'
+		;;
+	esac
+done < records.csv
+
+echo ">>> Total HHIG = ${HHIG}"
+echo ">>> Total TGDY = ${TGDY}"
+
 ```
 
 ### UNTIL
@@ -751,7 +994,292 @@ done
 
 ### BREAK
 
+Como en otros lenguajes, en *Bash* la sentencia `break` interrumpe la ejecución de un bucle, ya sea *for*, *while* o *until*
+
+```bash
+for i in {1..10..2}
+do
+	if [ ${i} -gt 5 ]; then
+		break
+	fi
+	echo "Num: ${i}"
+done
+
+echo 'Hecho!'
+```
+
 ### CONTINUE
+
+*Bash* también incorpora una sentencia *continue*, que dentro de un bucle, deja de ejecutar la iteración actual y pasa a la siguiente iteración.
+
+```bash
+for i in {1..10..2}
+do
+	if [ ${i} -eq 5 ]; then
+		continue
+	fi
+	echo "Num: ${i}"
+done
+
+echo 'Hecho!'
+```
+
+## Entrada a un script
+
+Además de los argumentos de entrada ya vistos anteriormente, o de las señales que se le pueden enviar (*signals*), un *script* puede tomar su entrada de otras fuentes:
+
+- El usuario introduce datos manualmente al *script* (desde la línea de comandos).
+- La salida de otro comando o programa se usa como entrada al *script*.
+
+### Comando read
+
+Se usa `read` cuando se quiere que el usuario introduzca algún valor, típicamente por teclado.
+
+```bash
+cd
+cat <<'READUSER' >read_user.sh
+#!/bin/bash
+
+# File: read_user.sh
+
+echo "Hola, quién eres?"
+read NOMBRE
+echo "Encantada de conocerte, $NOMBRE"
+READUSER
+
+chmod a+x read_user.sh
+./read_user.sh
+
+```
+
+El contenido del fichero *read_user.sh* sería:
+
+```bash
+#!/bin/bash
+
+# File: read_user.sh
+
+echo "Hola, quién eres?"
+read NOMBRE
+echo "Encantada de conocerte, $NOMBRE"
+```
+
+*read* tiene algunas opciones interesantes, como **-p** o **-s**:
+
+```bash
+#!/bin/bash
+
+# File: login.sh
+
+read -p 'Username: ' LOGIN_USERNAME
+read -sp 'Password: ' LOGIN_PASSWORD
+echo
+echo "Gracias $LOGIN_USERNAME, ahora puedes acceder al sistema"
+echo "Aunque no hayas visto la contraseña, está aquí: $LOGIN_PASSWORD"
+
+```
+
+Con *read* se pueden leer varias variables a la vez:
+
+```bash
+#!/bin/bash
+
+# File: planets.sh
+
+echo 'Dime tres planetas: '
+read planet1 planet2 planet3
+echo "Primero visitaremos ${planet1}, para enterarnos de qué va esto."
+echo "Si necesitamos seguridad, podemos pasar por ${planet2}."
+echo "Nos reuniremos con el resto del equipo en ${planet3}."
+```
+
+La siguiente tabla muestra algunas de la opciones más comunes de *read*:
+
+| Opción                 | Descripción                                                 |
+| :--------------------- | :---------------------------------------------------------: |
+|  -a ARR_NAME           |  Las palabras son asignadas en orden a los índices del *array* ARR_NAME (ojo, sobreescribe ARR_NAME). |
+|  -d DELIM              |  Se usa el carácter DELIM para finalizar la operación de *read* (por defecto *read* termina cuando se pulsa *ENTER*, es decir, con */n*). |
+|  -n NUMCHARS           |  El comando *read* finaliza después de haber leído NUMCHARS caracteres. |
+|  -p PROMPT             |  Muestra el mensaje PROMPT delante de la entrada de texto. |
+|  -s                    |  Modo silencioso: no se muestra el texto que se escribe (útil con contraseñas). |
+|  -t TIMEOUT            |  Hace que *read* termine y devuelva un error, si no se completa la entrada antes de TIMEOUT segundos. |
+|  -u FD                 |  Lee desde el descriptor de fichero FD. |
+
+En la página de manual de *read* se pueden ver todas las posibilidades que ofrece.
+
+```bash
+man read
+```
+
+También se puede usar en bucles, para hacer programas con *prompt*:
+
+```bash
+#!/bin/sh
+
+# File: repl.sh
+
+STR='vamos'
+while [ "$STR" != 'q' ]; do
+	echo 'Dime algo, o tecela q para salir:'
+	read STR
+	echo ">>> $STR"
+done
+
+```
+
+### Leer desde STDIN
+
+Cuando un *script* lee desde *STDIN*, se permite que otros comandos puedan enviarle su salida (usando un *pipe* o '|').
+
+Como ya se ha explicado, *Bash* usa unos (descriptores) ficheros especiales. Cada proceso tiene sus ficheros *STDIN*, *STDOUT* y *STDERR*, y pueden ser relacionados con los ficheros *STDIN*, *STDOUT* y *STDERR* de otro proceso. Esto ocurre cuando usamos un *pipe* (|) o una redirección. Así, cada proceso tiene su propio conjunto de ficheros especiales:
+
+- STDIN  - /proc/<PID>/fd/0
+- STDOUT - /proc/<PID>/fd/1
+- STDERR - /proc/<PID>/fd/2
+
+Para simplificar el acceso a estos ficheros dede los procesos, cada proceso puede usar estos atajos:
+
+- STDIN  - /dev/stdin  o /proc/self/fd/0
+- STDOUT - /dev/stdout o /proc/self/fd/1
+- STDERR - /dev/stderr o /proc/self/fd/2
+
+Así que si un *script* necesita leer datos a través de un *pipe*, todo lo que debe hacer es leer el fichero correspondiente. Aunque estos ficheros son algo especiales, se comportan como cualquier otro fichero en Linux.
+
+```bash
+#!/bin/bash
+
+cat <<'RECORDS' >records.csv
+His Hero is Gone;1996;Fifteen Counts of Arson;Prank Records
+His Hero is Gone;1997;Monuments to Thieves;Prank Records
+His Hero is Gone;1998;The Plot Sickens;The Great American Steak Religion
+Tragedy;2000;Tragedy;Tragedy Records
+Tragedy;2001;Tragedy;Skuld Releases
+Tragedy;2002;Can We Call This Life?;Tragedy Records
+Tragedy;2002;Vengeance:Tragedy Records
+Tragedy;2003;Vengeance:Skuld Releases
+Tragedy;2003;Split 7" with Totalitär;Armageddon Label
+Tragedy;2004;UK 2004 Tour EP;Tragedy Records
+Tragedy;2006;Nerve Damage;Tragedy Records
+Tragedy;2012;Darker Days Ahead;Tragedy Records
+Tragedy;2018;Fury;Tragedy Records
+RECORDS
+
+cat <<'CSV' >filter_csv.sh
+#!/bin/bash
+
+# File: filter_csv.sh
+echo '>>> Discos:'
+echo
+cat /dev/stdin | cut -d';' -f 2,3 | sort
+CSV
+
+chmod a+x filter_csv.sh
+cat records.csv | ./filter_csv.sh
+
+```
+
+## Funciones
+
+Como en otros lenguajes de programación, en *Bash* se pueden declarar funciones para agrupar bloques de código. Veamos un ejemplo sencillo:
+
+```bash
+#!/bin/bash
+
+saluda() {
+	echo "Hola, terrícola"
+}
+
+saluda
+
+```
+
+### Valor de retorno de una función
+
+Como el resto de comandos en *Bash*, una función devuelve un número entero indicando el estado de salida. Típicamente un valor de retorno de 0 implica una ejecución correcta. Un valor mayor que 0, implica que hubo errores durante la ejecución.
+
+Para devolver un valor se usa la sentencia `return`.
+
+```bash
+#!/bin/bash
+
+saluda() {
+	echo "Hola, terrícola"
+	return 42
+}
+
+saluda
+echo ">>> saluda() ha devuelto: $?"
+
+saluda_mas() {
+	echo "Hola terrícola, es un placer recibirte a bordo de nuestra nave"
+}
+
+saluda_mas
+echo ">>> saluda2() ha devuelto: $?"
+
+```
+
+En realidad, aunque una función sólo devuelva un entero, puede producir salidas de varias formas:
+
+- Puede modificar variables.
+- Puede invocar el comando *exit* para terminar el *script*.
+- Hacer *echo* de algún texto, que puede ser almacenado usando sustitución de comandos: `miVar=$( miFuncion )`
+
+`VARIABLES`: Como se puede ver en los ejemplos siguientes, cuando se declara una variable en un script, puede ser modificada dentro de una función.
+
+```bash
+#!/bin/bash
+
+# Define osname()
+function osname() {
+	local os="$( uname -s )"
+	local ver="$( uname -r )"
+	echo "${os} ${ver}"
+	return 17
+}
+
+# Invoca a osname()
+osname
+echo ">>> osname() ha devuelto: $?"
+
+n=$( osname )
+echo ">>> n = ${n}"
+
+saluda() {
+	echo "Hola, terrícola"
+}
+
+saluda
+echo ">>> saluda() ha devuelto: $?"
+
+s=$( saluda )
+echo ">>> s = ${s}"
+
+
+# Ámbito de variables
+
+let num=10
+echo -e ">>> num = ${num}\t\t[1]"
+
+function varDemo() {
+	let num=42
+	echo "varDemo(): num = ${num}\t[2]"
+}
+
+echo -e ">>> num = ${num}\t\t[3]"
+
+varDemo
+echo ">>> varDemo() ha devuelto: $?"
+echo -e ">>> num = ${num}\t\t[4]"
+
+v=$( varDemo )
+echo ">>> v = ${v}"
+
+
+
+```
+
+
 
 ## Algunos recursos útiles
 
