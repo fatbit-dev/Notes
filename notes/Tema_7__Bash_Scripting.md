@@ -59,7 +59,7 @@ echo "El mensaje es el mismo: ${MSG}"
 # Como se ha visto, cuando se usan comillas dobles ("), se sustituye la variable
 # por su contenido (para eso se usa el símbolo $).
 
-# Cuando se usan comillas simples ('), no hay susitución de variables, ya que 
+# Cuando se usan comillas simples ('), no hay susitución de variables, ya que
 # las comillas simples construyen textos literales:
 echo 'El mensaje es: $MSG'
 
@@ -69,7 +69,7 @@ msG='Mrs. Gullible'
 echo "msg = ${msg}"
 echo "msG = ${msG}"
 
-# Se puede usar la sustitución de comandos para almacenar la salida de un 
+# Se puede usar la sustitución de comandos para almacenar la salida de un
 # comando en una variable (command-substitution):
 CURR_DIR=$( pwd )
 echo "El directorio actual es: ${CURR_DIR}"
@@ -574,9 +574,9 @@ fi
 
 ```
 
-El ejemplo anterior también destaca la importancia del espaciado. Por una parte, hay un espacio entre la palabra *if* o *elif* y el correspondiente corchete de apertura *[*. También hay espacios entre los corchetes (*[ ]*) y su contenido (por ejemplo *$num -gt 10*). 
+El ejemplo anterior también destaca la importancia del espaciado. Por una parte, hay un espacio entre la palabra *if* o *elif* y el correspondiente corchete de apertura *[*. También hay espacios entre los corchetes (*[ ]*) y su contenido (por ejemplo *$num -gt 10*).
 
-Además, para una mayor claridad, se han indentado los bloques de código del *if* y del *else*. 
+Además, para una mayor claridad, se han indentado los bloques de código del *if* y del *else*.
 
 En lugar de poner *if* y *then* en líneas distintas, se pueden poner en la misma línea usando un ';'
 
@@ -758,30 +758,30 @@ do
 done
 
 # También se puede iterar sobre elementos de distinto tipo:
-for i in tortilla 7 * 8 cebolla 
+for i in tortilla 7 * 8 cebolla
 do
 	echo "Item: $i"
 done
 
 # Como se acaba de ver en el bloque de código anterior, un bucle for es muy
 # apropiado para recorrer el contenido de un directorio
-for i in * 
+for i in *
 do
 	echo "Item: $i"
 done
 
-for i in /etc/* 
+for i in /etc/*
 do
 	echo "Item: $i"
 done
 
 # Podemos probar más cosas:
-for i in tortilla 7 "*" 8 cebolla 
+for i in tortilla 7 "*" 8 cebolla
 do
 	echo "Item: $i"
 done
 
-for i in tortilla 7 \* 8 cebolla 
+for i in tortilla 7 \* 8 cebolla
 do
 	echo "Item: $i"
 done
@@ -836,7 +836,7 @@ El bucle `while` ejecuta un bloque de código mientras se cumpla una condición 
 COUNTER=0
 while [ $COUNTER -lt 10 ]; do
 	echo "El contador es: $COUNTER"
-	(( COUNTER++ )) 
+	(( COUNTER++ ))
 done
 ```
 
@@ -1120,7 +1120,7 @@ También se puede usar en bucles, para hacer programas con *prompt*:
 
 STR='vamos'
 while [ "$STR" != 'q' ]; do
-	echo 'Dime algo, o tecela q para salir:'
+	echo 'Dime algo, o teclea q para salir:'
 	read STR
 	echo ">>> $STR"
 done
@@ -1133,9 +1133,9 @@ Cuando un *script* lee desde *STDIN*, se permite que otros comandos puedan envia
 
 Como ya se ha explicado, *Bash* usa unos (descriptores) ficheros especiales. Cada proceso tiene sus ficheros *STDIN*, *STDOUT* y *STDERR*, y pueden ser relacionados con los ficheros *STDIN*, *STDOUT* y *STDERR* de otro proceso. Esto ocurre cuando usamos un *pipe* (|) o una redirección. Así, cada proceso tiene su propio conjunto de ficheros especiales:
 
-- STDIN  - /proc/<PID>/fd/0
-- STDOUT - /proc/<PID>/fd/1
-- STDERR - /proc/<PID>/fd/2
+- STDIN  - /proc/\<PID\>/fd/0
+- STDOUT - /proc/\<PID\>/fd/1
+- STDERR - /proc/\<PID\>/fd/2
 
 Para simplificar el acceso a estos ficheros dede los procesos, cada proceso puede usar estos atajos:
 
