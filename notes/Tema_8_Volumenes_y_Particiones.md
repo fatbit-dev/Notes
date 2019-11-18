@@ -86,7 +86,7 @@ Command action
 
 El flujo de trabajo suele consistir en visualizar las particiones de un disco (p), mirar los tipos de particiones permitidos (l), crear una nueva particióndel tipo elegido (n), y escribir los cambios en el disco (w).
 
-En realidad, *fdisk* es una herramienta algo antigua, que por sus limitaciones, no puede usarse con discos de más de 2TB. Por eso hoy en día es más común usar `parted`, o alguna de sus variantes con entorno gráfico, como `gparted`.
+En realidad, *fdisk* es una herramienta algo antigua, que por sus limitaciones, no puede usarse con discos de más de 2TB. Por eso hoy en día es más común usar `gdisk` o como `parted`, o alguna de sus variantes con entorno gráfico, como `gparted`.
 
 ## Algunos recursos útiles
 
