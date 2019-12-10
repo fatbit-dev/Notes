@@ -137,7 +137,7 @@ echo "FIRST_ARG = ${FIRST_ARG}"
 echo
 ```
 
-### Sustitución de comandos (commnad-substitution)
+### Sustitución de comandos (command-substitution)
 
 Sirve para ejecutar un comando *in-situ* y utilizar su salida. Para realizar una sustitución de comandos, se usa la construcción **$( )**.
 
@@ -550,9 +550,9 @@ También se utiliza para evaluar la salida de un comando.
 
 ```bash
 if grep -s "pull request" ./README.md; then
-	echo ">>> grep OK"
+    echo ">>> grep OK"
 else
-	echo "<<< grep KO"
+    echo "<<< grep KO"
 fi
 
 ```
@@ -564,12 +564,12 @@ num=5
 
 if [ $num -gt 20 ]
 then
-	echo "Wow, el número $num es mayor que 20!! :D"
+    echo "Wow, el número $num es mayor que 20!! :D"
 elif [ $num -gt 10 ]
 then
-	echo "Bien, el número $num es mayor que 10 :)"
+    echo "Bien, el número $num es mayor que 10 :)"
 else
-	echo "Vaya, el número $num es menor o igual que 10 :("
+    echo "Vaya, el número $num es menor o igual que 10 :("
 fi
 
 ```
@@ -584,11 +584,11 @@ En lugar de poner *if* y *then* en líneas distintas, se pueden poner en la mism
 num=5
 
 if [ $num -gt 20 ]; then
-	echo "Wow, el número $num es mayor que 20!! :D"
+    echo "Wow, el número $num es mayor que 20!! :D"
 elif [ $num -gt 10 ]; then
-	echo "Bien, el número $num es mayor que 10 :)"
+    echo "Bien, el número $num es mayor que 10 :)"
 else
-	echo "Vaya, el número $num es menor o igual que 10 :("
+    echo "Vaya, el número $num es menor o igual que 10 :("
 fi
 
 ```
@@ -603,9 +603,9 @@ num=12
 
 if [ $num -gt 10 ] && [ $num -le 20 ]
 then
-	echo "El número $num es mayor que 10, y menor o igual que 20 :)"
+    echo "El número $num es mayor que 10, y menor o igual que 20 :)"
 else
-	echo "Vaya, el número $num es menor o igual que 10, o mayor que 20 :("
+    echo "Vaya, el número $num es menor o igual que 10, o mayor que 20 :("
 fi
 
 # OR: ||
@@ -614,9 +614,9 @@ apellido='Meison'
 
 if [ "$nombre" = 'Perry' ] || [ "$apellido" = 'Foster' ]
 then
-	echo 'O bien el nombre es Perry, o bien el apellido es Foster'
+    echo 'O bien el nombre es Perry, o bien el apellido es Foster'
 else
-	echo 'Ni el nombre es Perry, ni el apellido es Foster'
+    echo 'Ni el nombre es Perry, ni el apellido es Foster'
 fi
 
 # NOT: !
@@ -624,9 +624,9 @@ file='/etc/tortilla'
 
 if [ ! -f "$file" ]
 then
-	echo "Vale, el fichero '$file' no existe..."
+    echo "Vale, el fichero '$file' no existe..."
 else
-	echo "¡Suerte! Existe el fichero '$file'."
+    echo "¡Suerte! Existe el fichero '$file'."
 fi
 
 ```
@@ -639,9 +639,9 @@ num=12
 
 if [ $num -gt 10 -a $num -le 20 ]
 then
-	echo "El número $num es mayor que 10, y menor o igual que 20 :)"
+    echo "El número $num es mayor que 10, y menor o igual que 20 :)"
 else
-	echo "Vaya, el número $num es menor o igual que 10, o mayor que 20 :("
+    echo "Vaya, el número $num es menor o igual que 10, o mayor que 20 :("
 fi
 
 # OR: -o
@@ -650,9 +650,9 @@ apellido='Meison'
 
 if [ "$nombre" = 'Perry' -o "$apellido" = 'Foster' ]
 then
-	echo 'O bien el nombre es Perry, o bien el apellido es Foster'
+    echo 'O bien el nombre es Perry, o bien el apellido es Foster'
 else
-	echo 'Ni el nombre es Perry, ni el apellido es Foster'
+    echo 'Ni el nombre es Perry, ni el apellido es Foster'
 fi
 
 ```
@@ -669,18 +669,18 @@ cat <<'CASE' >case.sh
 # File: case.sh
 
 case "$1" in
-	'start')
-		echo 'start...'
-		;;
-	'stop')
-		echo 'stop...'
-		;;
-	'restart')
-		echo 'restart...'
-		;;
-	*)
-		echo 'huh?'
-	;;
+    'start')
+        echo 'start...'
+        ;;
+    'stop')
+        echo 'stop...'
+        ;;
+    'restart')
+        echo 'restart...'
+        ;;
+    *)
+        echo 'huh?'
+        ;;
 esac
 
 CASE
@@ -698,18 +698,18 @@ El contenido del fichero `case.h` es:
 # File: case.sh
 
 case "$1" in
-	'start')
-		echo 'start...'
-		;;
-	'stop')
-		echo 'stop...'
-		;;
-	'restart')
-		echo 'restart...'
-		;;
-	*)
-		echo 'huh?'
-	;;
+    'start')
+        echo 'start...'
+        ;;
+    'stop')
+        echo 'stop...'
+        ;;
+    'restart')
+        echo 'restart...'
+        ;;
+    *)
+        echo 'huh?'
+    ;;
 esac
 
 ```
@@ -723,102 +723,102 @@ El bucle `for` es un poco diferente a otros lenguajes. En *Bash* se usa para ite
 ```bash
 # Itera sobre los nombres de fichero recogidos con 'ls'
 for i in $( ls ~ ); do
-	echo "Item: $i"
+    echo "Item: $i"
 done
 
 # Itera sobre el conjunto de números dado
 for i in 1 2 3 4 5
 do
-	echo "Item: $i"
+    echo "Item: $i"
 done
 
 # Itera sobre los números 1 al 10
 for i in $( seq 1 10 );
 do
-	echo "Num: $i"
+    echo "Num: $i"
 done
 
 # Aunque se prefiere la notación $(), la sustitución de comandos también puede
 # emplear las comillas invertidas ( ` ` ) (back-ticks)
 for i in `seq 1 10`;
 do
-	echo "Num: $i"
+    echo "Num: $i"
 done
 
 # Itera sobre un RANGO
 for i in {1..5}
 do
-	echo "Num: $i"
+    echo "Num: $i"
 done
 
 # Itera sobre un RANGO, con un PASO
 for i in {1..10..2}
 do
-	echo "Num: $i"
+    echo "Num: $i"
 done
 
 # También se puede iterar sobre elementos de distinto tipo:
 for i in tortilla 7 * 8 cebolla 
 do
-	echo "Item: $i"
+    echo "Item: $i"
 done
 
 # Como se acaba de ver en el bloque de código anterior, un bucle for es muy
 # apropiado para recorrer el contenido de un directorio
 for i in * 
 do
-	echo "Item: $i"
+    echo "Item: $i"
 done
 
 for i in /etc/* 
 do
-	echo "Item: $i"
+    echo "Item: $i"
 done
 
 # Podemos probar más cosas:
 for i in tortilla 7 "*" 8 cebolla 
 do
-	echo "Item: $i"
+    echo "Item: $i"
 done
 
 for i in tortilla 7 \* 8 cebolla 
 do
-	echo "Item: $i"
+    echo "Item: $i"
 done
 
 for i in tortilla 7 8 "cows are going mad"
 do
-	echo "Item: $i"
+    echo "Item: $i"
 done
 
 for d in poc dev qa pre prod; do
-	local today="$( date '+%d-%m-%Y' )"
-	local now="$( date '+%T' )"
-	cat <<CONFIG >config-${d}.json
+    local today="$( date '+%d-%m-%Y' )"
+    local now="$( date '+%T' )"
+    cat <<CONFIG >config-${d}.json
 {
-	"deployment": {
-		"environment": "${d}",
-		"date": "${today}",
-		"hour": "${now}",
-		"team": "Data Engineering",
-		"servers": {
-			"bastion": {
-				"ip": "192.168.1.100",
-				"port": 22333,
-				"proto": "ssh"
-			},
-			"front": {
-				"ip": "${d}.web-guay.com",
-				"port": 443,
-				"proto": "https"
-			},
-			"db": {
-				"ip": "192.168.10.80",
-				"port": 3306,
-				"proto": "mariadb"
-			}
-		}
-	}
+    "deployment": {
+        "environment": "${d}",
+        "date": "${today}",
+        "hour": "${now}",
+        "team": "Data Engineering",
+        "servers": {
+            "bastion": {
+                "ip": "192.168.1.100",
+                "port": 22333,
+                "proto": "ssh"
+            },
+            "front": {
+                "ip": "${d}.web-guay.com",
+                "port": 443,
+                "proto": "https"
+            },
+            "db": {
+                "ip": "192.168.10.80",
+                "port": 3306,
+                "proto": "mariadb"
+            }
+        }
+    }
 }
 CONFIG
 
@@ -828,7 +828,7 @@ ls -l
 
 # También se puede usar el formato del lenguaje C:
 for (( k=0; k<=7; k++ )); do
-	echo "k = ${k}"
+    echo "k = ${k}"
 done
 
 ```
@@ -840,8 +840,8 @@ El bucle `while` ejecuta un bloque de código mientras se cumpla una condición 
 ```bash
 COUNTER=0
 while [ $COUNTER -lt 10 ]; do
-	echo "El contador es: $COUNTER"
-	(( COUNTER++ )) 
+    echo "El contador es: $COUNTER"
+    (( COUNTER++ )) 
 done
 ```
 
@@ -856,9 +856,9 @@ cat <<'INF' >infinite_while.sh
 
 while :
 do
-	echo 'Dime algo, o pulsa CTRL + C para salir:'
-	read STR
-	echo ">>> $STR"
+    echo 'Dime algo, o pulsa CTRL + C para salir:'
+    read STR
+    echo ">>> $STR"
 done
 
 INF
@@ -877,9 +877,9 @@ El contenido de *infinite_while.sh* es:
 
 while :
 do
-	echo 'Dime algo, o pulsa CTRL + C para salir:'
-	read STR
-	echo ">>> $STR"
+    echo 'Dime algo, o pulsa CTRL + C para salir:'
+    read STR
+    echo ">>> $STR"
 done
 
 ```
@@ -911,20 +911,20 @@ RECORDS
 HHIG=0
 TGDY=0
 while read f; do
-	band="$( echo "${f}" | cut -d';' -f1 )"
-	case ${band} in
-		'His Hero is Gone')
-			(( HHIG++ ))
-			echo '>>> HHIG + 1'
-		;;
-		'Tragedy')
-			(( TGDY++ ))
-			echo '>>> TGDY + 1'
-		;;
-		*)
-			echo '>>> Banda desconocida... ($f)'
-		;;
-	esac
+    band="$( echo "${f}" | cut -d';' -f1 )"
+    case ${band} in
+        'His Hero is Gone')
+            (( HHIG++ ))
+            echo '>>> HHIG + 1'
+        ;;
+        'Tragedy')
+            (( TGDY++ ))
+            echo '>>> TGDY + 1'
+        ;;
+        *)
+            echo '>>> Banda desconocida... ($f)'
+        ;;
+    esac
 done < records.csv
 
 echo ">>> Total HHIG = ${HHIG}"
@@ -963,20 +963,20 @@ RECORDS
 HHIG=0
 TGDY=0
 while read f; do
-	band="$( echo "${f}" | cut -d';' -f1 )"
-	case ${band} in
-		'His Hero is Gone')
-			(( HHIG++ ))
-			echo '>>> HHIG + 1'
-		;;
-		'Tragedy')
-			(( TGDY++ ))
-			echo '>>> TGDY + 1'
-		;;
-		*)
-			echo '>>> Banda desconocida... ($f)'
-		;;
-	esac
+    band="$( echo "${f}" | cut -d';' -f1 )"
+    case ${band} in
+        'His Hero is Gone')
+            (( HHIG++ ))
+            echo '>>> HHIG + 1'
+        ;;
+        'Tragedy')
+            (( TGDY++ ))
+            echo '>>> TGDY + 1'
+        ;;
+        *)
+            echo '>>> Banda desconocida... ($f)'
+        ;;
+    esac
 done < records.csv
 
 echo ">>> Total HHIG = ${HHIG}"
@@ -991,8 +991,8 @@ El bucle `until` es muy similar al bucle *while*, pero *until* se ejecuta mientr
 ```bash
 COUNTER=20
 until [ $COUNTER -lt 10 ]; do
-	echo "La variable COUNTER = $COUNTER"
-	let COUNTER-=1
+    echo "La variable COUNTER = $COUNTER"
+    let COUNTER-=1
 done
 
 ```
@@ -1004,10 +1004,10 @@ Como en otros lenguajes, en *Bash* la sentencia `break` interrumpe la ejecución
 ```bash
 for i in {1..10..2}
 do
-	if [ ${i} -gt 5 ]; then
-		break
-	fi
-	echo "Num: ${i}"
+    if [ ${i} -gt 5 ]; then
+        break
+    fi
+    echo "Num: ${i}"
 done
 
 echo 'Hecho!'
@@ -1020,10 +1020,10 @@ echo 'Hecho!'
 ```bash
 for i in {1..10..2}
 do
-	if [ ${i} -eq 5 ]; then
-		continue
-	fi
-	echo "Num: ${i}"
+    if [ ${i} -eq 5 ]; then
+        continue
+    fi
+    echo "Num: ${i}"
 done
 
 echo 'Hecho!'
@@ -1125,9 +1125,9 @@ También se puede usar en bucles, para hacer programas con *prompt*:
 
 STR='vamos'
 while [ "$STR" != 'q' ]; do
-	echo 'Dime algo, o tecela q para salir:'
-	read STR
-	echo ">>> $STR"
+    echo 'Dime algo, o tecela q para salir:'
+    read STR
+    echo ">>> $STR"
 done
 
 ```
@@ -1191,7 +1191,7 @@ Como en otros lenguajes de programación, en *Bash* se pueden declarar funciones
 #!/bin/bash
 
 saluda() {
-	echo "Hola, terrícola"
+    echo "Hola, terrícola"
 }
 
 saluda
@@ -1208,15 +1208,15 @@ Para devolver un valor se usa la sentencia `return`.
 #!/bin/bash
 
 saluda() {
-	echo "Hola, terrícola"
-	return 42
+    echo "Hola, terrícola"
+    return 42
 }
 
 saluda
 echo ">>> saluda() ha devuelto: $?"
 
 saluda_mas() {
-	echo "Hola terrícola, es un placer recibirte a bordo de nuestra nave"
+    echo "Hola terrícola, es un placer recibirte a bordo de nuestra nave"
 }
 
 saluda_mas
@@ -1237,10 +1237,10 @@ En realidad, aunque una función sólo devuelva un entero, puede producir salida
 
 # Define osname()
 function osname() {
-	local os="$( uname -s )"
-	local ver="$( uname -r )"
-	echo "${os} ${ver}"
-	return 17
+    local os="$( uname -s )"
+    local ver="$( uname -r )"
+    echo "${os} ${ver}"
+    return 17
 }
 
 # Invoca a osname()
@@ -1253,7 +1253,7 @@ echo ">>> n = ${n}"
 ##-------------------------------------
 
 saluda() {
-	echo "Hola, terrícola"
+    echo "Hola, terrícola"
 }
 
 saluda
@@ -1271,10 +1271,10 @@ val=5
 echo -e ">>> num = ${num}\tval = ${val}\t\t[1]"
 
 function varDemo() {
-	local num=42
-	echo -e "varDemo(): num = ${num}\tval = ${val}\t[2]"
-	num=51
-	val=7
+    local num=42
+    echo -e "varDemo(): num = ${num}\tval = ${val}\t[2]"
+    num=51
+    val=7
 }
 
 echo -e ">>> num = ${num}\tval = ${val}\t\t[3]"
@@ -1289,12 +1289,29 @@ echo ">>> v = ${v}"
 ##-------------------------------------
 
 function varDemo_other() {
-	alpha=42
-	let beta=24
-	echo -e "varDemo(): alpha = ${alpha}\tbeta = ${beta}\t[1]"
+    alpha=42
+    let beta=24
+    echo -e "varDemo(): alpha = ${alpha}\tbeta = ${beta}\t[1]"
 }
 
 echo -e ">>> alpha = ${alpha}\tbeta = ${beta}\t[2]"
+
+```
+
+### Paso de parámetros por referencia
+
+Las versiones modernas de *Bash* incorporan una característica muy útil, que permite modificar, dentro de una función, variables externas a la función. Esta característica se denomina *namerefs*.
+
+```bash
+function setHost() {
+    local -n ref=$1
+    ref='centos.org'
+}
+
+THE_HOST='localhost'
+echo $THE_HOST # -> old
+setHost THE_HOST
+echo $THE_HOST # -> new
 
 ```
 
@@ -1415,7 +1432,7 @@ Es común recorrer los elementos de un *array* con un bucle *for*:
 numeros=(1 2 3 4)
 
 for num in ${numeros}; do
-	echo -e "num = ${num}"
+    echo -e "num = ${num}"
 done
 
 # El ejemplo anterior no funciona, hay que convertir el array en una lista, para
@@ -1424,20 +1441,327 @@ done
 numeros=(1 2 3 4)
 
 for num in ${numeros[@]}; do
-	echo -e "num = ${num}"
+    echo -e "num = ${num}"
 done
 
 
 ```
 
-## Bibliotecas
+## Bibliotecas de shell
+
+En *Bash* se pueden crear bibliotecas de funciones, para agrupar cierta funcionalidad en un fichero, que pueda ser importado por otros *scripts*.
+
+Por ejemplo, se puede crear una sencilla biblioteca para imprimir mensajes de *debug* desde nuestros scripts. A continuación se detalla el contenido del fichero `log.sh`.
+
+```bash
+#
+# log.sh is a small shell library to customize log messages.
+#
+
+. colors.sh
+
+DEBUG_MESSAGE_TYPE=(info, warning, error, debug)
+DEBUG=1
+
+#!
+#!  \function       dbg()
+#!  \brief          Prints a message on console, but only if DEBUG is defined.
+#!
+#!  \param[in]      $@: (string) Message to be printed. Normally this parameter
+#!                  would be a string, but it can also be a set of strings.
+#!
+function dbg {
+    if [ -n "${DEBUG}" ]; then
+        echo -e "$@"
+    fi
+}
+
+#! Prints the given message(s) as an INFO message on console.
+function info {
+    dbg "${IGREEN}[INFO]${NC} $@"
+}
+
+#! Prints the given message(s) as a WARNING message on console.
+function warning {
+    dbg "${YELLOW}[WARNING] $@ ${NC}"
+}
+
+#! Prints the given message(s) as an ERROR message on console.
+function error {
+    dbg "${RED}[ERROR] $@ ${NC}"
+}
+
+#! Prints the given message(s) as a DEBUG message on console.
+function debug {
+    dbg "${CYAN}[DEBUG] $@ ${NC}"
+}
+
+#!
+#!  \function       log()
+#!  \brief          Prints a debug message on console. It calls the appropriate
+#!                  error log function, to print customized log messages.
+#!
+#!  \param[in]      $1: (string) (OPTIONAL) Debug message type. When this 
+#!                  parmeter is omitted, an INFO message type is printed.
+#!  \param[in]      $@: (string) Message to be printed. Normally this parameter
+#!                  would be a string, but it can also be a set of strings.
+#!
+#!  \globals[in]    $DEBUG
+#!
+function log {
+    local msg_type
+
+    if [ "$#" -gt 1 ]; then
+        msg_type="${1}"
+        shift
+    fi
+
+    case "${msg_type}" in
+        debug|DEBUG)
+            debug "$@"
+            ;;
+        error|ERROR)
+            error "$@"
+            ;;
+        warning|WARNING)
+            warning "$@"
+            ;;
+        *)
+            info "$@"
+            ;;
+    esac
+}
+
+#!
+#!  \function       msg()
+#!  \brief          Prints a message on console. It can print color text.
+#!
+#!  \param[in]      $1: (string) (OPTIONAL) Text color (see colors.sh).
+#!  \param[in]      $@: (string) Message to be printed. Normally this parameter
+#!                  would be a string, but it can also be a set of strings.
+#!
+function msg {
+    local msg_color
+
+    if [ "$#" -gt 1 ]; then
+        msg_color="${1}"
+        shift
+    fi
+
+    echo -e "${msg_color}$@${NC}"
+}
+
+```
+
+Como se puede ver, utiliza un fichero llamado `colors.sh` que contiene algunas definiciones de colores:
+
+```bash
+# Small collection of Bash colors
+
+# https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
+
+# Reset colors
+NC='\033[0m'
+
+# Regular Colors
+BLACK='\033[0;30m'        # Black
+RED='\033[0;31m'          # Red
+GREEN='\033[0;32m'        # Green
+YELLOW='\033[0;33m'       # Yellow
+BLUE='\033[0;34m'         # Blue
+PURPLE='\033[0;35m'       # Purple
+CYAN='\033[0;36m'         # Cyan
+WHITE='\033[0;37m'        # White
+
+# Bold
+BBLACK='\033[1;30m'       # Black
+BRED='\033[1;31m'         # Red
+BGREEN='\033[1;32m'       # Green
+BYELLOW='\033[1;33m'      # Yellow
+BBLUE='\033[1;34m'        # Blue
+BPURPLE='\033[1;35m'      # Purple
+BCYAN='\033[1;36m'        # Cyan
+BWHITE='\033[1;37m'       # White
+
+# Underline
+UBLACK='\033[4;30m'       # Black
+URED='\033[4;31m'         # Red
+UGREEN='\033[4;32m'       # Green
+UYELLOW='\033[4;33m'      # Yellow
+UBLUE='\033[4;34m'        # Blue
+UPURPLE='\033[4;35m'      # Purple
+UCYAN='\033[4;36m'        # Cyan
+UWHITE='\033[4;37m'       # White
+
+# Background
+BG_BLACK='\033[40m'       # Black
+BG_RED='\033[41m'         # Red
+BG_GREEN='\033[42m'       # Green
+BG_YELLOW='\033[43m'      # Yellow
+BG_BLUE='\033[44m'        # Blue
+BG_PURPLE='\033[45m'      # Purple
+BG_CYAN='\033[46m'        # Cyan
+BG_WHITE='\033[47m'       # White
+
+# High Intensity
+IBLACK='\033[0;90m'       # Black
+IRED='\033[0;91m'         # Red
+IGREEN='\033[0;92m'       # Green
+IYELLOW='\033[0;93m'      # Yellow
+IBLUE='\033[0;94m'        # Blue
+IPURPLE='\033[0;95m'      # Purple
+ICYAN='\033[0;96m'        # Cyan
+IWHITE='\033[0;97m'       # White
+
+# Bold High Intensity
+BIBLACK='\033[1;90m'      # Black
+BIRED='\033[1;91m'        # Red
+BIGREEN='\033[1;92m'      # Green
+BIYELLOW='\033[1;93m'     # Yellow
+BIBLUE='\033[1;94m'       # Blue
+BIPURPLE='\033[1;95m'     # Purple
+BICYAN='\033[1;96m'       # Cyan
+BIWHITE='\033[1;97m'      # White
+
+# High Intensity backgrounds
+BG_IBLACK='\033[0;100m'   # Black
+BG_IRED='\033[0;101m'     # Red
+BG_IGREEN='\033[0;102m'   # Green
+BG_IYELLOW='\033[0;103m'  # Yellow
+BG_IBLUE='\033[0;104m'    # Blue
+BG_IPURPLE='\033[0;105m'  # Purple
+BG_ICYAN='\033[0;106m'    # Cyan
+BG_IWHITE='\033[0;107m'   # White
+
+```
+
+Por último, se puede crear un *script* de prueba de la biblioteca. Por ejemplo, se muestra el contenido del fichero `testLog.sh`, que servirá para probar la funcionalidad de la biblioteca:
+
+```bash
+#!/bin/bash
+
+. log.sh
+
+error "Esto es un error"
+warning "Esto es un warning"
+info "Esto es un info"
+debug "Esto es un debug"
+dbg "Esto es un dbg"
+echo '-------------------------'
+
+DEBUG=
+error "Este 'error' no sale"
+warning "Tampoco sal el 'warning'"
+info "Este 'info' tampoco sale"
+debug "Este 'debug' no sale"
+dbg "Este 'dbg' no debe imprimirse"
+
+log "Esto es un log a pelo, que sale al margen del valor de DEBUG"
+log info "Esto es un 'log info', que sale al margen del valor de DEBUG"
+log warning "Esto es un 'log warning', que sale al margen del valor de DEBUG"
+log error "Esto es un 'log error', que sale al margen del valor de DEBUG"
+log debug "Esto es un 'log debug', que sale al margen del valor de DEBUG"
+
+msg "'msg' también debe funcionar aquí"
+msg ${CYAN} "'msg' también debe funcionar aquí, lo mismo pero en cyan"
+
+echo '-------------------------'
+
+DEBUG=1
+debug "Esto vuelve a salir"
+warning "Esto también vuelve a salir"
+dbg "Ahora 'dbg' vuelve a funcionar"
+
+log "Esto es un log a pelo"
+log info "Esto es un 'log info'"
+log warning "Esto es un 'log warning'"
+log error "Esto es un 'log error'"
+log debug "Esto es un 'log debug'"
+
+```
+
+Tras examinar este ejemplo, se puede observar que:
+
+- Las bibliotecas en *Bash* no tienen *shebang* (el fichero no empieza con *#!/bin/bash*). Tiene sentido, pues no se desea ejecutar su código, sino usarlo desde un *script*.
+- Para "importar" una biblioteca, se usa la palabra `source` o el punto (`.`). En el ejemplo, *testLog.sh* usa las funciones definidas en *log.sh*. A su vez, *log.sh* usa las variables definidas en *colors.sh*.
+- Cualquier variable definida en la biblioteca, es accesible desde los *scripts* que hayan importado la bilbioteca.
+- Si una biblioteca contiene código (fuera de una función), ese código será ejecutado cuando se importe la biblioteca. Hay que prestar atención a esto.
+
+## Manejo de strings
+
+Hay una característica de las versiones modernas de *Bash*, que permite "trocear" *strings* (cadenas de caracteres) cómodamente:
+
+```bash
+str='me gusta el rock, me gusta el punk, me gusta la música espiritual de Armenia'
+pos=16
+len=4
+
+# Extrae una subcadena de la cadena $str en la posición $pos.
+echo -e "${str:${pos}}"
+
+# Extrae una subcadena de $len caracteres de la cadena $str en la posición
+# $pos (los índices de un string comienzan en 0).
+echo -e "${str:${pos}:${len}}"
+
+sub='me gusta'
+
+# Recorta la ocurrencia más corta de la subcadena $sub desde el principio
+# de la cadena $str.
+echo -e "${str#*${sub}}"
+# ' el rock, me gusta el punk, me gusta la música espiritual de Armenia'
+
+# Recorta la ocurrencia más larga de la subcadena $sub desde el principio
+# de la cadena $str.
+echo -e "${str##*${sub}}"
+# '  la música espiritual de Armenia'
+
+# Recorta la ocurrencia más corta de la subcadena $sub desde el final
+# de la cadena $str.
+echo -e "${str%${sub}*}"
+# 'me gusta el rock, me gusta el punk, '
+
+# Recorta la ocurrencia más larga de la subcadena $sub desde el final
+# de la cadena $str.
+echo -e "${str%%${sub}*}"
+# ''
+
+new='me mola'
+
+# Sustituye la primera ocurrencia de la subcadena $sub con el contenido de $new.
+echo -e "${str/${sub}/${new}}"
+
+# Sustituye todas las ocurrencias de la subcadena $sub con el contenido de $new.
+echo -e "${str//${sub}/${new}}"
+
+# Si la subcadena $sub está al principio de la cadena $str, sustituye $sub con el
+# el contenido de $new.
+echo -e "${str/#${sub}/${new}}"
+
+# Si la subcadena $sub está al final de la cadena $str, sustituye $sub con el
+# el contenido de $new.
+echo -e "${str/%${sub}/${new}}"
+
+# Veamos otro ejemplo más típico:
+str='mifichero.tar.gz'
+echo -e "${str#*.}"     # tar.gz
+echo -e "${str##*.}"    # gz
+echo -e "${str%.*}"     # mifichero.tar
+echo -e "${str%%.*}"    # mifichero
+
+```
 
 
+Cuando se trabaja con rutas, hay dos comandos muy útiles: `basename` y `dirname`.
 
+```bash
+basename '/home/fabi/tortilla.txt' # tortilla.txt
+dirname '/home/fabi/tortilla.txt' # /home/fabi
+
+```
 
 ## Algunos recursos útiles
 
 - [Bash conditional expressions](https://www.gnu.org/software/bash/manual/html_node/Bash-Conditional-Expressions.html)
 - [Operadores de comparación](https://www.tldp.org/LDP/abs/html/comparison-ops.html)
 - [Operadores aritméticos](https://www.tldp.org/LDP/abs/html/ops.html)
-- []()
+- [RedHat Certified System Administration Notes](https://codingbee.net/rhcsa)

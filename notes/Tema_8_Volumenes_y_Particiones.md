@@ -31,14 +31,6 @@ lsblk
 
 ```
 
-Este comando muestra si un disco tiene o no particiones. Aunque un disco no tenga particiones, puede que contenga datos. Esto puede comprobarse con el comando `blkid`, que muestra los sistemas de ficheros con los que se ha formateado cada partición de los discos:
-
-```bash
-blkid
-
-```
-
-Si un disco no aparece tras ejecutar el comando *blkid*, es que no tiene ningún sistema de ficheros.
 
 ### Particiones
 
@@ -86,8 +78,95 @@ Command action
 
 El flujo de trabajo suele consistir en visualizar las particiones de un disco (p), mirar los tipos de particiones permitidos (l), crear una nueva particióndel tipo elegido (n), y escribir los cambios en el disco (w).
 
-En realidad, *fdisk* es una herramienta algo antigua, que por sus limitaciones, no puede usarse con discos de más de 2TB. Por eso hoy en día es más común usar `gdisk` o como `parted`, o alguna de sus variantes con entorno gráfico, como `gparted`.
+En realidad, *fdisk* es una herramienta algo antigua, que por sus limitaciones, no puede usarse con discos de más de 2TB. Por eso hoy en día, para manejar particiones en discos duros, es más común usar `gdisk` o como `parted`, o alguna de sus variantes con entorno gráfico, como `gparted`. Sí es común seguir usando *fdisk* para crear particiones en dispositivos de memoria *flash*, como las unidades USB o tarjetas *SD*.
+
+### Sistemas de ficheros
+
+Cuando se formatea una partición, se debe elegir un [sistema de ficheros](https://es.wikipedia.org/wiki/Sistema_de_archivos). En Linux existen multitud de sistemas de ficheros, algunos de los más comunes son:
+
+- ext4
+- xfs
+- resiserfs
+- vfat
+
+Se puede consultar más información sobre los sistemas de ficheros en las páginas del manual:
+
+```bash
+man fs
+man xfs
+man ext4
+
+```
+
+### Formateo de particiones
+
+Para formatear una partición de un disco, se usa la familia de comandos de `mkfs` (*make file-system*). Por ejemplo, se pueden usar los comandos *mkfs.cramfs*, *mkfs.ext3*, *mkfs.fat*, *mkfs.msdos*, *mkfs.xfs*, *mkfs.btrfs*, *mkfs.ext2*, *mkfs.ext4*, *mkfs.vfat*, etc.
+
+Por ejemplo, para formatear la partición */dev/sdb1* con formato *XFS*, se ejecutaría el siguiente comando:
+
+```bash
+# El flag -L es opcional, pero nos permite otorgar un nombre a la partición.
+mkfs.xfs -L "MyDisk" /dev/sdb1
+
+```
+
+Cuando se formatea una partición, el sistema operativo asigna un identificador único para ese dispositivo (partición): es el `UUID`. El comando `blkid` muestra un listado de todos los dispositivos formateados, y ahí se puede ver el *UUID* asignado a cada disco.
+
+Si un dispositivo no aparece en el listado anterior, es porque no ha sido formateado.
+
+Para saber el sistema de ficheros de una partición, se puede usar el comando `file`:
+
+```bash
+file -sL /dev/sdb1
+
+```
+
+Existe otra forma de particionar discos, muy común cuando se trabaja con máquinas virtuales, que son los **volúmenes lógicos** o **LVM** (*Logical Volume Manager*). Mediante *LVM* se pueden crear particiones que abarquen varios discos, y también permite operaciones como aumentar o disminuir el tamaño de los volúmenes (particiones) en caliente. En esta asignatura no vamos a trabajar con *LVM*, pero se recomienda leer más información acerca de esta forma de formatear unidades.
+
+```bash
+man mkfs
+man mkfs.ext3
+man mkfs.ext4
+man mkfs.xfs
+man mkfs.vfat
+
+```
+
+### Borrar una partición
+
+Para borrar una partición, se puede usar el comando `fdisk` visto anteriormente. Sin embargo, con esta acción se borra la información relativa a ese sistema de ficheros (se borra su entrada de la tabla de particiones del disco). Pero los datos siguen en el disco, y podrían ser recuperados mediante técnicas de análisis forense de datos.
+
+Para eliminar el contenido de un disco, antes de borrar la partición, conviene eliminar los datos, y para ello es común usar `/dev/zero`:
+
+```bash
+cat /dev/zero > /dev/sdb1
+
+```
+
+Nótese que cuando se borran los datos de un disco, o cuando se borra su sistema de ficheros, la partición permamece intacta. Como se ha comentado, para borrar definitivamente la partición debería usarse *fdisk*, y el espacio después de borrar sería espacio libre en el disco (pero sin particionar, por lo que no puede ser usado hasta que se cree una nueva partición).
+
+### Tabla de particiones
+
+Cada unidad de disco posee una zona especial en la que se definen las diferentes particiones que contiene el disco, de qué tipo son estas particiones, dónde empiezan y acaban, etc. Entre los tipos de tablas de particiones más comunes se pueden encontrar **MBR** y **GPT**. Antes se ha visto cómo listar el contenido de una partición *MBR* usando *fdisk*. Para trabajar con particiones de tipo *GPT*, se usa el comando `gdisk`:
+
+```bash
+gdisk -l /dev/sdc
+
+```
+
+En cualquier caso, las versiones modernas de *fdisk* también permiten trabajar con particiones *GPT*, aunque muchos administradores de sistemas siguen usando *gdisk*.
+
+
+### Parted
+
+En realidad *fdisk* es un programa algo antiguo, que tenía una limitación para trabajar con unidades de 4TB como máximo. Para salvar esas limitaciones, se creó el programa `parted` (que puede trabajar tanto con tablas de particiones *MBR* como *GPT*). Por ejemplo, para listar la tabla de particiones con *parted* se ejecuta el siguiente comando:
+
+```bash
+parted /dev/sda p
+
+```
 
 ## Algunos recursos útiles
 
-- [Study guide - RedHat Certificate System Administrator](https://codingbee.net/rhcsa)
+- [Hard disk layout](https://developer.ibm.com/tutorials/l-lpic1-102-1/)
+- [Create partitions and file-systems](https://developer.ibm.com/technologies/linux/tutorials/l-lpic1-104-1)
